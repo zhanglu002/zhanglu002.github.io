@@ -145,6 +145,93 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/04/11/Mybatis-Plus%E6%9D%A1%E4%BB%B6%E6%9E%84%E9%80%A0%E5%99%A8/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="zhanglu">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="zhanglu的博客">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/04/11/Mybatis-Plus%E6%9D%A1%E4%BB%B6%E6%9E%84%E9%80%A0%E5%99%A8/" class="post-title-link" itemprop="url">Mybatis-Plus条件构造器</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2020-04-11 23:17:36 / 修改时间：23:19:57" itemprop="dateCreated datePublished" datetime="2020-04-11T23:17:36+08:00">2020-04-11</time>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="Mybatis-Plus条件构造器"><a href="#Mybatis-Plus条件构造器" class="headerlink" title="Mybatis-Plus条件构造器"></a>Mybatis-Plus条件构造器</h1><h2 id="MySQL自定义排序ORDER-BY-FIELD"><a href="#MySQL自定义排序ORDER-BY-FIELD" class="headerlink" title="MySQL自定义排序ORDER BY FIELD()"></a>MySQL自定义排序ORDER BY FIELD()</h2><p>SELECT * FROM table ORDER BY FIELD(status,1,2,0);</p>
+<p>这样子写的话，返回的结果集是按照字段status的1、2、0进行排序的，当然，也可以对字符串进行排序。</p>
+<p>原理如下：</p>
+<p>FIELD()函数是将参数1的字段对后续参数进行比较，并返回1、2、3等等，如果遇到null或者没有在结果集上存在的数据，则返回0，然后根据升序进行排序。</p>
+<h2 id="mybatis-plus一些通用方法"><a href="#mybatis-plus一些通用方法" class="headerlink" title="mybatis-plus一些通用方法"></a><a href="https://www.cnblogs.com/xiaoyinger/p/12018359.html" target="_blank" rel="noopener">mybatis-plus一些通用方法</a></h2><h2 id="wrapper介绍："><a href="#wrapper介绍：" class="headerlink" title="wrapper介绍："></a><strong>wrapper介绍：</strong></h2><ol>
+<li>AbstractWrapper: 用于查询条件封装，生成sql的where条件</li>
+<li>AbstractLambdaWrapper: Lambda语法使用Wrapper统一处理解析lambda获取column</li>
+<li>QueryWrapper: Entity 对象封装操作类，不是用lambda</li>
+<li>UpdateWrapper: Update条件封装，用于Entity对象更新操作</li>
+</ol>
+<h2 id="CURD接口"><a href="#CURD接口" class="headerlink" title="CURD接口"></a><strong>CURD接口</strong></h2><h3 id="Mapper-CRUD接口"><a href="#Mapper-CRUD接口" class="headerlink" title="Mapper CRUD接口"></a><strong>Mapper CRUD接口</strong></h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">* <span class="keyword">int</span> insert （T entity）<span class="comment">//插入一条记录</span></span><br><span class="line">* deleteById(Serializable id) <span class="comment">//根据Id删除</span></span><br><span class="line">* deleteByMap( Map&lt;String, Object&gt; columnMap) <span class="comment">// 根据 columMap条件删除记录</span></span><br><span class="line">* <span class="keyword">int</span> delete（ Wrapper&lt;T&gt; wrapper）<span class="comment">//根据wrapper里面Entity条件删除</span></span><br><span class="line">* <span class="function"><span class="keyword">int</span> <span class="title">deleteBatchIds</span><span class="params">( Collection&lt;? extends Serializable&gt; idList)</span></span>; <span class="comment">//根据ID批量删除</span></span><br><span class="line">* <span class="function"><span class="keyword">int</span> <span class="title">updateById</span><span class="params">(T entity)</span></span>;<span class="comment">//根据ID修改</span></span><br><span class="line">* <span class="function"><span class="keyword">int</span> <span class="title">update</span><span class="params">(T entity, Wrapper&lt;T&gt; updateWrapper)</span></span>;<span class="comment">//entity作为set条件值，</span></span><br><span class="line">* updateWrapprt里面的entity用于生成where条件值</span><br><span class="line">* <span class="function">T <span class="title">seleteById</span><span class="params">(String id)</span> <span class="comment">//根据id查询</span></span></span><br><span class="line"><span class="function">* List&lt;T&gt; <span class="title">selectBatchIds</span><span class="params">( Collection&lt;? extends Serializable&gt; idList)</span></span>;<span class="comment">//根据id批量查询</span></span><br><span class="line">* <span class="function">List&lt;T&gt; <span class="title">selectByMap</span><span class="params">( Map&lt;String, Object&gt; columnMap)</span></span>;<span class="comment">//根据map条件</span></span><br><span class="line">* <span class="function">T <span class="title">selectOne</span><span class="params">( Wrapper&lt;T&gt; queryWrapper)</span></span>;<span class="comment">//根据wrapper里面的entity查找，如果不是唯一需要添加wrapper.last("limit 1")</span></span><br><span class="line">* <span class="function">Integer <span class="title">selectCount</span><span class="params">( Wrapper&lt;T&gt; queryWrapper)</span></span>;<span class="comment">//根据wrapper条件查询总数</span></span><br><span class="line">* <span class="function">List&lt;T&gt; <span class="title">selectList</span><span class="params">(Wrapper&lt;T&gt; queryWrapper)</span></span>; <span class="comment">//根据条件查询实体集合</span></span><br><span class="line">* List&lt;Map&lt;String, Object&gt;&gt; selectMaps( Wrapper&lt;T&gt; queryWrapper);<span class="comment">//根据 Wrapper 条件，查询全部记录</span></span><br><span class="line">* <span class="function">List&lt;Object&gt; <span class="title">selectObjs</span><span class="params">( Wrapper&lt;T&gt; queryWrapper)</span></span>;<span class="comment">//根据 Wrapper 条件，查询全部记录, 注意： 只返回第一个字段的值</span></span><br><span class="line">* <span class="function">Page&lt;T&gt; <span class="title">selectPage</span><span class="params">(IPage&lt;T&gt; page, Wrapper&lt;T&gt; queryWrapper)</span></span>;返回实体分页对象</span><br><span class="line">* IPage&lt;Map&lt;String, Object&gt;&gt; selectMapsPage(IPage&lt;T&gt; page, Wrapper&lt;T&gt; queryWrapper);<span class="comment">//返回字段映射对象 Map 分页对象;</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="Service-CURD接口"><a href="#Service-CURD接口" class="headerlink" title="Service CURD接口"></a><strong>Service CURD接口</strong></h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">* <span class="function"><span class="keyword">boolean</span> <span class="title">save</span><span class="params">(T entity)</span></span>;</span><br><span class="line">* <span class="function"><span class="keyword">boolean</span> <span class="title">saveBatch</span><span class="params">(Collection&lt;T&gt; entityList)</span></span>;</span><br><span class="line">* <span class="function"><span class="keyword">boolean</span> <span class="title">saveBatch</span><span class="params">(Collection&lt;T&gt; entityList, <span class="keyword">int</span> batchSize)</span></span>;<span class="comment">//batchSize每次的数量</span></span><br><span class="line">* <span class="function"><span class="keyword">boolean</span> <span class="title">saveOrUpdateBatch</span><span class="params">(Collection&lt;T&gt; entityList)</span></span>;<span class="comment">//批量修改插入</span></span><br><span class="line">* <span class="function"><span class="keyword">boolean</span> <span class="title">saveOrUpdateBatch</span><span class="params">(Collection&lt;T&gt; entityList, <span class="keyword">int</span> batchSize)</span></span>;</span><br><span class="line">* <span class="function"><span class="keyword">boolean</span> <span class="title">removeById</span><span class="params">(Serializable id)</span></span>;</span><br><span class="line">* <span class="function"><span class="keyword">boolean</span> <span class="title">removeByMap</span><span class="params">(Map&lt;String, Object&gt; columnMap)</span></span>;</span><br><span class="line">* <span class="function"><span class="keyword">boolean</span> <span class="title">remove</span><span class="params">(Wrapper&lt;T&gt; queryWrapper)</span></span>;<span class="comment">//queryWrapper 实体包装类,根据entuty条件删除</span></span><br><span class="line">* <span class="function"><span class="keyword">boolean</span> <span class="title">removeByIds</span><span class="params">(Collection&lt;? extends Serializable&gt; idList)</span></span>;</span><br><span class="line">* <span class="function"><span class="keyword">boolean</span> <span class="title">updateById</span><span class="params">(T entity)</span></span>;</span><br><span class="line">* <span class="function"><span class="keyword">boolean</span> <span class="title">update</span><span class="params">(T entity, Wrapper&lt;T&gt; updateWrapper)</span></span>;</span><br><span class="line">* <span class="function"><span class="keyword">boolean</span> <span class="title">updateBatchById</span><span class="params">(Collection&lt;T&gt; entityList, </span></span></span><br><span class="line"><span class="function"><span class="params">* <span class="keyword">int</span> batchSize)</span></span>;<span class="comment">//批量更新</span></span><br><span class="line">* <span class="function"><span class="keyword">boolean</span> <span class="title">saveOrUpdate</span><span class="params">(T entity)</span></span>;<span class="comment">//TableId 注解存在更新记录，否插入一条记录</span></span><br><span class="line">* &lt;T&gt; getById(Serializable id);<span class="comment">//根据id查询</span></span><br><span class="line">* <span class="function">Collection&lt;T&gt; <span class="title">listByIds</span><span class="params">(Collection&lt;? extends Serializable&gt; idList)</span></span>;<span class="comment">//查询（根据ID 批量查询）</span></span><br><span class="line">* <span class="function">Collection&lt;T&gt; <span class="title">listByMap</span><span class="params">(Map&lt;String, Object&gt; columnMap)</span></span>;</span><br><span class="line">* <span class="function">T <span class="title">getOne</span><span class="params">(Wrapper&lt;T&gt; queryWrapper, <span class="keyword">boolean</span> throwEx)</span></span>;<span class="comment">//throwEx 有多个 result 是否抛出异常</span></span><br><span class="line">* <span class="function">Map&lt;String, Object&gt; <span class="title">getMap</span><span class="params">(Wrapper&lt;T&gt; queryWrapper)</span></span>;<span class="comment">//根据 Wrapper，查询一条记录</span></span><br><span class="line">* <span class="function">Object <span class="title">getObj</span><span class="params">(Wrapper&lt;T&gt; queryWrapper)</span></span>;<span class="comment">//根据 Wrapper，查询一条记录</span></span><br><span class="line">* <span class="function"><span class="keyword">int</span> <span class="title">count</span><span class="params">(Wrapper&lt;T&gt; queryWrapper)</span></span>;<span class="comment">//根据 Wrapper 条件，查询总记录数</span></span><br><span class="line">* <span class="function">List&lt;T&gt; <span class="title">list</span><span class="params">(Wrapper&lt;T&gt; queryWrapper)</span></span>;<span class="comment">//查询列表</span></span><br><span class="line">* <span class="function">IPage&lt;T&gt; <span class="title">page</span><span class="params">(IPage&lt;T&gt; page, Wrapper&lt;T&gt; queryWrapper)</span></span>;<span class="comment">//page为翻页对象</span></span><br><span class="line">* List&lt;Map&lt;String, Object&gt;&gt; listMaps(Wrapper&lt;T&gt; queryWrapper);<span class="comment">//查询列表</span></span><br><span class="line">* <span class="function">List&lt;Object&gt; <span class="title">listObjs</span><span class="params">(Wrapper&lt;T&gt; queryWrapper)</span></span>;<span class="comment">//根据 Wrapper 条件，查询全部记录</span></span><br><span class="line">* IPage&lt;Map&lt;String, Object&gt;&gt; pageMaps(IPage&lt;T&gt; page, Wrapper&lt;T&gt; queryWrapper);</span><br></pre></td></tr></table></figure>
+
+<h1 id="构造器方法"><a href="#构造器方法" class="headerlink" title="构造器方法"></a><strong>构造器方法</strong></h1><p><img src="/Users/panhuifang/%E5%8D%9A%E5%AE%A2%E6%96%87%E7%AB%A0/EE33B7B6-B8A0-42E9-96A6-19C1170A11B4.png" alt="EE33B7B6-B8A0-42E9-96A6-19C1170A11B4"></p>
+<h1 id="常用方法"><a href="#常用方法" class="headerlink" title="常用方法"></a><strong>常用方法</strong></h1><h2 id="修改指定值"><a href="#修改指定值" class="headerlink" title="修改指定值"></a><strong>修改指定值</strong></h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">* UpdateWrapper&lt;User&gt; userUpdateWrapper = <span class="keyword">new</span> UpdateWrapper&lt;&gt;();</span><br><span class="line"></span><br><span class="line">* userUpdateWrapper.eq(<span class="string">"name"</span>, <span class="string">"lqf"</span>);</span><br><span class="line"></span><br><span class="line">* <span class="keyword">int</span> update = mapper.update(user, userUpdateWrapper);</span><br></pre></td></tr></table></figure>
+
+<h2 id="查找不为空"><a href="#查找不为空" class="headerlink" title="查找不为空"></a><strong>查找不为空</strong></h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">QueryWrapper&lt;User&gt; queryWrapper = <span class="keyword">new</span> QueryWrapper&lt;&gt;();</span><br><span class="line"></span><br><span class="line">queryWrapper.eq(<span class="string">"name"</span>, <span class="string">"lqf"</span>);</span><br><span class="line"></span><br><span class="line">queryWrapper.isNotNull(<span class="string">"name"</span>);</span><br></pre></td></tr></table></figure>
+
+<h2 id="查询为某列为空或等于某值-查询A列等于某值或B列等于某值"><a href="#查询为某列为空或等于某值-查询A列等于某值或B列等于某值" class="headerlink" title="查询为某列为空或等于某值/查询A列等于某值或B列等于某值"></a><strong>查询为某列为空或等于某值/查询A列等于某值或B列等于某值</strong></h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//查询班级Id为空或者为指定值</span></span><br><span class="line"></span><br><span class="line">query.lambda()</span><br><span class="line"></span><br><span class="line">.and(Obj -&gt;</span><br><span class="line"></span><br><span class="line">Obj.eq(User::getClazzId, (String) params.get(<span class="string">"clszzId"</span>)).or().isNull(User::getClazzId));</span><br><span class="line"></span><br><span class="line"><span class="comment">//查询A列等于某值或B列等于某值</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//（id='columnId' 'or' parent_id='columnId') and 1=1</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span>(StringUtil.isNotBlank(columnId)) &#123;</span><br><span class="line"></span><br><span class="line">StringBuilder column = <span class="keyword">new</span> StringBuilder(<span class="string">"(id='"</span>);</span><br><span class="line"></span><br><span class="line">column.append(columnId);</span><br><span class="line"></span><br><span class="line">column.append(<span class="string">"' or "</span>);</span><br><span class="line"></span><br><span class="line">column.append(<span class="string">"parent_id = '"</span>);</span><br><span class="line"></span><br><span class="line">column.append(columnId);</span><br><span class="line"></span><br><span class="line">column.append(<span class="string">"') and 1 "</span>);</span><br><span class="line"></span><br><span class="line">query.eq(column.toString(), <span class="string">"1"</span>); <span class="comment">//自己</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="根据时间区间查询"><a href="#根据时间区间查询" class="headerlink" title="根据时间区间查询"></a><strong>根据时间区间查询</strong></h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//这里前端采用vue的日期时间插件将值赋给orderTime,传到后台做日期区间查询</span></span><br><span class="line"></span><br><span class="line">&lt;el-date-picker</span><br><span class="line"></span><br><span class="line">style=<span class="string">"width: 30%;margin-right: 20px"</span></span><br><span class="line"></span><br><span class="line">value-format=<span class="string">"yyyy-MM-dd"</span></span><br><span class="line"></span><br><span class="line">v-model=<span class="string">"orderTime"</span></span><br><span class="line"></span><br><span class="line">type=<span class="string">"daterange"</span></span><br><span class="line"></span><br><span class="line">range-separator=<span class="string">"-"</span></span><br><span class="line"></span><br><span class="line">start-placeholder=<span class="string">"开始日期"</span></span><br><span class="line"></span><br><span class="line">end-placeholder=<span class="string">"结束日期"</span>&gt;</span><br><span class="line"></span><br><span class="line">&lt;/el-date-picker&gt;</span><br><span class="line"></span><br><span class="line">AbstractWrapper query = <span class="keyword">new</span> QueryWrapper&lt;&gt;();</span><br><span class="line"></span><br><span class="line">String beginOrderTime = (String) params.get(<span class="string">"time[0]"</span>);</span><br><span class="line"></span><br><span class="line">String endOrderTime = (String) params.get(<span class="string">"time[1]"</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> (StringUtil.isNotBlank(beginOrderTime) &amp;&amp; StringUtil.isNotBlank(endOrderTime)) &#123;</span><br><span class="line"></span><br><span class="line">SimpleDateFormat formatter = <span class="keyword">new</span> SimpleDateFormat(<span class="string">"yyyy-MM-dd"</span>);</span><br><span class="line"></span><br><span class="line">Date beginTime = formatter.parse(beginOrderTime);</span><br><span class="line"></span><br><span class="line">Date endTime = formatter.parse(endOrderTime);</span><br><span class="line"></span><br><span class="line">query.between(<span class="string">"creation_time"</span>, beginTime, endTime);</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="批量删除"><a href="#批量删除" class="headerlink" title="批量删除"></a><strong>批量删除</strong></h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">String[] ids = ids.split(<span class="string">","</span>);</span><br><span class="line"></span><br><span class="line">List&lt;String&gt; idList = Arrays.asList(ids);</span><br><span class="line"></span><br><span class="line">eventService.removeByIds(idList);</span><br></pre></td></tr></table></figure>
+
+<h2 id="存在-不存在"><a href="#存在-不存在" class="headerlink" title="存在||不存在"></a><strong>存在||不存在</strong></h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">AbstractWrapper queryTags = <span class="keyword">new</span> QueryWrapper&lt;&gt;();</span><br><span class="line"></span><br><span class="line">queryTags.in(<span class="string">"id"</span>, ids);</span><br><span class="line"></span><br><span class="line">List&lt;PubTag&gt; pubTagList = pubTagService.list(queryTags);</span><br></pre></td></tr></table></figure>
+
+<h2 id="查询指定列"><a href="#查询指定列" class="headerlink" title="查询指定列"></a><strong>查询指定列</strong></h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">QueryWrapper query = <span class="keyword">new</span> QueryWrapper();</span><br><span class="line"></span><br><span class="line">query.select(<span class="string">"id"</span>, <span class="string">"name"</span>);</span><br></pre></td></tr></table></figure>
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/04/11/Gihub%E4%B8%8A%E4%B8%80%E4%BA%9B%E5%A5%BD%E7%9A%84java%E5%AD%A6%E4%B9%A0%E9%A1%B9%E7%9B%AE/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1189,224 +1276,11 @@
   
   
 
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/04/09/AOP+%E8%87%AA%E5%AE%9A%E4%B9%89%E6%B3%A8%E8%A7%A3/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="zhanglu">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="zhanglu的博客">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/04/09/AOP+%E8%87%AA%E5%AE%9A%E4%B9%89%E6%B3%A8%E8%A7%A3/" class="post-title-link" itemprop="url">AOP+自定义注解</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2020-04-09 20:39:46" itemprop="dateCreated datePublished" datetime="2020-04-09T20:39:46+08:00">2020-04-09</time>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h1 id="AOP-自定义注解-实现接口限流（Redis方法）"><a href="#AOP-自定义注解-实现接口限流（Redis方法）" class="headerlink" title="AOP+自定义注解 实现接口限流（Redis方法）"></a>AOP+自定义注解 实现接口限流（Redis方法）</h1><h2 id="1-自定义注解类："><a href="#1-自定义注解类：" class="headerlink" title="1.自定义注解类："></a>1.自定义注解类：</h2> <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> java.lang.annotation.ElementType;</span><br><span class="line"><span class="keyword">import</span> java.lang.annotation.Retention;</span><br><span class="line"><span class="keyword">import</span> java.lang.annotation.RetentionPolicy;</span><br><span class="line"><span class="keyword">import</span> java.lang.annotation.Target;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@author</span> zhanglu</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@date</span> Created in 2020/4/9 10:04</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@description</span> 自定义限流注解</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@modifiedBy</span></span></span><br><span class="line"><span class="comment"> * <span class="doctag">@version</span>: v1</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"></span><br><span class="line"><span class="meta">@Retention</span>(RetentionPolicy.RUNTIME)<span class="comment">//使用位置（类，方法）</span></span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"><span class="meta">@Target</span>(ElementType.METHOD)<span class="comment">//加载到jvm里运行</span></span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"><span class="keyword">public</span> <span class="meta">@interface</span> AccessLimit &#123;</span><br><span class="line">    <span class="function"><span class="keyword">int</span> <span class="title">seconds</span><span class="params">()</span></span>;<span class="comment">//redis缓存保存时间</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">int</span> <span class="title">maxCount</span><span class="params">()</span></span>;<span class="comment">//最大访问量</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">boolean</span> <span class="title">needLogin</span><span class="params">()</span> <span class="keyword">default</span> <span class="keyword">true</span></span>;<span class="comment">//是否登陆</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h3 id="1-1-Retention注解说明"><a href="#1-1-Retention注解说明" class="headerlink" title="1.1 @Retention注解说明"></a>1.1 @Retention注解说明</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">注解@Retention可以用来修饰注解，是注解的注解，称为元注解。</span><br><span class="line">Retention注解有一个属性value，是RetentionPolicy类型的，Enum RetentionPolicy是一个枚举类型，</span><br><span class="line">这个枚举决定了Retention注解应该如何去保持，也可理解为Rentention 搭配 RententionPolicy使用。RetentionPolicy有3个值：CLASS  RUNTIME   SOURCE</span><br><span class="line">按生命周期来划分可分为3类：</span><br><span class="line">1、RetentionPolicy.SOURCE：注解只保留在源文件，当Java文件编译成class文件的时候，注解被遗弃；</span><br><span class="line">2、RetentionPolicy.CLASS：注解被保留到class文件，但jvm加载class文件时候被遗弃，这是默认的生命周期；</span><br><span class="line">3、RetentionPolicy.RUNTIME：注解不仅被保存到class文件中，jvm加载class文件之后，仍然存在；</span><br><span class="line">这3个生命周期分别对应于：Java源文件(.java文件) ---&gt; .class文件 ---&gt; 内存中的字节码。</span><br><span class="line">那怎么来选择合适的注解生命周期呢？</span><br><span class="line">首先要明确生命周期长度 SOURCE &lt; CLASS &lt; RUNTIME ，所以前者能作用的地方后者一定也能作用。</span><br><span class="line">一般如果需要在运行时去动态获取注解信息，那只能用 RUNTIME 注解，比如@Deprecated使用RUNTIME注解</span><br><span class="line">如果要在编译时进行一些预处理操作，比如生成一些辅助代码（如 ButterKnife），就用 CLASS注解；</span><br><span class="line">如果只是做一些检查性的操作，比如 @Override 和 @SuppressWarnings，使用SOURCE 注解。</span><br><span class="line"></span><br><span class="line">注解@Override用在方法上，当我们想重写一个方法时，在方法上加@Override，当我们方法的名字出错时，编译器就会报错</span><br><span class="line">注解@Deprecated，用来表示某个类或属性或方法已经过时，不想别人再用时，在属性和方法上用@Deprecated修饰</span><br><span class="line">注解@SuppressWarnings用来压制程序中出来的警告，比如在没有用泛型或是方法已经过时的时候</span><br></pre></td></tr></table></figure>
-
-<h3 id="1-2-Target注解说明"><a href="#1-2-Target注解说明" class="headerlink" title="1.2 @Target注解说明"></a>1.2 @Target注解说明</h3><h4 id="1-2-1-Target的用法"><a href="#1-2-1-Target的用法" class="headerlink" title="1.2.1 @Target的用法"></a>1.2.1 @Target的用法</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">java.lang.annotation.Target</span><br><span class="line">用于设定注解使用范围</span><br><span class="line">java.lang.annotation.ElementType</span><br><span class="line">Target通过ElementType来指定注解可使用范围的枚举集合</span><br></pre></td></tr></table></figure>
-
-<h4 id="1-2-2-ElementType的用法"><a href="#1-2-2-ElementType的用法" class="headerlink" title="1.2.2 ElementType的用法"></a>1.2.2 ElementType的用法</h4><table>
-<thead>
-<tr>
-<th align="center">取值</th>
-<th align="center">注解使用范围</th>
-</tr>
-</thead>
-<tbody><tr>
-<td align="center">METHOD</td>
-<td align="center">可用于方法上</td>
-</tr>
-<tr>
-<td align="center">TYPE</td>
-<td align="center">可用于类或者接口上</td>
-</tr>
-<tr>
-<td align="center">ANNOTATION_TYPE</td>
-<td align="center">可用于注解类型上（被@interface修饰的类型）</td>
-</tr>
-<tr>
-<td align="center">CONSTRUCTOR</td>
-<td align="center">可用于构造方法上</td>
-</tr>
-<tr>
-<td align="center">FIELD</td>
-<td align="center">可用于域上</td>
-</tr>
-<tr>
-<td align="center">LOCAL_VARIABLE</td>
-<td align="center">可用于局部变量上</td>
-</tr>
-<tr>
-<td align="center">PACKAGE</td>
-<td align="center">用于记录java文件的package信息</td>
-</tr>
-<tr>
-<td align="center">PARAMETER</td>
-<td align="center">可用于参数上</td>
-</tr>
-</tbody></table>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">这里重点说明下：ElementType.PACKAGE。它并不是使用在一般的类中，而是用在固定的文件package-info.java中。这里需要强调命名一定是“package-info”。由于package-info.java并不是一个合法的类，使用eclipse创建类的方式会提示不合法，所以需要以创建文件的方式来创建package-info.java。</span><br><span class="line"></span><br><span class="line">例如，定义可使用范围PACKAGE：</span><br><span class="line">@Target(&#123;ElementType.PACKAGE,ElementType.METHOD&#125;)</span><br><span class="line">@Retention(RetentionPolicy.RUNTIME)</span><br><span class="line">@Inherited</span><br><span class="line">@Documented</span><br><span class="line">public@interface  AsynLog &#123;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line">那么，创建文件：package-info.java，内容如下：</span><br><span class="line">@AsynLog</span><br><span class="line">package org.my.commons.logs.annotation; </span><br><span class="line">重点说明：注解只能在ElementType设定的范围内使用，否则将会编译报错。例如：范围只包含ElementType.METHOD ，则表明该注解只能使用在类的方法上，超出使用范围将编译异常。</span><br></pre></td></tr></table></figure>
-
-
-
-<h2 id="2-AOP解析类"><a href="#2-AOP解析类" class="headerlink" title="2. AOP解析类"></a>2. AOP解析类</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> com.idatage.cloud.common.core.util.R;</span><br><span class="line"><span class="keyword">import</span> org.aspectj.lang.ProceedingJoinPoint;</span><br><span class="line"><span class="keyword">import</span> org.aspectj.lang.annotation.Around;</span><br><span class="line"><span class="keyword">import</span> org.aspectj.lang.annotation.Aspect;</span><br><span class="line"><span class="keyword">import</span> org.aspectj.lang.annotation.Pointcut;</span><br><span class="line"><span class="keyword">import</span> org.aspectj.lang.reflect.MethodSignature;</span><br><span class="line"><span class="keyword">import</span> org.springframework.beans.factory.annotation.Autowired;</span><br><span class="line"><span class="keyword">import</span> org.springframework.data.redis.core.RedisTemplate;</span><br><span class="line"><span class="keyword">import</span> org.springframework.stereotype.Component;</span><br><span class="line"><span class="keyword">import</span> org.springframework.web.context.request.RequestContextHolder;</span><br><span class="line"><span class="keyword">import</span> org.springframework.web.context.request.ServletRequestAttributes;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> javax.servlet.http.HttpServletRequest;</span><br><span class="line"><span class="keyword">import</span> java.lang.reflect.Method;</span><br><span class="line"><span class="keyword">import</span> java.net.InetAddress;</span><br><span class="line"><span class="keyword">import</span> java.net.UnknownHostException;</span><br><span class="line"><span class="keyword">import</span> java.util.concurrent.TimeUnit;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@author</span> zhanglu</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@date</span> Created in 2020/4/9 10:08</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@description</span> 限流AOP解析类</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@modifiedBy</span></span></span><br><span class="line"><span class="comment"> * <span class="doctag">@version</span>:</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"></span><br><span class="line"><span class="meta">@Aspect</span><span class="comment">//来定义一个切面</span></span><br><span class="line"><span class="meta">@Component</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">AccessLimitAop</span> </span>&#123;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="meta">@Autowired</span></span><br><span class="line">    <span class="keyword">private</span> RedisTemplate redisTemplate;</span><br><span class="line">	<span class="comment">//定义切入点</span></span><br><span class="line">    <span class="meta">@Pointcut</span>(value = <span class="string">"@annotation(com.learn.AccessLimit)"</span>)<span class="comment">//AccessLimit注解类的位置</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">cutLimit</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//通知</span></span><br><span class="line">    <span class="meta">@Before</span>(<span class="string">"AccessLimit()"</span>)</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">doBefore</span><span class="params">(JoinPoint joinPoint)</span> </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">"触发到 @Before(\"AccessLimit()\")"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">     <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 后置通知</span></span><br><span class="line"><span class="comment">     *</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> joinPoint 切点</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="meta">@AfterReturning</span>(<span class="string">"AccessLimit()"</span>)</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">doAfrterReturning</span><span class="params">(JoinPoint joinPoint)</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">        Object[] args = joinPoint.getArgs();</span><br><span class="line">        System.out.println(<span class="string">"触发 @AfterReturning(\"AccessLimit()\")"</span>);</span><br><span class="line">        System.out.println(args.length);</span><br><span class="line">        getControllerMethodDescription(joinPoint);</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="meta">@Around</span>(<span class="string">"cutLimit()"</span>)</span><br><span class="line">    <span class="function"><span class="keyword">public</span> Object <span class="title">recordSysLog</span><span class="params">(ProceedingJoinPoint point)</span> <span class="keyword">throws</span> Throwable </span>&#123;</span><br><span class="line">        MethodSignature ms = (MethodSignature) point.getSignature();<span class="comment">//获得执行方法的方法名</span></span><br><span class="line">        Method method = ms.getMethod();<span class="comment">//获取公共方法，不包括类私有的</span></span><br><span class="line">        AccessLimit accessLimit = method.getAnnotation(AccessLimit<span class="class">.<span class="keyword">class</span>)</span>;</span><br><span class="line">        ServletRequestAttributes servletRequestAttributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();</span><br><span class="line">        HttpServletRequest request = servletRequestAttributes.getRequest();</span><br><span class="line">        <span class="keyword">if</span> (<span class="keyword">null</span> == accessLimit) &#123;</span><br><span class="line">            <span class="keyword">return</span> point.proceed();</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">int</span> seconds = accessLimit.seconds();</span><br><span class="line">        <span class="keyword">int</span> maxCount = accessLimit.maxCount();</span><br><span class="line">        <span class="keyword">boolean</span> needLogin = accessLimit.needLogin();</span><br><span class="line">        <span class="keyword">if</span> (needLogin) &#123;</span><br><span class="line">            <span class="comment">//判断是否登录</span></span><br><span class="line">        &#125;</span><br><span class="line">        String key = ms.getName() + <span class="string">":"</span> + getIpAddress(request);</span><br><span class="line">        Object o = redisTemplate.opsForValue().get(key);</span><br><span class="line">        Integer count = Integer.valueOf(o == <span class="keyword">null</span> ? <span class="string">"-1"</span> : o.toString());</span><br><span class="line">        <span class="keyword">if</span> (<span class="keyword">null</span> == count || -<span class="number">1</span> == count) &#123;</span><br><span class="line">            redisTemplate.opsForValue().increment(key);</span><br><span class="line">            redisTemplate.expire(key, seconds, TimeUnit.SECONDS);</span><br><span class="line">            <span class="keyword">return</span> point.proceed();</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (count &lt; maxCount) &#123;</span><br><span class="line">            redisTemplate.opsForValue().increment(key);</span><br><span class="line">            <span class="keyword">return</span> point.proceed();</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (count &gt;= maxCount) &#123;</span><br><span class="line">            String str = <span class="string">"请勿频繁刷新"</span>;</span><br><span class="line">            <span class="keyword">return</span> R.failed(str);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> point.proceed();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 获取用户真实IP地址，不使用request.getRemoteAddr();的原因是有可能用户使用了代理软件方式避免真实IP地址。</span></span><br><span class="line"><span class="comment">     * 可是，如果通过了多级反向代理的话，X-Forwarded-For的值并不止一个，而是一串IP值，究竟哪个才是真正的用户端的真实IP呢？</span></span><br><span class="line"><span class="comment">     * 答案是取X-Forwarded-For中第一个非unknown的有效IP字符串</span></span><br><span class="line"><span class="comment">     *</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> request</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">static</span> String <span class="title">getIpAddress</span><span class="params">(HttpServletRequest request)</span> </span>&#123;</span><br><span class="line">        String ip = request.getHeader(<span class="string">"x-forwarded-for"</span>);</span><br><span class="line">        <span class="keyword">if</span> (ip == <span class="keyword">null</span> || ip.length() == <span class="number">0</span> || <span class="string">"unknown"</span>.equalsIgnoreCase(ip)) &#123;</span><br><span class="line">            ip = request.getHeader(<span class="string">"Proxy-Client-IP"</span>);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (ip == <span class="keyword">null</span> || ip.length() == <span class="number">0</span> || <span class="string">"unknown"</span>.equalsIgnoreCase(ip)) &#123;</span><br><span class="line">            ip = request.getHeader(<span class="string">"WL-Proxy-Client-IP"</span>);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (ip == <span class="keyword">null</span> || ip.length() == <span class="number">0</span> || <span class="string">"unknown"</span>.equalsIgnoreCase(ip)) &#123;</span><br><span class="line">            ip = request.getHeader(<span class="string">"HTTP_CLIENT_IP"</span>);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (ip == <span class="keyword">null</span> || ip.length() == <span class="number">0</span> || <span class="string">"unknown"</span>.equalsIgnoreCase(ip)) &#123;</span><br><span class="line">            ip = request.getHeader(<span class="string">"HTTP_X_FORWARDED_FOR"</span>);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (ip == <span class="keyword">null</span> || ip.length() == <span class="number">0</span> || <span class="string">"unknown"</span>.equalsIgnoreCase(ip)) &#123;</span><br><span class="line">            ip = request.getRemoteAddr();</span><br><span class="line">            <span class="keyword">if</span> (<span class="string">"127.0.0.1"</span>.equals(ip) || <span class="string">"0:0:0:0:0:0:0:1"</span>.equals(ip)) &#123;</span><br><span class="line">                <span class="comment">//根据网卡取本机配置的IP</span></span><br><span class="line">                InetAddress inet = <span class="keyword">null</span>;</span><br><span class="line">                <span class="keyword">try</span> &#123;</span><br><span class="line">                    inet = InetAddress.getLocalHost();</span><br><span class="line">                &#125; <span class="keyword">catch</span> (UnknownHostException e) &#123;</span><br><span class="line">                    e.printStackTrace();</span><br><span class="line">                &#125;</span><br><span class="line">                ip = inet.getHostAddress();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> ip;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h2 id="3-接口调用"><a href="#3-接口调用" class="headerlink" title="3 接口调用"></a>3 接口调用</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment">   * 获取服务器时间</span></span><br><span class="line"><span class="comment">   */</span></span><br><span class="line">  <span class="meta">@ApiOperation</span>(value = <span class="string">"获取服务器时间"</span>, notes = <span class="string">"获取服务器时间"</span>)</span><br><span class="line">  <span class="meta">@GetMapping</span>(<span class="string">"/getcurrenttime"</span>)</span><br><span class="line">  <span class="meta">@Inner</span>(value = <span class="keyword">false</span>)</span><br><span class="line">  <span class="meta">@AccessLimit</span>(seconds = <span class="number">60</span>, maxCount = <span class="number">10</span>, needLogin = <span class="keyword">false</span>)</span><br><span class="line">  <span class="function"><span class="keyword">public</span> R <span class="title">getCurrentTime</span><span class="params">()</span> </span>&#123;</span><br><span class="line">      Long time = System.currentTimeMillis();</span><br><span class="line">      <span class="keyword">return</span> R.ok(time);</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
-
-<h2 id="4-Spring-Aop-aspect-的详细使用"><a href="#4-Spring-Aop-aspect-的详细使用" class="headerlink" title="4 Spring Aop(aspect)的详细使用"></a>4 Spring Aop(aspect)的详细使用</h2><h3 id="4-1AOP的基本概念"><a href="#4-1AOP的基本概念" class="headerlink" title="4.1AOP的基本概念"></a>4.1AOP的基本概念</h3><ul>
-<li><p><a href="切面"> @Aspect</a>: 通常是一个类，里面可以定义切入点和通知</p>
-</li>
-<li><p>JointPoint(连接点): 程序执行过程中明确的点，一般是方法的调用</p>
-</li>
-<li><p>Advice(通知): AOP在特定的切入点上执行的增强处理:</p>
-</li>
-<li><p>@before标识一个前置增强方法，相当于BeforeAdvice的功能</p>
-</li>
-<li><p>@After: final增强，不管是抛出异常或者正常退出都会执行。</p>
-</li>
-<li><p>@AfterReturning: 后置增强，似于AfterReturningAdvice, 方法正常退出时执行</p>
-</li>
-<li><p>@AfterThrowing: 异常抛出增强，相当于ThrowsAdvice</p>
-</li>
-<li><p>@Around: 环绕增强，相当于MethodInterceptor</p>
-</li>
-<li><p>Pointcut(切入点):  带有通知的连接点，在程序中主要体现为书写切入点表达式</p>
-</li>
-<li><p>AOP Proxy：AOP框架创建的对象，代理就是目标对象的加强。Spring中的AOP代理可以使JDK动态代理，也可以是CGLIB代理，前者基于接口，后者基于子类。</p>
-</li>
-</ul>
-<h3 id="4-2Pointcut配置使用："><a href="#4-2Pointcut配置使用：" class="headerlink" title="4.2Pointcut配置使用："></a>4.2Pointcut配置使用：</h3><p>表示式(expression)和签名(signature)</p>
-<p>//Pointcut表示式</p>
-<p>@Pointcut(“execution(* com.savage.aop.MessageSender.*(..))”)</p>
-<p>//Point签名</p>
-<p>private void log(){}</p>
-<p>由下列方式来定义或者通过 &amp;&amp;、 ||、 !、 的方式进行组合：</p>
-<p>execution：用于匹配方法执行的连接点；</p>
-<p>within：用于匹配指定类型内的方法执行；</p>
-<p>this：用于匹配当前AOP代理对象类型的执行方法；注意是AOP代理对象的类型匹配，这样就可能包括引入接口也类型匹配；    </p>
-<p>target：用于匹配当前目标对象类型的执行方法；注意是目标对象的类型匹配，这样就不包括引入接口也类型匹配；</p>
-<p>args：用于匹配当前执行的方法传入的参数为指定类型的执行方法；</p>
-<p>@within：用于匹配所以持有指定注解类型内的方法；</p>
-<p>@target：用于匹配当前目标对象类型的执行方法，其中目标对象持有指定的注解；</p>
-<p>@args：用于匹配当前执行的方法传入的参数持有指定注解的执行；</p>
-<p>@annotation：用于匹配当前执行方法持有指定注解的方法；</p>
-<p>格式</p>
-<p>execution(modifiers-pattern? ret-type-pattern declaring-type-pattern? name-pattern(param-pattern)throws-pattern?)</p>
-<p>其中后面跟着“?”的是可选项</p>
-<p>括号中各个pattern分别表示：</p>
-<p>修饰符匹配（modifier-pattern?）</p>
-<p>返回值匹配（ret-type-pattern）可以为*表示任何返回值,全路径的类名等</p>
-<p>类路径匹配（declaring-type-pattern?）</p>
-<p>方法名匹配（name-pattern）可以指定方法名 或者 <em>代表所有, set</em> 代表以set开头的所有方法</p>
-<p>参数匹配（(param-pattern)）可以指定具体的参数类型，多个参数间用“,”隔开，各个参数也可以用”*” 来表示匹配任意类型的参数，”..”表示零个或多个任意参数。</p>
-<p>如(String)表示匹配一个String参数的方法；(*,String) 表示匹配有两个参数的方法，第一个参数可以是任意类型，而第二个参数是String类型</p>
-<p>异常类型匹配（throws-pattern?）</p>
-<p><strong><em>Pointcut使用详细语法：\</em></strong></p>
-<p>任意公共方法的执行：execution(public * *(..))</p>
-<p>任何一个以“set”开始的方法的执行：execution(* set*(..))</p>
-<p>AccountService 接口的任意方法的执行：execution(* com.xyz.service.AccountService.*(..))</p>
-<p>定义在service包里的任意方法的执行： execution(* com.xyz.service.<em>.</em>(..))</p>
-<p>定义在service包和所有子包里的任意类的任意方法的执行：execution(* com.xyz.service..<em>.</em>(..))</p>
-<p>第一个<em>表示匹配任意的方法返回值， ..(两个点)表示零个或多个，第一个..表示service包及其子包,第二个</em>表示所有类, 第三个*表示所有方法，第二个..表示方法的任意参数个数</p>
-<p>定义在pointcutexp包和所有子包里的JoinPointObjP2类的任意方法的执行：execution(* com.test.spring.aop.pointcutexp..JoinPointObjP2.*(..))”)</p>
-<p>pointcutexp包里的任意类： within(com.test.spring.aop.pointcutexp.*)</p>
-<p>pointcutexp包和所有子包里的任意类：within(com.test.spring.aop.pointcutexp..*)</p>
-<p>实现了Intf接口的所有类,如果Intf不是接口,限定Intf单个类：this(com.test.spring.aop.pointcutexp.Intf)</p>
-<p>当一个实现了接口的类被AOP的时候,用getBean方法必须cast为接口类型,不能为该类的类型</p>
-<p><strong><em>带有@Transactional标注的所有类的任意方法：</em></strong></p>
-<p><strong>@within(org.springframework.transaction.annotation.Transactional) // 亲测成功</strong></p>
-<p><del><strong>@target(org.springframework.transaction.annotation.Transactional) // 亲测未成功</strong></del></p>
-<p><strong><em>带有@Transactional标注的任意方法：@annotation(org.springframework.transaction.annotation.Transactional)\</em></strong></p>
-<p><strong><em>@within和@target针对类的注解,@annotation是针对方法的注解\</em></strong></p>
-<p>参数带有@Transactional标注的方法：@args(org.springframework.transaction.annotation.Transactional)</p>
-<p>参数为String类型(运行是决定)的方法： args(String)</p>
-<p><strong><em>JoinPoint 常用的方法：</em></strong></p>
-<p>Object[] getArgs：返回目标方法的参数</p>
-<p>Signature getSignature：返回目标方法的签名</p>
-<p>Object getTarget：返回被织入增强处理的目标对象</p>
-<p>Object getThis：返回AOP框架为目标对象生成的代理对象</p>
-<p>当使用@Around处理时，需要将第一个参数定义为ProceedingJoinPoint类型，该类是JoinPoint的子类。</p>
-<p>织入</p>
-<p> @AfterReturning(</p>
-<p>pointcut=”execution(* com.abc.service.<em>.access</em>(..)) &amp;&amp; args(time, name)”,returning=”returnValue”)</p>
-<p>public void access(Date time, Object returnValue, String name){</p>
-<p>​    System.out.println(“目标方法中的参数String = “ + name);</p>
-<p>​    System.out.println(“目标方法中的参数Date = “ + time);</p>
-<p>​    System.out.println(“目标方法的返回结果returnValue = “ + returnValue);</p>
-<p>}</p>
-<p>表达式中增加了args(time, name)部分，意味着可以在增强处理的签名方法（access方法）中定义”time”和”name”两个属性。这两个形参的类型可以随意指定，但一旦指定了这两个参数的类型，则这两个形参类型将用于限制该切入点只匹配第一个参数类型为Date，第二个参数类型为String的方法（方法参数个数和类型若有不同均不匹配）；access方法只需要满足”time”, “name”参数的顺序和pointcut中args(param1, param2)的顺序相同即可，”returnValue”位置顺序无所谓。</p>
-<p>//将被access方法匹配</p>
-<p>public String accessAdvice(Date d, String n){  </p>
-<p>  System.out.println(“方法：accessAdvice”);</p>
-<p>  return”aa”;</p>
-<p>}</p>
-<p>切面执行顺序</p>
-<p>一个方法只被一个Aspect类拦截</p>
-<ul>
-<li>正常： </li>
-</ul>
-<p><img src="C:%5CUsers%5CAdministrator%5CDesktop%5C12858151-10008db63d624a55.webp" alt="12858151-10008db63d624a55"></p>
-<ul>
-<li>异常：</li>
-</ul>
-<p><img src="C:%5CUsers%5CAdministrator%5CDesktop%5C12858151-84ad2c28cf8caa76.webp" alt="12858151-84ad2c28cf8caa76"></p>
-<p>同一个方法被多个Aspect类拦截</p>
-<p>优先级高的切面类里的增强处理的优先级总是比优先级低的切面类中的增强处理的优先级高。</p>
-<p>在“进入”连接点时，最高优先级的增强处理将先被织入（eg.给定的两个不同切面类Before增强处理中，优先级高的那个会先执行）；在“退出”连接点时，最高优先级的增强处理会最后被织入（eg.给定的两个不同切面类After增强处理中，优先级高的那个会后执行）。eg.优先级为1的切面类Bean1包含了@Before，优先级为2的切面类Bean2包含了@Around，虽然@Around优先级高于@Before，但由于Bean1的优先级高于Bean2的优先级，因此Bean1中的@Before先被织入。</p>
-<p>Spring提供了如下两种解决方案指定不同切面类里的增强处理的优先级：</p>
-<p>让切面类实现org.springframework.core.Ordered接口：实现该接口的int getOrder()方法，该方法返回值越小，优先级越高</p>
-<p>直接使用@Order注解来修饰一个切面类：使用这个注解时可以配置一个int类型的value属性，该属性值越小，优先级越高</p>
-<p>同一个切面类里的两个相同类型的增强处理在同一个连接点被织入时，Spring AOP将以<strong>随机</strong>的顺序来织入这两个增强处理，没有办法指定它们的织入顺序。即使给这两个 advice 添加了 @Order 这个注解，也不行！</p>
-<p>参考文献： <a href="https://my.oschina.net/u/3434392/blog/1625493" target="_blank" rel="noopener">https://my.oschina.net/u/3434392/blog/1625493</a> </p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
 
   
+  <nav class="pagination">
+    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
+  </nav>
 
 
 
@@ -1471,7 +1345,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">10</span>
+          <span class="site-state-item-count">11</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>

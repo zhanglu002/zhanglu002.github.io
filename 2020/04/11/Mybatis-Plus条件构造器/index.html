@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"yoursite.com","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="Mybatis-Plus条件构造器MySQL自定义排序ORDER BY FIELD()SELECT * FROM table ORDER BY FIELD(status,1,2,0); 这样子写的话，返回的结果集是按照字段status的1、2、0进行排序的，当然，也可以对字符串进行排序。 原理如下： FIELD()函数是将参数1的字段对后续参数进行比较，并返回1、2、3等等，如果遇到null或者没">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Mybatis-Plus条件构造器">
+<meta property="og:url" content="http://yoursite.com/2020/04/11/Mybatis-Plus%E6%9D%A1%E4%BB%B6%E6%9E%84%E9%80%A0%E5%99%A8/index.html">
+<meta property="og:site_name" content="zhanglu的博客">
+<meta property="og:description" content="Mybatis-Plus条件构造器MySQL自定义排序ORDER BY FIELD()SELECT * FROM table ORDER BY FIELD(status,1,2,0); 这样子写的话，返回的结果集是按照字段status的1、2、0进行排序的，当然，也可以对字符串进行排序。 原理如下： FIELD()函数是将参数1的字段对后续参数进行比较，并返回1、2、3等等，如果遇到null或者没">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://yoursite.com/Users/panhuifang/%E5%8D%9A%E5%AE%A2%E6%96%87%E7%AB%A0/EE33B7B6-B8A0-42E9-96A6-19C1170A11B4.png">
+<meta property="article:published_time" content="2020-04-11T15:17:36.241Z">
+<meta property="article:modified_time" content="2020-04-11T15:19:57.944Z">
+<meta property="article:author" content="zhanglu">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://yoursite.com/Users/panhuifang/%E5%8D%9A%E5%AE%A2%E6%96%87%E7%AB%A0/EE33B7B6-B8A0-42E9-96A6-19C1170A11B4.png">
+
+<link rel="canonical" href="http://yoursite.com/2020/04/11/Mybatis-Plus%E6%9D%A1%E4%BB%B6%E6%9E%84%E9%80%A0%E5%99%A8/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>Mybatis-Plus条件构造器 | zhanglu的博客</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">zhanglu的博客</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/04/11/Mybatis-Plus%E6%9D%A1%E4%BB%B6%E6%9E%84%E9%80%A0%E5%99%A8/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="zhanglu">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="zhanglu的博客">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Mybatis-Plus条件构造器
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2020-04-11 23:17:36 / 修改时间：23:19:57" itemprop="dateCreated datePublished" datetime="2020-04-11T23:17:36+08:00">2020-04-11</time>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="Mybatis-Plus条件构造器"><a href="#Mybatis-Plus条件构造器" class="headerlink" title="Mybatis-Plus条件构造器"></a>Mybatis-Plus条件构造器</h1><h2 id="MySQL自定义排序ORDER-BY-FIELD"><a href="#MySQL自定义排序ORDER-BY-FIELD" class="headerlink" title="MySQL自定义排序ORDER BY FIELD()"></a>MySQL自定义排序ORDER BY FIELD()</h2><p>SELECT * FROM table ORDER BY FIELD(status,1,2,0);</p>
+<p>这样子写的话，返回的结果集是按照字段status的1、2、0进行排序的，当然，也可以对字符串进行排序。</p>
+<p>原理如下：</p>
+<p>FIELD()函数是将参数1的字段对后续参数进行比较，并返回1、2、3等等，如果遇到null或者没有在结果集上存在的数据，则返回0，然后根据升序进行排序。</p>
+<h2 id="mybatis-plus一些通用方法"><a href="#mybatis-plus一些通用方法" class="headerlink" title="mybatis-plus一些通用方法"></a><a href="https://www.cnblogs.com/xiaoyinger/p/12018359.html" target="_blank" rel="noopener">mybatis-plus一些通用方法</a></h2><h2 id="wrapper介绍："><a href="#wrapper介绍：" class="headerlink" title="wrapper介绍："></a><strong>wrapper介绍：</strong></h2><ol>
+<li>AbstractWrapper: 用于查询条件封装，生成sql的where条件</li>
+<li>AbstractLambdaWrapper: Lambda语法使用Wrapper统一处理解析lambda获取column</li>
+<li>QueryWrapper: Entity 对象封装操作类，不是用lambda</li>
+<li>UpdateWrapper: Update条件封装，用于Entity对象更新操作</li>
+</ol>
+<h2 id="CURD接口"><a href="#CURD接口" class="headerlink" title="CURD接口"></a><strong>CURD接口</strong></h2><h3 id="Mapper-CRUD接口"><a href="#Mapper-CRUD接口" class="headerlink" title="Mapper CRUD接口"></a><strong>Mapper CRUD接口</strong></h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">* <span class="keyword">int</span> insert （T entity）<span class="comment">//插入一条记录</span></span><br><span class="line">* deleteById(Serializable id) <span class="comment">//根据Id删除</span></span><br><span class="line">* deleteByMap( Map&lt;String, Object&gt; columnMap) <span class="comment">// 根据 columMap条件删除记录</span></span><br><span class="line">* <span class="keyword">int</span> delete（ Wrapper&lt;T&gt; wrapper）<span class="comment">//根据wrapper里面Entity条件删除</span></span><br><span class="line">* <span class="function"><span class="keyword">int</span> <span class="title">deleteBatchIds</span><span class="params">( Collection&lt;? extends Serializable&gt; idList)</span></span>; <span class="comment">//根据ID批量删除</span></span><br><span class="line">* <span class="function"><span class="keyword">int</span> <span class="title">updateById</span><span class="params">(T entity)</span></span>;<span class="comment">//根据ID修改</span></span><br><span class="line">* <span class="function"><span class="keyword">int</span> <span class="title">update</span><span class="params">(T entity, Wrapper&lt;T&gt; updateWrapper)</span></span>;<span class="comment">//entity作为set条件值，</span></span><br><span class="line">* updateWrapprt里面的entity用于生成where条件值</span><br><span class="line">* <span class="function">T <span class="title">seleteById</span><span class="params">(String id)</span> <span class="comment">//根据id查询</span></span></span><br><span class="line"><span class="function">* List&lt;T&gt; <span class="title">selectBatchIds</span><span class="params">( Collection&lt;? extends Serializable&gt; idList)</span></span>;<span class="comment">//根据id批量查询</span></span><br><span class="line">* <span class="function">List&lt;T&gt; <span class="title">selectByMap</span><span class="params">( Map&lt;String, Object&gt; columnMap)</span></span>;<span class="comment">//根据map条件</span></span><br><span class="line">* <span class="function">T <span class="title">selectOne</span><span class="params">( Wrapper&lt;T&gt; queryWrapper)</span></span>;<span class="comment">//根据wrapper里面的entity查找，如果不是唯一需要添加wrapper.last("limit 1")</span></span><br><span class="line">* <span class="function">Integer <span class="title">selectCount</span><span class="params">( Wrapper&lt;T&gt; queryWrapper)</span></span>;<span class="comment">//根据wrapper条件查询总数</span></span><br><span class="line">* <span class="function">List&lt;T&gt; <span class="title">selectList</span><span class="params">(Wrapper&lt;T&gt; queryWrapper)</span></span>; <span class="comment">//根据条件查询实体集合</span></span><br><span class="line">* List&lt;Map&lt;String, Object&gt;&gt; selectMaps( Wrapper&lt;T&gt; queryWrapper);<span class="comment">//根据 Wrapper 条件，查询全部记录</span></span><br><span class="line">* <span class="function">List&lt;Object&gt; <span class="title">selectObjs</span><span class="params">( Wrapper&lt;T&gt; queryWrapper)</span></span>;<span class="comment">//根据 Wrapper 条件，查询全部记录, 注意： 只返回第一个字段的值</span></span><br><span class="line">* <span class="function">Page&lt;T&gt; <span class="title">selectPage</span><span class="params">(IPage&lt;T&gt; page, Wrapper&lt;T&gt; queryWrapper)</span></span>;返回实体分页对象</span><br><span class="line">* IPage&lt;Map&lt;String, Object&gt;&gt; selectMapsPage(IPage&lt;T&gt; page, Wrapper&lt;T&gt; queryWrapper);<span class="comment">//返回字段映射对象 Map 分页对象;</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="Service-CURD接口"><a href="#Service-CURD接口" class="headerlink" title="Service CURD接口"></a><strong>Service CURD接口</strong></h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">* <span class="function"><span class="keyword">boolean</span> <span class="title">save</span><span class="params">(T entity)</span></span>;</span><br><span class="line">* <span class="function"><span class="keyword">boolean</span> <span class="title">saveBatch</span><span class="params">(Collection&lt;T&gt; entityList)</span></span>;</span><br><span class="line">* <span class="function"><span class="keyword">boolean</span> <span class="title">saveBatch</span><span class="params">(Collection&lt;T&gt; entityList, <span class="keyword">int</span> batchSize)</span></span>;<span class="comment">//batchSize每次的数量</span></span><br><span class="line">* <span class="function"><span class="keyword">boolean</span> <span class="title">saveOrUpdateBatch</span><span class="params">(Collection&lt;T&gt; entityList)</span></span>;<span class="comment">//批量修改插入</span></span><br><span class="line">* <span class="function"><span class="keyword">boolean</span> <span class="title">saveOrUpdateBatch</span><span class="params">(Collection&lt;T&gt; entityList, <span class="keyword">int</span> batchSize)</span></span>;</span><br><span class="line">* <span class="function"><span class="keyword">boolean</span> <span class="title">removeById</span><span class="params">(Serializable id)</span></span>;</span><br><span class="line">* <span class="function"><span class="keyword">boolean</span> <span class="title">removeByMap</span><span class="params">(Map&lt;String, Object&gt; columnMap)</span></span>;</span><br><span class="line">* <span class="function"><span class="keyword">boolean</span> <span class="title">remove</span><span class="params">(Wrapper&lt;T&gt; queryWrapper)</span></span>;<span class="comment">//queryWrapper 实体包装类,根据entuty条件删除</span></span><br><span class="line">* <span class="function"><span class="keyword">boolean</span> <span class="title">removeByIds</span><span class="params">(Collection&lt;? extends Serializable&gt; idList)</span></span>;</span><br><span class="line">* <span class="function"><span class="keyword">boolean</span> <span class="title">updateById</span><span class="params">(T entity)</span></span>;</span><br><span class="line">* <span class="function"><span class="keyword">boolean</span> <span class="title">update</span><span class="params">(T entity, Wrapper&lt;T&gt; updateWrapper)</span></span>;</span><br><span class="line">* <span class="function"><span class="keyword">boolean</span> <span class="title">updateBatchById</span><span class="params">(Collection&lt;T&gt; entityList, </span></span></span><br><span class="line"><span class="function"><span class="params">* <span class="keyword">int</span> batchSize)</span></span>;<span class="comment">//批量更新</span></span><br><span class="line">* <span class="function"><span class="keyword">boolean</span> <span class="title">saveOrUpdate</span><span class="params">(T entity)</span></span>;<span class="comment">//TableId 注解存在更新记录，否插入一条记录</span></span><br><span class="line">* &lt;T&gt; getById(Serializable id);<span class="comment">//根据id查询</span></span><br><span class="line">* <span class="function">Collection&lt;T&gt; <span class="title">listByIds</span><span class="params">(Collection&lt;? extends Serializable&gt; idList)</span></span>;<span class="comment">//查询（根据ID 批量查询）</span></span><br><span class="line">* <span class="function">Collection&lt;T&gt; <span class="title">listByMap</span><span class="params">(Map&lt;String, Object&gt; columnMap)</span></span>;</span><br><span class="line">* <span class="function">T <span class="title">getOne</span><span class="params">(Wrapper&lt;T&gt; queryWrapper, <span class="keyword">boolean</span> throwEx)</span></span>;<span class="comment">//throwEx 有多个 result 是否抛出异常</span></span><br><span class="line">* <span class="function">Map&lt;String, Object&gt; <span class="title">getMap</span><span class="params">(Wrapper&lt;T&gt; queryWrapper)</span></span>;<span class="comment">//根据 Wrapper，查询一条记录</span></span><br><span class="line">* <span class="function">Object <span class="title">getObj</span><span class="params">(Wrapper&lt;T&gt; queryWrapper)</span></span>;<span class="comment">//根据 Wrapper，查询一条记录</span></span><br><span class="line">* <span class="function"><span class="keyword">int</span> <span class="title">count</span><span class="params">(Wrapper&lt;T&gt; queryWrapper)</span></span>;<span class="comment">//根据 Wrapper 条件，查询总记录数</span></span><br><span class="line">* <span class="function">List&lt;T&gt; <span class="title">list</span><span class="params">(Wrapper&lt;T&gt; queryWrapper)</span></span>;<span class="comment">//查询列表</span></span><br><span class="line">* <span class="function">IPage&lt;T&gt; <span class="title">page</span><span class="params">(IPage&lt;T&gt; page, Wrapper&lt;T&gt; queryWrapper)</span></span>;<span class="comment">//page为翻页对象</span></span><br><span class="line">* List&lt;Map&lt;String, Object&gt;&gt; listMaps(Wrapper&lt;T&gt; queryWrapper);<span class="comment">//查询列表</span></span><br><span class="line">* <span class="function">List&lt;Object&gt; <span class="title">listObjs</span><span class="params">(Wrapper&lt;T&gt; queryWrapper)</span></span>;<span class="comment">//根据 Wrapper 条件，查询全部记录</span></span><br><span class="line">* IPage&lt;Map&lt;String, Object&gt;&gt; pageMaps(IPage&lt;T&gt; page, Wrapper&lt;T&gt; queryWrapper);</span><br></pre></td></tr></table></figure>
+
+<h1 id="构造器方法"><a href="#构造器方法" class="headerlink" title="构造器方法"></a><strong>构造器方法</strong></h1><p><img src="/Users/panhuifang/%E5%8D%9A%E5%AE%A2%E6%96%87%E7%AB%A0/EE33B7B6-B8A0-42E9-96A6-19C1170A11B4.png" alt="EE33B7B6-B8A0-42E9-96A6-19C1170A11B4"></p>
+<h1 id="常用方法"><a href="#常用方法" class="headerlink" title="常用方法"></a><strong>常用方法</strong></h1><h2 id="修改指定值"><a href="#修改指定值" class="headerlink" title="修改指定值"></a><strong>修改指定值</strong></h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">* UpdateWrapper&lt;User&gt; userUpdateWrapper = <span class="keyword">new</span> UpdateWrapper&lt;&gt;();</span><br><span class="line"></span><br><span class="line">* userUpdateWrapper.eq(<span class="string">"name"</span>, <span class="string">"lqf"</span>);</span><br><span class="line"></span><br><span class="line">* <span class="keyword">int</span> update = mapper.update(user, userUpdateWrapper);</span><br></pre></td></tr></table></figure>
+
+<h2 id="查找不为空"><a href="#查找不为空" class="headerlink" title="查找不为空"></a><strong>查找不为空</strong></h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">QueryWrapper&lt;User&gt; queryWrapper = <span class="keyword">new</span> QueryWrapper&lt;&gt;();</span><br><span class="line"></span><br><span class="line">queryWrapper.eq(<span class="string">"name"</span>, <span class="string">"lqf"</span>);</span><br><span class="line"></span><br><span class="line">queryWrapper.isNotNull(<span class="string">"name"</span>);</span><br></pre></td></tr></table></figure>
+
+<h2 id="查询为某列为空或等于某值-查询A列等于某值或B列等于某值"><a href="#查询为某列为空或等于某值-查询A列等于某值或B列等于某值" class="headerlink" title="查询为某列为空或等于某值/查询A列等于某值或B列等于某值"></a><strong>查询为某列为空或等于某值/查询A列等于某值或B列等于某值</strong></h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//查询班级Id为空或者为指定值</span></span><br><span class="line"></span><br><span class="line">query.lambda()</span><br><span class="line"></span><br><span class="line">.and(Obj -&gt;</span><br><span class="line"></span><br><span class="line">Obj.eq(User::getClazzId, (String) params.get(<span class="string">"clszzId"</span>)).or().isNull(User::getClazzId));</span><br><span class="line"></span><br><span class="line"><span class="comment">//查询A列等于某值或B列等于某值</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//（id='columnId' 'or' parent_id='columnId') and 1=1</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span>(StringUtil.isNotBlank(columnId)) &#123;</span><br><span class="line"></span><br><span class="line">StringBuilder column = <span class="keyword">new</span> StringBuilder(<span class="string">"(id='"</span>);</span><br><span class="line"></span><br><span class="line">column.append(columnId);</span><br><span class="line"></span><br><span class="line">column.append(<span class="string">"' or "</span>);</span><br><span class="line"></span><br><span class="line">column.append(<span class="string">"parent_id = '"</span>);</span><br><span class="line"></span><br><span class="line">column.append(columnId);</span><br><span class="line"></span><br><span class="line">column.append(<span class="string">"') and 1 "</span>);</span><br><span class="line"></span><br><span class="line">query.eq(column.toString(), <span class="string">"1"</span>); <span class="comment">//自己</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="根据时间区间查询"><a href="#根据时间区间查询" class="headerlink" title="根据时间区间查询"></a><strong>根据时间区间查询</strong></h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//这里前端采用vue的日期时间插件将值赋给orderTime,传到后台做日期区间查询</span></span><br><span class="line"></span><br><span class="line">&lt;el-date-picker</span><br><span class="line"></span><br><span class="line">style=<span class="string">"width: 30%;margin-right: 20px"</span></span><br><span class="line"></span><br><span class="line">value-format=<span class="string">"yyyy-MM-dd"</span></span><br><span class="line"></span><br><span class="line">v-model=<span class="string">"orderTime"</span></span><br><span class="line"></span><br><span class="line">type=<span class="string">"daterange"</span></span><br><span class="line"></span><br><span class="line">range-separator=<span class="string">"-"</span></span><br><span class="line"></span><br><span class="line">start-placeholder=<span class="string">"开始日期"</span></span><br><span class="line"></span><br><span class="line">end-placeholder=<span class="string">"结束日期"</span>&gt;</span><br><span class="line"></span><br><span class="line">&lt;/el-date-picker&gt;</span><br><span class="line"></span><br><span class="line">AbstractWrapper query = <span class="keyword">new</span> QueryWrapper&lt;&gt;();</span><br><span class="line"></span><br><span class="line">String beginOrderTime = (String) params.get(<span class="string">"time[0]"</span>);</span><br><span class="line"></span><br><span class="line">String endOrderTime = (String) params.get(<span class="string">"time[1]"</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> (StringUtil.isNotBlank(beginOrderTime) &amp;&amp; StringUtil.isNotBlank(endOrderTime)) &#123;</span><br><span class="line"></span><br><span class="line">SimpleDateFormat formatter = <span class="keyword">new</span> SimpleDateFormat(<span class="string">"yyyy-MM-dd"</span>);</span><br><span class="line"></span><br><span class="line">Date beginTime = formatter.parse(beginOrderTime);</span><br><span class="line"></span><br><span class="line">Date endTime = formatter.parse(endOrderTime);</span><br><span class="line"></span><br><span class="line">query.between(<span class="string">"creation_time"</span>, beginTime, endTime);</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="批量删除"><a href="#批量删除" class="headerlink" title="批量删除"></a><strong>批量删除</strong></h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">String[] ids = ids.split(<span class="string">","</span>);</span><br><span class="line"></span><br><span class="line">List&lt;String&gt; idList = Arrays.asList(ids);</span><br><span class="line"></span><br><span class="line">eventService.removeByIds(idList);</span><br></pre></td></tr></table></figure>
+
+<h2 id="存在-不存在"><a href="#存在-不存在" class="headerlink" title="存在||不存在"></a><strong>存在||不存在</strong></h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">AbstractWrapper queryTags = <span class="keyword">new</span> QueryWrapper&lt;&gt;();</span><br><span class="line"></span><br><span class="line">queryTags.in(<span class="string">"id"</span>, ids);</span><br><span class="line"></span><br><span class="line">List&lt;PubTag&gt; pubTagList = pubTagService.list(queryTags);</span><br></pre></td></tr></table></figure>
+
+<h2 id="查询指定列"><a href="#查询指定列" class="headerlink" title="查询指定列"></a><strong>查询指定列</strong></h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">QueryWrapper query = <span class="keyword">new</span> QueryWrapper();</span><br><span class="line"></span><br><span class="line">query.select(<span class="string">"id"</span>, <span class="string">"name"</span>);</span><br></pre></td></tr></table></figure>
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/04/11/Gihub%E4%B8%8A%E4%B8%80%E4%BA%9B%E5%A5%BD%E7%9A%84java%E5%AD%A6%E4%B9%A0%E9%A1%B9%E7%9B%AE/" rel="prev" title="Gihub上一些好的java学习项目">
+      <i class="fa fa-chevron-left"></i> Gihub上一些好的java学习项目
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Mybatis-Plus条件构造器"><span class="nav-number">1.</span> <span class="nav-text">Mybatis-Plus条件构造器</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#MySQL自定义排序ORDER-BY-FIELD"><span class="nav-number">1.1.</span> <span class="nav-text">MySQL自定义排序ORDER BY FIELD()</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#mybatis-plus一些通用方法"><span class="nav-number">1.2.</span> <span class="nav-text">mybatis-plus一些通用方法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#wrapper介绍："><span class="nav-number">1.3.</span> <span class="nav-text">wrapper介绍：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#CURD接口"><span class="nav-number">1.4.</span> <span class="nav-text">CURD接口</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Mapper-CRUD接口"><span class="nav-number">1.4.1.</span> <span class="nav-text">Mapper CRUD接口</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Service-CURD接口"><span class="nav-number">1.5.</span> <span class="nav-text">Service CURD接口</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#构造器方法"><span class="nav-number">2.</span> <span class="nav-text">构造器方法</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#常用方法"><span class="nav-number">3.</span> <span class="nav-text">常用方法</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#修改指定值"><span class="nav-number">3.1.</span> <span class="nav-text">修改指定值</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#查找不为空"><span class="nav-number">3.2.</span> <span class="nav-text">查找不为空</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#查询为某列为空或等于某值-查询A列等于某值或B列等于某值"><span class="nav-number">3.3.</span> <span class="nav-text">查询为某列为空或等于某值&#x2F;查询A列等于某值或B列等于某值</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#根据时间区间查询"><span class="nav-number">3.4.</span> <span class="nav-text">根据时间区间查询</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#批量删除"><span class="nav-number">3.5.</span> <span class="nav-text">批量删除</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#存在-不存在"><span class="nav-number">3.6.</span> <span class="nav-text">存在||不存在</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#查询指定列"><span class="nav-number">3.7.</span> <span class="nav-text">查询指定列</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">zhanglu</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">11</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">zhanglu</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://muse.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a> 强力驱动
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>
