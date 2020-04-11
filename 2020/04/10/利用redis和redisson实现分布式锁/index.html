@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+
+  
+  <title>利用redis和redisson实现分布式锁 | Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="利用redis和redisson实现分布式锁1 使用redis实现简单的锁123456789101112131415161718public R submit(@RequestBody List&lt;WjAnswer&gt; wjAnswers) &amp;#123;       String lockKey &#x3D; &quot;lockKey&quot;;       String clientId &#x3D; UUID.rando">
+<meta property="og:type" content="article">
+<meta property="og:title" content="利用redis和redisson实现分布式锁">
+<meta property="og:url" content="http://yoursite.com/2020/04/10/%E5%88%A9%E7%94%A8redis%E5%92%8Credisson%E5%AE%9E%E7%8E%B0%E5%88%86%E5%B8%83%E5%BC%8F%E9%94%81/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="利用redis和redisson实现分布式锁1 使用redis实现简单的锁123456789101112131415161718public R submit(@RequestBody List&lt;WjAnswer&gt; wjAnswers) &amp;#123;       String lockKey &#x3D; &quot;lockKey&quot;;       String clientId &#x3D; UUID.rando">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2020-04-10T15:58:22.934Z">
+<meta property="article:modified_time" content="2020-04-10T15:58:22.935Z">
+<meta property="article:author" content="John Doe">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+<meta name="generator" content="Hexo 4.2.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Hexo</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-利用redis和redisson实现分布式锁" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2020/04/10/%E5%88%A9%E7%94%A8redis%E5%92%8Credisson%E5%AE%9E%E7%8E%B0%E5%88%86%E5%B8%83%E5%BC%8F%E9%94%81/" class="article-date">
+  <time datetime="2020-04-10T15:58:22.934Z" itemprop="datePublished">2020-04-10</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      利用redis和redisson实现分布式锁
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="利用redis和redisson实现分布式锁"><a href="#利用redis和redisson实现分布式锁" class="headerlink" title="利用redis和redisson实现分布式锁"></a>利用redis和redisson实现分布式锁</h2><h3 id="1-使用redis实现简单的锁"><a href="#1-使用redis实现简单的锁" class="headerlink" title="1 使用redis实现简单的锁"></a>1 使用redis实现简单的锁</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> R <span class="title">submit</span><span class="params">(@RequestBody List&lt;WjAnswer&gt; wjAnswers)</span> </span>&#123;</span><br><span class="line">       String lockKey = <span class="string">"lockKey"</span>;</span><br><span class="line">       String clientId = UUID.randomUUID().toString();</span><br><span class="line">       <span class="keyword">try</span> &#123;</span><br><span class="line">           Boolean result = redisTemplate.opsForValue().setIfAbsent(lockKey, clientId, <span class="number">30</span>, TimeUnit.SECONDS);</span><br><span class="line">           <span class="comment">/*</span></span><br><span class="line"><span class="comment">         	判断是否新增了key 如果没有新增 则表明有线程在占用这个接口，接口暂时不可用，直接返回错误；如果有新增，则表明没有线程占用接口，可继续执行。</span></span><br><span class="line"><span class="comment">           */</span></span><br><span class="line">           <span class="keyword">if</span> (!result) &#123;</span><br><span class="line">               <span class="keyword">return</span> R.failed().setMsg(<span class="string">"请勿频繁刷新"</span>);</span><br><span class="line">           &#125;</span><br><span class="line">           System.out.println(<span class="string">"这里执行业务代码"</span>);</span><br><span class="line">       &#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">           <span class="keyword">if</span> (clientId.equals(redisTemplate.opsForValue().get(lockKey))) &#123;</span><br><span class="line">               redisTemplate.delete(lockKey);</span><br><span class="line">           &#125;</span><br><span class="line">       &#125;</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="1-1-注意事项"><a href="#1-1-注意事项" class="headerlink" title="1.1 注意事项"></a>1.1 注意事项</h3><ul>
+<li>利用redis单线程原理实现</li>
+<li>setIfAbsent： 如果键不存在则新增,存在则不改变已经有的值。</li>
+<li>设置redis key有效时间30秒，可以是任意时间。简单业务场景可以这样设置。          </li>
+<li>存在的问题：高并发下如果业务代码执行时间超过有redis key的效时间，就会造成锁失效</li>
+<li>举例：Thread1 运行需要40秒，则lockKey在运行到30秒时已经失效，如果这时Thread2进行请求，则redis中已经没有lockKey，就会新建一把锁，继续执行，造成锁失效。 </li>
+<li>解决办法：<blockquote>
+<ol>
+<li>新开一个线程 判断lockKey是否存在，如果存在就给lockKey“续命”，重新设置其有效时间，注意：新设的有效时间不能超过原有的时间。</li>
+<li>2.用redisson解决</li>
+</ol>
+</blockquote>
+</li>
+</ul>
+<h3 id="2-redisson分布式锁实现"><a href="#2-redisson分布式锁实现" class="headerlink" title="2 redisson分布式锁实现"></a>2 redisson分布式锁实现</h3><h4 id="2-1-redisson官网：-https-redisson-org"><a href="#2-1-redisson官网：-https-redisson-org" class="headerlink" title="2.1 redisson官网：  https://redisson.org/"></a>2.1 redisson官网：  <a href="https://redisson.org/" target="_blank" rel="noopener">https://redisson.org/</a></h4><h4 id="2-2-redisson初始化客户端"><a href="#2-2-redisson初始化客户端" class="headerlink" title="2.2 redisson初始化客户端"></a>2.2 redisson初始化客户端</h4><h5 id="2-2-1-引入依赖"><a href="#2-2-1-引入依赖" class="headerlink" title="2.2.1 引入依赖"></a>2.2.1 引入依赖</h5><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!--redisson--&gt;</span></span><br><span class="line">   <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">       <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.redisson<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">       <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>redisson<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">       <span class="tag">&lt;<span class="name">version</span>&gt;</span>3.5.6<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">   <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h5 id="2-2-2-redisson配置"><a href="#2-2-2-redisson配置" class="headerlink" title="2.2.2 redisson配置"></a>2.2.2 redisson配置</h5><p>参考文章地址：</p>
+<ol>
+<li>官方配置文档：  <a href="https://github.com/redisson/redisson/wiki/2.-配置方法" target="_blank" rel="noopener">https://github.com/redisson/redisson/wiki/2.-%E9%85%8D%E7%BD%AE%E6%96%B9%E6%B3%95</a> </li>
+<li>springBoot集成redisson：   <a href="https://blog.csdn.net/lms1719/article/details/83652578" target="_blank" rel="noopener">https://blog.csdn.net/lms1719/article/details/83652578</a> </li>
+</ol>
+<ul>
+<li>在项目的resources目录下，添加redisson的配置文件（这里使用yaml格式的配置文件redisson-config.yml，文件名可自己定， 文件的示例配置如下）。</li>
+</ul>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#Redisson配置</span></span><br><span class="line"><span class="attr">singleServerConfig:</span></span><br><span class="line">  <span class="attr">address:</span> <span class="string">"redis://127.0.0.1:6379"</span></span><br><span class="line">  <span class="attr">password:</span> <span class="literal">null</span></span><br><span class="line">  <span class="attr">clientName:</span> <span class="literal">null</span></span><br><span class="line">  <span class="attr">database:</span> <span class="number">7</span> <span class="comment">#选择使用哪个数据库0~15</span></span><br><span class="line">  <span class="attr">idleConnectionTimeout:</span> <span class="number">10000</span></span><br><span class="line">  <span class="attr">pingTimeout:</span> <span class="number">1000</span></span><br><span class="line">  <span class="attr">connectTimeout:</span> <span class="number">10000</span></span><br><span class="line">  <span class="attr">timeout:</span> <span class="number">3000</span></span><br><span class="line">  <span class="attr">retryAttempts:</span> <span class="number">3</span></span><br><span class="line">  <span class="attr">retryInterval:</span> <span class="number">1500</span></span><br><span class="line">  <span class="attr">reconnectionTimeout:</span> <span class="number">3000</span></span><br><span class="line">  <span class="attr">failedAttempts:</span> <span class="number">3</span></span><br><span class="line">  <span class="attr">subscriptionsPerConnection:</span> <span class="number">5</span></span><br><span class="line">  <span class="attr">subscriptionConnectionMinimumIdleSize:</span> <span class="number">1</span></span><br><span class="line">  <span class="attr">subscriptionConnectionPoolSize:</span> <span class="number">50</span></span><br><span class="line">  <span class="attr">connectionMinimumIdleSize:</span> <span class="number">32</span></span><br><span class="line">  <span class="attr">connectionPoolSize:</span> <span class="number">64</span></span><br><span class="line">  <span class="attr">dnsMonitoringInterval:</span> <span class="number">5000</span></span><br><span class="line">  <span class="comment">#dnsMonitoring: false</span></span><br><span class="line"></span><br><span class="line"><span class="attr">threads:</span> <span class="number">0</span></span><br><span class="line"><span class="attr">nettyThreads:</span> <span class="number">0</span></span><br><span class="line"><span class="attr">codec:</span></span><br><span class="line">  <span class="attr">class:</span> <span class="string">"org.redisson.codec.JsonJacksonCodec"</span></span><br><span class="line"><span class="attr">transportMode:</span> <span class="string">"NIO"</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>添加Redisson的配置参数读取类RedissonConfig</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.dbfor.redis.config;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> org.redisson.Redisson;</span><br><span class="line"><span class="keyword">import</span> org.redisson.api.RedissonClient;</span><br><span class="line"><span class="keyword">import</span> org.redisson.config.Config;</span><br><span class="line"><span class="keyword">import</span> org.springframework.context.annotation.Bean;</span><br><span class="line"><span class="keyword">import</span> org.springframework.context.annotation.Configuration;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> java.io.IOException;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Configuration</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">RedissonConfig</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Bean</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> Redisson <span class="title">redisson</span><span class="params">()</span> <span class="keyword">throws</span> IOException </span>&#123;</span><br><span class="line">        <span class="comment">// 本例子使用的是yaml格式的配置文件，读取使用Config.fromYAML，如果是Json文件，则使用Config.fromJSON</span></span><br><span class="line">        Config config = Config.fromYAML(RedissonConfig.class.getClassLoader().getResource("redisson-config.yml"));</span><br><span class="line">        <span class="keyword">return</span> (Redisson)Redisson.create(config);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>编写测试类</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.dbfor.redis;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> org.junit.Test;</span><br><span class="line"><span class="keyword">import</span> org.junit.runner.RunWith;</span><br><span class="line"><span class="keyword">import</span> org.redisson.api.RBucket;</span><br><span class="line"><span class="keyword">import</span> org.redisson.api.RedissonClient;</span><br><span class="line"><span class="keyword">import</span> org.springframework.beans.factory.annotation.Autowired;</span><br><span class="line"><span class="keyword">import</span> org.springframework.boot.test.context.SpringBootTest;</span><br><span class="line"><span class="keyword">import</span> org.springframework.stereotype.Component;</span><br><span class="line"><span class="keyword">import</span> org.springframework.test.context.junit4.SpringRunner;</span><br><span class="line"></span><br><span class="line"><span class="meta">@SpringBootTest</span></span><br><span class="line"><span class="meta">@RunWith</span>(SpringRunner<span class="class">.<span class="keyword">class</span>)</span></span><br><span class="line"><span class="class">@<span class="title">Component</span></span></span><br><span class="line"><span class="class"><span class="title">public</span> <span class="title">class</span> <span class="title">RedissonTest</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Autowired</span></span><br><span class="line">    <span class="keyword">private</span> RedissonClient redissonClient;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Test</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">set</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="comment">// 设置字符串</span></span><br><span class="line">        RBucket&lt;String&gt; keyObj = redissonClient.getBucket(<span class="string">"k1"</span>);</span><br><span class="line">        keyObj.set(<span class="string">"v1236"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">测试成功</span><br></pre></td></tr></table></figure>
+
+<h5 id="2-2-4-用Redisson编写分布式锁"><a href="#2-2-4-用Redisson编写分布式锁" class="headerlink" title="2.2.4 用Redisson编写分布式锁"></a>2.2.4 用Redisson编写分布式锁</h5><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Autowired</span></span><br><span class="line"><span class="keyword">private</span> Redisson redisson;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">public</span> R <span class="title">submit</span><span class="params">(@RequestBody List&lt;WjAnswer&gt; wjAnswers)</span> </span>&#123;</span><br><span class="line">          String lockKey = <span class="string">"lockKey"</span>;</span><br><span class="line">     	  RLock rLock = redisson.getLock(lockKey);<span class="comment">//redisson锁</span></span><br><span class="line">          <span class="keyword">try</span> &#123;</span><br><span class="line">  			  rLock.lock();<span class="comment">//加锁</span></span><br><span class="line">              System.out.println(<span class="string">"这里执行业务代码"</span>);</span><br><span class="line">          &#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">              rLock.unlock();<span class="comment">//释放锁</span></span><br><span class="line">          &#125;</span><br><span class="line">      &#125;</span><br></pre></td></tr></table></figure>
+
+
+
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2020/04/10/%E5%88%A9%E7%94%A8redis%E5%92%8Credisson%E5%AE%9E%E7%8E%B0%E5%88%86%E5%B8%83%E5%BC%8F%E9%94%81/" data-id="ck8vmb8ta00043ns6f5jqevmz" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2020/04/11/hello-world/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          Hello World
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2020/04/09/hexo%E6%90%AD%E5%BB%BA%E5%8D%9A%E5%AE%A2+%E5%8F%91%E5%B8%83/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">hexo搭建博客+发布</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/04/">April 2020</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2020/04/11/hello-world/">Hello World</a>
+          </li>
+        
+          <li>
+            <a href="/2020/04/10/%E5%88%A9%E7%94%A8redis%E5%92%8Credisson%E5%AE%9E%E7%8E%B0%E5%88%86%E5%B8%83%E5%BC%8F%E9%94%81/">利用redis和redisson实现分布式锁</a>
+          </li>
+        
+          <li>
+            <a href="/2020/04/09/hexo%E6%90%AD%E5%BB%BA%E5%8D%9A%E5%AE%A2+%E5%8F%91%E5%B8%83/">hexo搭建博客+发布</a>
+          </li>
+        
+          <li>
+            <a href="/2020/04/09/%E6%8E%A5%E5%8F%A3%E8%BF%94%E5%9B%9E%E4%BD%93demo/">接口返回体demo</a>
+          </li>
+        
+          <li>
+            <a href="/2020/04/09/AOP+%E8%87%AA%E5%AE%9A%E4%B9%89%E6%B3%A8%E8%A7%A3/">AOP+自定义注解</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2020 John Doe<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+  
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+  </div>
+</body>
+</html>

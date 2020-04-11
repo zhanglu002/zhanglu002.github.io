@@ -1,0 +1,594 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+
+  
+  <title>Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta property="og:type" content="website">
+<meta property="og:title" content="Hexo">
+<meta property="og:url" content="http://yoursite.com/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:locale" content="en_US">
+<meta property="article:author" content="John Doe">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+<meta name="generator" content="Hexo 4.2.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Hexo</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main">
+  
+    <article id="post-hello-world" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2020/04/11/hello-world/" class="article-date">
+  <time datetime="2020-04-11T12:42:21.072Z" itemprop="datePublished">2020-04-11</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2020/04/11/hello-world/">Hello World</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>Welcome to <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="noopener">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="noopener">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="noopener">GitHub</a>.</p>
+<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">"My New Post"</span></span><br></pre></td></tr></table></figure>
+
+<p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="noopener">Writing</a></p>
+<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
+
+<p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="noopener">Server</a></p>
+<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
+
+<p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="noopener">Generating</a></p>
+<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
+
+<p>More info: <a href="https://hexo.io/docs/one-command-deployment.html" target="_blank" rel="noopener">Deployment</a></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2020/04/11/hello-world/" data-id="ck8vmb8t600013ns69zxi9vkm" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-利用redis和redisson实现分布式锁" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2020/04/10/%E5%88%A9%E7%94%A8redis%E5%92%8Credisson%E5%AE%9E%E7%8E%B0%E5%88%86%E5%B8%83%E5%BC%8F%E9%94%81/" class="article-date">
+  <time datetime="2020-04-10T15:58:22.934Z" itemprop="datePublished">2020-04-10</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2020/04/10/%E5%88%A9%E7%94%A8redis%E5%92%8Credisson%E5%AE%9E%E7%8E%B0%E5%88%86%E5%B8%83%E5%BC%8F%E9%94%81/">利用redis和redisson实现分布式锁</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="利用redis和redisson实现分布式锁"><a href="#利用redis和redisson实现分布式锁" class="headerlink" title="利用redis和redisson实现分布式锁"></a>利用redis和redisson实现分布式锁</h2><h3 id="1-使用redis实现简单的锁"><a href="#1-使用redis实现简单的锁" class="headerlink" title="1 使用redis实现简单的锁"></a>1 使用redis实现简单的锁</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> R <span class="title">submit</span><span class="params">(@RequestBody List&lt;WjAnswer&gt; wjAnswers)</span> </span>&#123;</span><br><span class="line">       String lockKey = <span class="string">"lockKey"</span>;</span><br><span class="line">       String clientId = UUID.randomUUID().toString();</span><br><span class="line">       <span class="keyword">try</span> &#123;</span><br><span class="line">           Boolean result = redisTemplate.opsForValue().setIfAbsent(lockKey, clientId, <span class="number">30</span>, TimeUnit.SECONDS);</span><br><span class="line">           <span class="comment">/*</span></span><br><span class="line"><span class="comment">         	判断是否新增了key 如果没有新增 则表明有线程在占用这个接口，接口暂时不可用，直接返回错误；如果有新增，则表明没有线程占用接口，可继续执行。</span></span><br><span class="line"><span class="comment">           */</span></span><br><span class="line">           <span class="keyword">if</span> (!result) &#123;</span><br><span class="line">               <span class="keyword">return</span> R.failed().setMsg(<span class="string">"请勿频繁刷新"</span>);</span><br><span class="line">           &#125;</span><br><span class="line">           System.out.println(<span class="string">"这里执行业务代码"</span>);</span><br><span class="line">       &#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">           <span class="keyword">if</span> (clientId.equals(redisTemplate.opsForValue().get(lockKey))) &#123;</span><br><span class="line">               redisTemplate.delete(lockKey);</span><br><span class="line">           &#125;</span><br><span class="line">       &#125;</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="1-1-注意事项"><a href="#1-1-注意事项" class="headerlink" title="1.1 注意事项"></a>1.1 注意事项</h3><ul>
+<li>利用redis单线程原理实现</li>
+<li>setIfAbsent： 如果键不存在则新增,存在则不改变已经有的值。</li>
+<li>设置redis key有效时间30秒，可以是任意时间。简单业务场景可以这样设置。          </li>
+<li>存在的问题：高并发下如果业务代码执行时间超过有redis key的效时间，就会造成锁失效</li>
+<li>举例：Thread1 运行需要40秒，则lockKey在运行到30秒时已经失效，如果这时Thread2进行请求，则redis中已经没有lockKey，就会新建一把锁，继续执行，造成锁失效。 </li>
+<li>解决办法：<blockquote>
+<ol>
+<li>新开一个线程 判断lockKey是否存在，如果存在就给lockKey“续命”，重新设置其有效时间，注意：新设的有效时间不能超过原有的时间。</li>
+<li>2.用redisson解决</li>
+</ol>
+</blockquote>
+</li>
+</ul>
+<h3 id="2-redisson分布式锁实现"><a href="#2-redisson分布式锁实现" class="headerlink" title="2 redisson分布式锁实现"></a>2 redisson分布式锁实现</h3><h4 id="2-1-redisson官网：-https-redisson-org"><a href="#2-1-redisson官网：-https-redisson-org" class="headerlink" title="2.1 redisson官网：  https://redisson.org/"></a>2.1 redisson官网：  <a href="https://redisson.org/" target="_blank" rel="noopener">https://redisson.org/</a></h4><h4 id="2-2-redisson初始化客户端"><a href="#2-2-redisson初始化客户端" class="headerlink" title="2.2 redisson初始化客户端"></a>2.2 redisson初始化客户端</h4><h5 id="2-2-1-引入依赖"><a href="#2-2-1-引入依赖" class="headerlink" title="2.2.1 引入依赖"></a>2.2.1 引入依赖</h5><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!--redisson--&gt;</span></span><br><span class="line">   <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">       <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.redisson<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">       <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>redisson<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">       <span class="tag">&lt;<span class="name">version</span>&gt;</span>3.5.6<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">   <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h5 id="2-2-2-redisson配置"><a href="#2-2-2-redisson配置" class="headerlink" title="2.2.2 redisson配置"></a>2.2.2 redisson配置</h5><p>参考文章地址：</p>
+<ol>
+<li>官方配置文档：  <a href="https://github.com/redisson/redisson/wiki/2.-配置方法" target="_blank" rel="noopener">https://github.com/redisson/redisson/wiki/2.-%E9%85%8D%E7%BD%AE%E6%96%B9%E6%B3%95</a> </li>
+<li>springBoot集成redisson：   <a href="https://blog.csdn.net/lms1719/article/details/83652578" target="_blank" rel="noopener">https://blog.csdn.net/lms1719/article/details/83652578</a> </li>
+</ol>
+<ul>
+<li>在项目的resources目录下，添加redisson的配置文件（这里使用yaml格式的配置文件redisson-config.yml，文件名可自己定， 文件的示例配置如下）。</li>
+</ul>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#Redisson配置</span></span><br><span class="line"><span class="attr">singleServerConfig:</span></span><br><span class="line">  <span class="attr">address:</span> <span class="string">"redis://127.0.0.1:6379"</span></span><br><span class="line">  <span class="attr">password:</span> <span class="literal">null</span></span><br><span class="line">  <span class="attr">clientName:</span> <span class="literal">null</span></span><br><span class="line">  <span class="attr">database:</span> <span class="number">7</span> <span class="comment">#选择使用哪个数据库0~15</span></span><br><span class="line">  <span class="attr">idleConnectionTimeout:</span> <span class="number">10000</span></span><br><span class="line">  <span class="attr">pingTimeout:</span> <span class="number">1000</span></span><br><span class="line">  <span class="attr">connectTimeout:</span> <span class="number">10000</span></span><br><span class="line">  <span class="attr">timeout:</span> <span class="number">3000</span></span><br><span class="line">  <span class="attr">retryAttempts:</span> <span class="number">3</span></span><br><span class="line">  <span class="attr">retryInterval:</span> <span class="number">1500</span></span><br><span class="line">  <span class="attr">reconnectionTimeout:</span> <span class="number">3000</span></span><br><span class="line">  <span class="attr">failedAttempts:</span> <span class="number">3</span></span><br><span class="line">  <span class="attr">subscriptionsPerConnection:</span> <span class="number">5</span></span><br><span class="line">  <span class="attr">subscriptionConnectionMinimumIdleSize:</span> <span class="number">1</span></span><br><span class="line">  <span class="attr">subscriptionConnectionPoolSize:</span> <span class="number">50</span></span><br><span class="line">  <span class="attr">connectionMinimumIdleSize:</span> <span class="number">32</span></span><br><span class="line">  <span class="attr">connectionPoolSize:</span> <span class="number">64</span></span><br><span class="line">  <span class="attr">dnsMonitoringInterval:</span> <span class="number">5000</span></span><br><span class="line">  <span class="comment">#dnsMonitoring: false</span></span><br><span class="line"></span><br><span class="line"><span class="attr">threads:</span> <span class="number">0</span></span><br><span class="line"><span class="attr">nettyThreads:</span> <span class="number">0</span></span><br><span class="line"><span class="attr">codec:</span></span><br><span class="line">  <span class="attr">class:</span> <span class="string">"org.redisson.codec.JsonJacksonCodec"</span></span><br><span class="line"><span class="attr">transportMode:</span> <span class="string">"NIO"</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>添加Redisson的配置参数读取类RedissonConfig</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.dbfor.redis.config;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> org.redisson.Redisson;</span><br><span class="line"><span class="keyword">import</span> org.redisson.api.RedissonClient;</span><br><span class="line"><span class="keyword">import</span> org.redisson.config.Config;</span><br><span class="line"><span class="keyword">import</span> org.springframework.context.annotation.Bean;</span><br><span class="line"><span class="keyword">import</span> org.springframework.context.annotation.Configuration;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> java.io.IOException;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Configuration</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">RedissonConfig</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Bean</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> Redisson <span class="title">redisson</span><span class="params">()</span> <span class="keyword">throws</span> IOException </span>&#123;</span><br><span class="line">        <span class="comment">// 本例子使用的是yaml格式的配置文件，读取使用Config.fromYAML，如果是Json文件，则使用Config.fromJSON</span></span><br><span class="line">        Config config = Config.fromYAML(RedissonConfig.class.getClassLoader().getResource("redisson-config.yml"));</span><br><span class="line">        <span class="keyword">return</span> (Redisson)Redisson.create(config);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>编写测试类</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.dbfor.redis;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> org.junit.Test;</span><br><span class="line"><span class="keyword">import</span> org.junit.runner.RunWith;</span><br><span class="line"><span class="keyword">import</span> org.redisson.api.RBucket;</span><br><span class="line"><span class="keyword">import</span> org.redisson.api.RedissonClient;</span><br><span class="line"><span class="keyword">import</span> org.springframework.beans.factory.annotation.Autowired;</span><br><span class="line"><span class="keyword">import</span> org.springframework.boot.test.context.SpringBootTest;</span><br><span class="line"><span class="keyword">import</span> org.springframework.stereotype.Component;</span><br><span class="line"><span class="keyword">import</span> org.springframework.test.context.junit4.SpringRunner;</span><br><span class="line"></span><br><span class="line"><span class="meta">@SpringBootTest</span></span><br><span class="line"><span class="meta">@RunWith</span>(SpringRunner<span class="class">.<span class="keyword">class</span>)</span></span><br><span class="line"><span class="class">@<span class="title">Component</span></span></span><br><span class="line"><span class="class"><span class="title">public</span> <span class="title">class</span> <span class="title">RedissonTest</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Autowired</span></span><br><span class="line">    <span class="keyword">private</span> RedissonClient redissonClient;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Test</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">set</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="comment">// 设置字符串</span></span><br><span class="line">        RBucket&lt;String&gt; keyObj = redissonClient.getBucket(<span class="string">"k1"</span>);</span><br><span class="line">        keyObj.set(<span class="string">"v1236"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">测试成功</span><br></pre></td></tr></table></figure>
+
+<h5 id="2-2-4-用Redisson编写分布式锁"><a href="#2-2-4-用Redisson编写分布式锁" class="headerlink" title="2.2.4 用Redisson编写分布式锁"></a>2.2.4 用Redisson编写分布式锁</h5><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Autowired</span></span><br><span class="line"><span class="keyword">private</span> Redisson redisson;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">public</span> R <span class="title">submit</span><span class="params">(@RequestBody List&lt;WjAnswer&gt; wjAnswers)</span> </span>&#123;</span><br><span class="line">          String lockKey = <span class="string">"lockKey"</span>;</span><br><span class="line">     	  RLock rLock = redisson.getLock(lockKey);<span class="comment">//redisson锁</span></span><br><span class="line">          <span class="keyword">try</span> &#123;</span><br><span class="line">  			  rLock.lock();<span class="comment">//加锁</span></span><br><span class="line">              System.out.println(<span class="string">"这里执行业务代码"</span>);</span><br><span class="line">          &#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">              rLock.unlock();<span class="comment">//释放锁</span></span><br><span class="line">          &#125;</span><br><span class="line">      &#125;</span><br></pre></td></tr></table></figure>
+
+
+
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2020/04/10/%E5%88%A9%E7%94%A8redis%E5%92%8Credisson%E5%AE%9E%E7%8E%B0%E5%88%86%E5%B8%83%E5%BC%8F%E9%94%81/" data-id="ck8vmb8ta00043ns6f5jqevmz" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-hexo搭建博客+发布" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2020/04/09/hexo%E6%90%AD%E5%BB%BA%E5%8D%9A%E5%AE%A2+%E5%8F%91%E5%B8%83/" class="article-date">
+  <time datetime="2020-04-09T13:36:45.910Z" itemprop="datePublished">2020-04-09</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2020/04/09/hexo%E6%90%AD%E5%BB%BA%E5%8D%9A%E5%AE%A2+%E5%8F%91%E5%B8%83/">hexo搭建博客+发布</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="hexo搭建博客-发布"><a href="#hexo搭建博客-发布" class="headerlink" title="hexo搭建博客+发布"></a>hexo搭建博客+发布</h2><h3 id="1-安装node-js"><a href="#1-安装node-js" class="headerlink" title="1 安装node.js"></a>1 安装node.js</h3><ul>
+<li>node -v 查看版本</li>
+</ul>
+<h3 id="2-安装npm"><a href="#2-安装npm" class="headerlink" title="2 安装npm"></a>2 安装npm</h3><ul>
+<li>全局安装cnpm：npm install -g cnpm –registry=<a href="https://registry.npm.taobao.org/" target="_blank" rel="noopener">https://registry.npm.taobao.org</a></li>
+</ul>
+<h3 id="3-安装hexo"><a href="#3-安装hexo" class="headerlink" title="3 安装hexo"></a>3 安装hexo</h3><ul>
+<li><p>全局安装hexo： cnpm install -g hero-cli  查看版本 hexo -v</p>
+</li>
+<li><p>新建一个文件夹： mkdir blog</p>
+</li>
+<li><p>初始化一个博客：sudo hexo init</p>
+</li>
+</ul>
+<h3 id="4-启动-更新博客"><a href="#4-启动-更新博客" class="headerlink" title="4 启动 更新博客"></a>4 启动 更新博客</h3><ul>
+<li><p>启动博客：hexo s   本地地址：<a href="http://localhost:4000" target="_blank" rel="noopener">http://localhost:4000</a></p>
+</li>
+<li><p>新建一篇文章：在/blog/source/_posts/ 路径下新建md文件 </p>
+</li>
+<li><p>在blog根目录下重新发布：</p>
+</li>
+<li><ul>
+<li>清理缓存：hexo clean   </li>
+<li>生成博客：hexo g </li>
+</ul>
+</li>
+<li><p>重新启动：hexo s</p>
+</li>
+</ul>
+<h3 id="5-在github发布"><a href="#5-在github发布" class="headerlink" title="5 在github发布"></a>5 在github发布</h3><h4 id="在自己github上新建一个仓库-New-repository"><a href="#在自己github上新建一个仓库-New-repository" class="headerlink" title="在自己github上新建一个仓库 New repository"></a>在自己github上新建一个仓库 New repository</h4><h5 id="repository-name-必须为用户名-github-io-例如-zhanglu002-github-io"><a href="#repository-name-必须为用户名-github-io-例如-zhanglu002-github-io" class="headerlink" title="repository name 必须为用户名.github.io   例如:zhanglu002.github.io"></a>repository name 必须为用户名.github.io   例如:zhanglu002.github.io</h5><h4 id="在blog中安装git插件：-cnpm-install-–save-hexo-deployer-git"><a href="#在blog中安装git插件：-cnpm-install-–save-hexo-deployer-git" class="headerlink" title="在blog中安装git插件： cnpm install –save hexo-deployer-git"></a>在blog中安装git插件： cnpm install –save hexo-deployer-git</h4><h5 id="设置-config-yml："><a href="#设置-config-yml：" class="headerlink" title="设置_config.yml："></a>设置_config.yml：</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"># Deployment</span><br><span class="line">## Docs: https:&#x2F;&#x2F;hexo.io&#x2F;docs&#x2F;deployment.html</span><br><span class="line">deploy:</span><br><span class="line">	#type 设置为 git</span><br><span class="line">  type: git </span><br><span class="line">  #repo 设置为 github上创建的博客仓库地址</span><br><span class="line">  repo: https:&#x2F;&#x2F;github.com&#x2F;zhanglu002&#x2F;zhanglu002.github.io.git</span><br><span class="line">  #branch 设置为 master分支</span><br><span class="line">  branch: master</span><br></pre></td></tr></table></figure>
+
+<h4 id="部署到远端：-hexo-d-或者sudo-hexo-d-然后在提示中输入github账号和密码"><a href="#部署到远端：-hexo-d-或者sudo-hexo-d-然后在提示中输入github账号和密码" class="headerlink" title="部署到远端： hexo d 或者sudo hexo d  然后在提示中输入github账号和密码"></a>部署到远端： hexo d 或者sudo hexo d  然后在提示中输入github账号和密码</h4><h4 id="访问最新的博客：-输入repository-name-例如：zhanglu002-github-io-到浏览器访问最新的博客"><a href="#访问最新的博客：-输入repository-name-例如：zhanglu002-github-io-到浏览器访问最新的博客" class="headerlink" title="访问最新的博客： 输入repository name 例如：zhanglu002.github.io 到浏览器访问最新的博客"></a>访问最新的博客： 输入repository name 例如：zhanglu002.github.io 到浏览器访问最新的博客</h4><h3 id="6-博客主题设置"><a href="#6-博客主题设置" class="headerlink" title="6 博客主题设置"></a>6 博客主题设置</h3><h4 id="主题地址：-https-github-com-litten-hexo-theme-yilia"><a href="#主题地址：-https-github-com-litten-hexo-theme-yilia" class="headerlink" title="主题地址： https://github.com/litten/hexo-theme-yilia"></a>主题地址： <a href="https://github.com/litten/hexo-theme-yilia" target="_blank" rel="noopener">https://github.com/litten/hexo-theme-yilia</a></h4><h4 id="安装：-git-clone-https-github-com-litten-hexo-theme-yilia-git-themes-yilia"><a href="#安装：-git-clone-https-github-com-litten-hexo-theme-yilia-git-themes-yilia" class="headerlink" title="安装：$ git clone https://github.com/litten/hexo-theme-yilia.git themes/yilia"></a>安装：$ git clone <a href="https://github.com/litten/hexo-theme-yilia.git" target="_blank" rel="noopener">https://github.com/litten/hexo-theme-yilia.git</a> themes/yilia</h4><h4 id="配置：-修改hexo根目录下的-config-yml-：-theme-yilia"><a href="#配置：-修改hexo根目录下的-config-yml-：-theme-yilia" class="headerlink" title="配置： 修改hexo根目录下的 _config.yml ： theme: yilia"></a>配置： 修改hexo根目录下的 <code>_config.yml</code> ： <code>theme: yilia</code></h4><h4 id="更新："><a href="#更新：" class="headerlink" title="更新："></a>更新：</h4>  <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cd themes&#x2F;yilia</span><br><span class="line">git pull</span><br></pre></td></tr></table></figure>
+
+<h4 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h4> <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br></pre></td><td class="code"><pre><span class="line"># Header</span><br><span class="line">  menu:</span><br><span class="line">    主页: &#x2F;</span><br><span class="line">    随笔: &#x2F;tags&#x2F;随笔&#x2F;</span><br><span class="line">  </span><br><span class="line">  # SubNav</span><br><span class="line">  subnav:</span><br><span class="line">    github: &quot;#&quot;</span><br><span class="line">    weibo: &quot;#&quot;</span><br><span class="line">    rss: &quot;#&quot;</span><br><span class="line">    zhihu: &quot;#&quot;</span><br><span class="line">    #qq: &quot;#&quot;</span><br><span class="line">    #weixin: &quot;#&quot;</span><br><span class="line">    #jianshu: &quot;#&quot;</span><br><span class="line">    #douban: &quot;#&quot;</span><br><span class="line">    #segmentfault: &quot;#&quot;</span><br><span class="line">    #bilibili: &quot;#&quot;</span><br><span class="line">    #acfun: &quot;#&quot;</span><br><span class="line">    #mail: &quot;mailto:litten225@qq.com&quot;</span><br><span class="line">    #facebook: &quot;#&quot;</span><br><span class="line">    #google: &quot;#&quot;</span><br><span class="line">    #twitter: &quot;#&quot;</span><br><span class="line">    #linkedin: &quot;#&quot;</span><br><span class="line">  </span><br><span class="line">  rss: &#x2F;atom.xml</span><br><span class="line">  </span><br><span class="line">  # 是否需要修改 root 路径</span><br><span class="line">  # 如果您的网站存放在子目录中，例如 http:&#x2F;&#x2F;yoursite.com&#x2F;blog，</span><br><span class="line">  # 请将您的 url 设为 http:&#x2F;&#x2F;yoursite.com&#x2F;blog 并把 root 设为 &#x2F;blog&#x2F;。</span><br><span class="line">  root: </span><br><span class="line">  </span><br><span class="line">  # Content</span><br><span class="line">  </span><br><span class="line">  # 文章太长，截断按钮文字</span><br><span class="line">  excerpt_link: more</span><br><span class="line">  # 文章卡片右下角常驻链接，不需要请设置为false</span><br><span class="line">  show_all_link: &#39;展开全文&#39;</span><br><span class="line">  # 数学公式</span><br><span class="line">  mathjax: false</span><br><span class="line">  # 是否在新窗口打开链接</span><br><span class="line">  open_in_new: false</span><br><span class="line">  </span><br><span class="line">  # 打赏</span><br><span class="line">  # 打赏type设定：0-关闭打赏； 1-文章对应的md文件里有reward:true属性，才有打赏； 2-所有文章均有打赏</span><br><span class="line">  reward_type: 2</span><br><span class="line">  # 打赏wording</span><br><span class="line">  reward_wording: &#39;谢谢你请我吃糖果&#39;</span><br><span class="line">  # 支付宝二维码图片地址，跟你设置头像的方式一样。比如：&#x2F;assets&#x2F;img&#x2F;alipay.jpg</span><br><span class="line">  alipay: </span><br><span class="line">  # 微信二维码图片地址</span><br><span class="line">  weixin: </span><br><span class="line">  </span><br><span class="line">  # 目录</span><br><span class="line">  # 目录设定：0-不显示目录； 1-文章对应的md文件里有toc:true属性，才有目录； 2-所有文章均显示目录</span><br><span class="line">  toc: 1</span><br><span class="line">  # 根据自己的习惯来设置，如果你的目录标题习惯有标号，置为true即可隐藏hexo重复的序号；否则置为false</span><br><span class="line">  toc_hide_index: true</span><br><span class="line">  # 目录为空时的提示</span><br><span class="line">  toc_empty_wording: &#39;目录，不存在的…&#39;</span><br><span class="line">  </span><br><span class="line">  # 是否有快速回到顶部的按钮</span><br><span class="line">  top: true</span><br><span class="line">  </span><br><span class="line">  # Miscellaneous</span><br><span class="line">  baidu_analytics: &#39;&#39;</span><br><span class="line">  google_analytics: &#39;&#39;</span><br><span class="line">  favicon: &#x2F;favicon.png</span><br><span class="line">  </span><br><span class="line">  #你的头像url</span><br><span class="line">  avatar:</span><br><span class="line">  </span><br><span class="line">  #是否开启分享</span><br><span class="line">  share_jia: true</span><br><span class="line">  </span><br><span class="line">  #评论：1、多说；2、网易云跟帖；3、畅言；4、Disqus；5、Gitment</span><br><span class="line">  #不需要使用某项，直接设置值为false，或注释掉</span><br><span class="line">  #具体请参考wiki：https:&#x2F;&#x2F;github.com&#x2F;litten&#x2F;hexo-theme-yilia&#x2F;wiki&#x2F;</span><br><span class="line">  </span><br><span class="line">  #1、多说</span><br><span class="line">  duoshuo: false</span><br><span class="line">  </span><br><span class="line">  #2、网易云跟帖</span><br><span class="line">  wangyiyun: false</span><br><span class="line">  </span><br><span class="line">  #3、畅言</span><br><span class="line">  changyan_appid: false</span><br><span class="line">  changyan_conf: false</span><br><span class="line">  </span><br><span class="line">  #4、Disqus 在hexo根目录的config里也有disqus_shortname字段，优先使用yilia的</span><br><span class="line">  disqus: false</span><br><span class="line">  </span><br><span class="line">  #5、Gitment</span><br><span class="line">  gitment_owner: false      #你的 GitHub ID</span><br><span class="line">  gitment_repo: &#39;&#39;          #存储评论的 repo</span><br><span class="line">  gitment_oauth:</span><br><span class="line">    client_id: &#39;&#39;           #client ID</span><br><span class="line">    client_secret: &#39;&#39;       #client secret</span><br><span class="line">  </span><br><span class="line">  # 样式定制 - 一般不需要修改，除非有很强的定制欲望…</span><br><span class="line">  style:</span><br><span class="line">    # 头像上面的背景颜色</span><br><span class="line">    header: &#39;#4d4d4d&#39;</span><br><span class="line">    # 右滑板块背景</span><br><span class="line">    slider: &#39;linear-gradient(200deg,#a0cfe4,#e8c37e)&#39;</span><br><span class="line">  </span><br><span class="line">  # slider的设置</span><br><span class="line">  slider:</span><br><span class="line">    # 是否默认展开tags板块</span><br><span class="line">    showTags: false</span><br><span class="line">  </span><br><span class="line">  # 智能菜单</span><br><span class="line">  # 如不需要，将该对应项置为false</span><br><span class="line">  # 比如</span><br><span class="line">  #smart_menu:</span><br><span class="line">  #  friends: false</span><br><span class="line">  smart_menu:</span><br><span class="line">    innerArchive: &#39;所有文章&#39;</span><br><span class="line">    friends: &#39;友链&#39;</span><br><span class="line">    aboutme: &#39;关于我&#39;</span><br><span class="line">  </span><br><span class="line">  friends:</span><br><span class="line">    友情链接1: http:&#x2F;&#x2F;localhost:4000&#x2F;</span><br><span class="line">    友情链接2: http:&#x2F;&#x2F;localhost:4000&#x2F;</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2020/04/09/hexo%E6%90%AD%E5%BB%BA%E5%8D%9A%E5%AE%A2+%E5%8F%91%E5%B8%83/" data-id="ck8vmb8t800023ns6h1xqdkn5" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-接口返回体demo" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2020/04/09/%E6%8E%A5%E5%8F%A3%E8%BF%94%E5%9B%9E%E4%BD%93demo/" class="article-date">
+  <time datetime="2020-04-09T12:39:46.278Z" itemprop="datePublished">2020-04-09</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2020/04/09/%E6%8E%A5%E5%8F%A3%E8%BF%94%E5%9B%9E%E4%BD%93demo/">接口返回体demo</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="接口返回结果Demo"><a href="#接口返回结果Demo" class="headerlink" title="接口返回结果Demo"></a>接口返回结果Demo</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">package</span> com.idatage.cloud.common.core.util;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> com.idatage.cloud.common.core.constant.CommonConstants;</span><br><span class="line"><span class="keyword">import</span> io.swagger.annotations.ApiModel;</span><br><span class="line"><span class="keyword">import</span> io.swagger.annotations.ApiModelProperty;</span><br><span class="line"><span class="keyword">import</span> java.io.Serializable;</span><br><span class="line"></span><br><span class="line"><span class="meta">@ApiModel</span>(<span class="string">"响应信息主体"</span>)</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">R</span>&lt;<span class="title">T</span>&gt; <span class="keyword">implements</span> <span class="title">Serializable</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">long</span> serialVersionUID = <span class="number">1L</span>;</span><br><span class="line">    <span class="meta">@ApiModelProperty</span>(<span class="string">"返回标记：成功标记=0，失败标记=1"</span>)</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">int</span> code;</span><br><span class="line">    <span class="meta">@ApiModelProperty</span>(<span class="string">"返回信息"</span>)</span><br><span class="line">    <span class="keyword">private</span> String msg;</span><br><span class="line">    <span class="meta">@ApiModelProperty</span>(<span class="string">"数据"</span>)</span><br><span class="line">    <span class="keyword">private</span> T data;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> &lt;T&gt; <span class="function">R&lt;T&gt; <span class="title">ok</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> restResult((Object)<span class="keyword">null</span>, CommonConstants.SUCCESS, (String)<span class="keyword">null</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> &lt;T&gt; <span class="function">R&lt;T&gt; <span class="title">ok</span><span class="params">(T data)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> restResult(data, CommonConstants.SUCCESS, (String)<span class="keyword">null</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> &lt;T&gt; <span class="function">R&lt;T&gt; <span class="title">ok</span><span class="params">(T data, String msg)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> restResult(data, CommonConstants.SUCCESS, msg);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> &lt;T&gt; <span class="function">R&lt;T&gt; <span class="title">failed</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> restResult((Object)<span class="keyword">null</span>, CommonConstants.FAIL, (String)<span class="keyword">null</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> &lt;T&gt; <span class="function">R&lt;T&gt; <span class="title">failed</span><span class="params">(String msg)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> restResult((Object)<span class="keyword">null</span>, CommonConstants.FAIL, msg);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> &lt;T&gt; <span class="function">R&lt;T&gt; <span class="title">failed</span><span class="params">(T data)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> restResult(data, CommonConstants.FAIL, (String)<span class="keyword">null</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> &lt;T&gt; <span class="function">R&lt;T&gt; <span class="title">failed</span><span class="params">(T data, String msg)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> restResult(data, CommonConstants.FAIL, msg);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> &lt;T&gt; <span class="function">R&lt;T&gt; <span class="title">restResult</span><span class="params">(T data, <span class="keyword">int</span> code, String msg)</span> </span>&#123;</span><br><span class="line">        R&lt;T&gt; apiResult = <span class="keyword">new</span> R();</span><br><span class="line">        apiResult.setCode(code);</span><br><span class="line">        apiResult.setData(data);</span><br><span class="line">        apiResult.setMsg(msg);</span><br><span class="line">        <span class="keyword">return</span> apiResult;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">toString</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="string">"R(code="</span> + <span class="keyword">this</span>.getCode() + <span class="string">", msg="</span> + <span class="keyword">this</span>.getMsg() + <span class="string">", data="</span> + <span class="keyword">this</span>.getData() + <span class="string">")"</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">R</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">R</span><span class="params">(<span class="keyword">int</span> code, String msg, T data)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.code = code;</span><br><span class="line">        <span class="keyword">this</span>.msg = msg;</span><br><span class="line">        <span class="keyword">this</span>.data = data;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">getCode</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">this</span>.code;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> R&lt;T&gt; <span class="title">setCode</span><span class="params">(<span class="keyword">int</span> code)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.code = code;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">this</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">getMsg</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">this</span>.msg;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> R&lt;T&gt; <span class="title">setMsg</span><span class="params">(String msg)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.msg = msg;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">this</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> T <span class="title">getData</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">this</span>.data;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> R&lt;T&gt; <span class="title">setData</span><span class="params">(T data)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.data = data;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">this</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2020/04/09/%E6%8E%A5%E5%8F%A3%E8%BF%94%E5%9B%9E%E4%BD%93demo/" data-id="ck8vmb8t900033ns6bm7o925a" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-AOP+自定义注解" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2020/04/09/AOP+%E8%87%AA%E5%AE%9A%E4%B9%89%E6%B3%A8%E8%A7%A3/" class="article-date">
+  <time datetime="2020-04-09T12:39:46.167Z" itemprop="datePublished">2020-04-09</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2020/04/09/AOP+%E8%87%AA%E5%AE%9A%E4%B9%89%E6%B3%A8%E8%A7%A3/">AOP+自定义注解</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="AOP-自定义注解-实现接口限流（Redis方法）"><a href="#AOP-自定义注解-实现接口限流（Redis方法）" class="headerlink" title="AOP+自定义注解 实现接口限流（Redis方法）"></a>AOP+自定义注解 实现接口限流（Redis方法）</h1><h2 id="1-自定义注解类："><a href="#1-自定义注解类：" class="headerlink" title="1.自定义注解类："></a>1.自定义注解类：</h2> <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> java.lang.annotation.ElementType;</span><br><span class="line"><span class="keyword">import</span> java.lang.annotation.Retention;</span><br><span class="line"><span class="keyword">import</span> java.lang.annotation.RetentionPolicy;</span><br><span class="line"><span class="keyword">import</span> java.lang.annotation.Target;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@author</span> zhanglu</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@date</span> Created in 2020/4/9 10:04</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@description</span> 自定义限流注解</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@modifiedBy</span></span></span><br><span class="line"><span class="comment"> * <span class="doctag">@version</span>: v1</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"></span><br><span class="line"><span class="meta">@Retention</span>(RetentionPolicy.RUNTIME)<span class="comment">//使用位置（类，方法）</span></span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"><span class="meta">@Target</span>(ElementType.METHOD)<span class="comment">//加载到jvm里运行</span></span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"><span class="keyword">public</span> <span class="meta">@interface</span> AccessLimit &#123;</span><br><span class="line">    <span class="function"><span class="keyword">int</span> <span class="title">seconds</span><span class="params">()</span></span>;<span class="comment">//redis缓存保存时间</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">int</span> <span class="title">maxCount</span><span class="params">()</span></span>;<span class="comment">//最大访问量</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">boolean</span> <span class="title">needLogin</span><span class="params">()</span> <span class="keyword">default</span> <span class="keyword">true</span></span>;<span class="comment">//是否登陆</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="1-1-Retention注解说明"><a href="#1-1-Retention注解说明" class="headerlink" title="1.1 @Retention注解说明"></a>1.1 @Retention注解说明</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">注解@Retention可以用来修饰注解，是注解的注解，称为元注解。</span><br><span class="line">Retention注解有一个属性value，是RetentionPolicy类型的，Enum RetentionPolicy是一个枚举类型，</span><br><span class="line">这个枚举决定了Retention注解应该如何去保持，也可理解为Rentention 搭配 RententionPolicy使用。RetentionPolicy有3个值：CLASS  RUNTIME   SOURCE</span><br><span class="line">按生命周期来划分可分为3类：</span><br><span class="line">1、RetentionPolicy.SOURCE：注解只保留在源文件，当Java文件编译成class文件的时候，注解被遗弃；</span><br><span class="line">2、RetentionPolicy.CLASS：注解被保留到class文件，但jvm加载class文件时候被遗弃，这是默认的生命周期；</span><br><span class="line">3、RetentionPolicy.RUNTIME：注解不仅被保存到class文件中，jvm加载class文件之后，仍然存在；</span><br><span class="line">这3个生命周期分别对应于：Java源文件(.java文件) ---&gt; .class文件 ---&gt; 内存中的字节码。</span><br><span class="line">那怎么来选择合适的注解生命周期呢？</span><br><span class="line">首先要明确生命周期长度 SOURCE &lt; CLASS &lt; RUNTIME ，所以前者能作用的地方后者一定也能作用。</span><br><span class="line">一般如果需要在运行时去动态获取注解信息，那只能用 RUNTIME 注解，比如@Deprecated使用RUNTIME注解</span><br><span class="line">如果要在编译时进行一些预处理操作，比如生成一些辅助代码（如 ButterKnife），就用 CLASS注解；</span><br><span class="line">如果只是做一些检查性的操作，比如 @Override 和 @SuppressWarnings，使用SOURCE 注解。</span><br><span class="line"></span><br><span class="line">注解@Override用在方法上，当我们想重写一个方法时，在方法上加@Override，当我们方法的名字出错时，编译器就会报错</span><br><span class="line">注解@Deprecated，用来表示某个类或属性或方法已经过时，不想别人再用时，在属性和方法上用@Deprecated修饰</span><br><span class="line">注解@SuppressWarnings用来压制程序中出来的警告，比如在没有用泛型或是方法已经过时的时候</span><br></pre></td></tr></table></figure>
+
+<h3 id="1-2-Target注解说明"><a href="#1-2-Target注解说明" class="headerlink" title="1.2 @Target注解说明"></a>1.2 @Target注解说明</h3><h4 id="1-2-1-Target的用法"><a href="#1-2-1-Target的用法" class="headerlink" title="1.2.1 @Target的用法"></a>1.2.1 @Target的用法</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">java.lang.annotation.Target</span><br><span class="line">用于设定注解使用范围</span><br><span class="line">java.lang.annotation.ElementType</span><br><span class="line">Target通过ElementType来指定注解可使用范围的枚举集合</span><br></pre></td></tr></table></figure>
+
+<h4 id="1-2-2-ElementType的用法"><a href="#1-2-2-ElementType的用法" class="headerlink" title="1.2.2 ElementType的用法"></a>1.2.2 ElementType的用法</h4><table>
+<thead>
+<tr>
+<th align="center">取值</th>
+<th align="center">注解使用范围</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">METHOD</td>
+<td align="center">可用于方法上</td>
+</tr>
+<tr>
+<td align="center">TYPE</td>
+<td align="center">可用于类或者接口上</td>
+</tr>
+<tr>
+<td align="center">ANNOTATION_TYPE</td>
+<td align="center">可用于注解类型上（被@interface修饰的类型）</td>
+</tr>
+<tr>
+<td align="center">CONSTRUCTOR</td>
+<td align="center">可用于构造方法上</td>
+</tr>
+<tr>
+<td align="center">FIELD</td>
+<td align="center">可用于域上</td>
+</tr>
+<tr>
+<td align="center">LOCAL_VARIABLE</td>
+<td align="center">可用于局部变量上</td>
+</tr>
+<tr>
+<td align="center">PACKAGE</td>
+<td align="center">用于记录java文件的package信息</td>
+</tr>
+<tr>
+<td align="center">PARAMETER</td>
+<td align="center">可用于参数上</td>
+</tr>
+</tbody></table>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">这里重点说明下：ElementType.PACKAGE。它并不是使用在一般的类中，而是用在固定的文件package-info.java中。这里需要强调命名一定是“package-info”。由于package-info.java并不是一个合法的类，使用eclipse创建类的方式会提示不合法，所以需要以创建文件的方式来创建package-info.java。</span><br><span class="line"></span><br><span class="line">例如，定义可使用范围PACKAGE：</span><br><span class="line">@Target(&#123;ElementType.PACKAGE,ElementType.METHOD&#125;)</span><br><span class="line">@Retention(RetentionPolicy.RUNTIME)</span><br><span class="line">@Inherited</span><br><span class="line">@Documented</span><br><span class="line">public@interface  AsynLog &#123;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line">那么，创建文件：package-info.java，内容如下：</span><br><span class="line">@AsynLog</span><br><span class="line">package org.my.commons.logs.annotation; </span><br><span class="line">重点说明：注解只能在ElementType设定的范围内使用，否则将会编译报错。例如：范围只包含ElementType.METHOD ，则表明该注解只能使用在类的方法上，超出使用范围将编译异常。</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="2-AOP解析类"><a href="#2-AOP解析类" class="headerlink" title="2. AOP解析类"></a>2. AOP解析类</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> com.idatage.cloud.common.core.util.R;</span><br><span class="line"><span class="keyword">import</span> org.aspectj.lang.ProceedingJoinPoint;</span><br><span class="line"><span class="keyword">import</span> org.aspectj.lang.annotation.Around;</span><br><span class="line"><span class="keyword">import</span> org.aspectj.lang.annotation.Aspect;</span><br><span class="line"><span class="keyword">import</span> org.aspectj.lang.annotation.Pointcut;</span><br><span class="line"><span class="keyword">import</span> org.aspectj.lang.reflect.MethodSignature;</span><br><span class="line"><span class="keyword">import</span> org.springframework.beans.factory.annotation.Autowired;</span><br><span class="line"><span class="keyword">import</span> org.springframework.data.redis.core.RedisTemplate;</span><br><span class="line"><span class="keyword">import</span> org.springframework.stereotype.Component;</span><br><span class="line"><span class="keyword">import</span> org.springframework.web.context.request.RequestContextHolder;</span><br><span class="line"><span class="keyword">import</span> org.springframework.web.context.request.ServletRequestAttributes;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> javax.servlet.http.HttpServletRequest;</span><br><span class="line"><span class="keyword">import</span> java.lang.reflect.Method;</span><br><span class="line"><span class="keyword">import</span> java.net.InetAddress;</span><br><span class="line"><span class="keyword">import</span> java.net.UnknownHostException;</span><br><span class="line"><span class="keyword">import</span> java.util.concurrent.TimeUnit;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@author</span> zhanglu</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@date</span> Created in 2020/4/9 10:08</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@description</span> 限流AOP解析类</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@modifiedBy</span></span></span><br><span class="line"><span class="comment"> * <span class="doctag">@version</span>:</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"></span><br><span class="line"><span class="meta">@Aspect</span><span class="comment">//来定义一个切面</span></span><br><span class="line"><span class="meta">@Component</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">AccessLimitAop</span> </span>&#123;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="meta">@Autowired</span></span><br><span class="line">    <span class="keyword">private</span> RedisTemplate redisTemplate;</span><br><span class="line">	<span class="comment">//定义切入点</span></span><br><span class="line">    <span class="meta">@Pointcut</span>(value = <span class="string">"@annotation(com.learn.AccessLimit)"</span>)<span class="comment">//AccessLimit注解类的位置</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">cutLimit</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//通知</span></span><br><span class="line">    <span class="meta">@Before</span>(<span class="string">"AccessLimit()"</span>)</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">doBefore</span><span class="params">(JoinPoint joinPoint)</span> </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">"触发到 @Before(\"AccessLimit()\")"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">     <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 后置通知</span></span><br><span class="line"><span class="comment">     *</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> joinPoint 切点</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="meta">@AfterReturning</span>(<span class="string">"AccessLimit()"</span>)</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">doAfrterReturning</span><span class="params">(JoinPoint joinPoint)</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">        Object[] args = joinPoint.getArgs();</span><br><span class="line">        System.out.println(<span class="string">"触发 @AfterReturning(\"AccessLimit()\")"</span>);</span><br><span class="line">        System.out.println(args.length);</span><br><span class="line">        getControllerMethodDescription(joinPoint);</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="meta">@Around</span>(<span class="string">"cutLimit()"</span>)</span><br><span class="line">    <span class="function"><span class="keyword">public</span> Object <span class="title">recordSysLog</span><span class="params">(ProceedingJoinPoint point)</span> <span class="keyword">throws</span> Throwable </span>&#123;</span><br><span class="line">        MethodSignature ms = (MethodSignature) point.getSignature();<span class="comment">//获得执行方法的方法名</span></span><br><span class="line">        Method method = ms.getMethod();<span class="comment">//获取公共方法，不包括类私有的</span></span><br><span class="line">        AccessLimit accessLimit = method.getAnnotation(AccessLimit<span class="class">.<span class="keyword">class</span>)</span>;</span><br><span class="line">        ServletRequestAttributes servletRequestAttributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();</span><br><span class="line">        HttpServletRequest request = servletRequestAttributes.getRequest();</span><br><span class="line">        <span class="keyword">if</span> (<span class="keyword">null</span> == accessLimit) &#123;</span><br><span class="line">            <span class="keyword">return</span> point.proceed();</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">int</span> seconds = accessLimit.seconds();</span><br><span class="line">        <span class="keyword">int</span> maxCount = accessLimit.maxCount();</span><br><span class="line">        <span class="keyword">boolean</span> needLogin = accessLimit.needLogin();</span><br><span class="line">        <span class="keyword">if</span> (needLogin) &#123;</span><br><span class="line">            <span class="comment">//判断是否登录</span></span><br><span class="line">        &#125;</span><br><span class="line">        String key = ms.getName() + <span class="string">":"</span> + getIpAddress(request);</span><br><span class="line">        Object o = redisTemplate.opsForValue().get(key);</span><br><span class="line">        Integer count = Integer.valueOf(o == <span class="keyword">null</span> ? <span class="string">"-1"</span> : o.toString());</span><br><span class="line">        <span class="keyword">if</span> (<span class="keyword">null</span> == count || -<span class="number">1</span> == count) &#123;</span><br><span class="line">            redisTemplate.opsForValue().increment(key);</span><br><span class="line">            redisTemplate.expire(key, seconds, TimeUnit.SECONDS);</span><br><span class="line">            <span class="keyword">return</span> point.proceed();</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (count &lt; maxCount) &#123;</span><br><span class="line">            redisTemplate.opsForValue().increment(key);</span><br><span class="line">            <span class="keyword">return</span> point.proceed();</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (count &gt;= maxCount) &#123;</span><br><span class="line">            String str = <span class="string">"请勿频繁刷新"</span>;</span><br><span class="line">            <span class="keyword">return</span> R.failed(str);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> point.proceed();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 获取用户真实IP地址，不使用request.getRemoteAddr();的原因是有可能用户使用了代理软件方式避免真实IP地址。</span></span><br><span class="line"><span class="comment">     * 可是，如果通过了多级反向代理的话，X-Forwarded-For的值并不止一个，而是一串IP值，究竟哪个才是真正的用户端的真实IP呢？</span></span><br><span class="line"><span class="comment">     * 答案是取X-Forwarded-For中第一个非unknown的有效IP字符串</span></span><br><span class="line"><span class="comment">     *</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> request</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">static</span> String <span class="title">getIpAddress</span><span class="params">(HttpServletRequest request)</span> </span>&#123;</span><br><span class="line">        String ip = request.getHeader(<span class="string">"x-forwarded-for"</span>);</span><br><span class="line">        <span class="keyword">if</span> (ip == <span class="keyword">null</span> || ip.length() == <span class="number">0</span> || <span class="string">"unknown"</span>.equalsIgnoreCase(ip)) &#123;</span><br><span class="line">            ip = request.getHeader(<span class="string">"Proxy-Client-IP"</span>);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (ip == <span class="keyword">null</span> || ip.length() == <span class="number">0</span> || <span class="string">"unknown"</span>.equalsIgnoreCase(ip)) &#123;</span><br><span class="line">            ip = request.getHeader(<span class="string">"WL-Proxy-Client-IP"</span>);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (ip == <span class="keyword">null</span> || ip.length() == <span class="number">0</span> || <span class="string">"unknown"</span>.equalsIgnoreCase(ip)) &#123;</span><br><span class="line">            ip = request.getHeader(<span class="string">"HTTP_CLIENT_IP"</span>);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (ip == <span class="keyword">null</span> || ip.length() == <span class="number">0</span> || <span class="string">"unknown"</span>.equalsIgnoreCase(ip)) &#123;</span><br><span class="line">            ip = request.getHeader(<span class="string">"HTTP_X_FORWARDED_FOR"</span>);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (ip == <span class="keyword">null</span> || ip.length() == <span class="number">0</span> || <span class="string">"unknown"</span>.equalsIgnoreCase(ip)) &#123;</span><br><span class="line">            ip = request.getRemoteAddr();</span><br><span class="line">            <span class="keyword">if</span> (<span class="string">"127.0.0.1"</span>.equals(ip) || <span class="string">"0:0:0:0:0:0:0:1"</span>.equals(ip)) &#123;</span><br><span class="line">                <span class="comment">//根据网卡取本机配置的IP</span></span><br><span class="line">                InetAddress inet = <span class="keyword">null</span>;</span><br><span class="line">                <span class="keyword">try</span> &#123;</span><br><span class="line">                    inet = InetAddress.getLocalHost();</span><br><span class="line">                &#125; <span class="keyword">catch</span> (UnknownHostException e) &#123;</span><br><span class="line">                    e.printStackTrace();</span><br><span class="line">                &#125;</span><br><span class="line">                ip = inet.getHostAddress();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> ip;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="3-接口调用"><a href="#3-接口调用" class="headerlink" title="3 接口调用"></a>3 接口调用</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment">   * 获取服务器时间</span></span><br><span class="line"><span class="comment">   */</span></span><br><span class="line">  <span class="meta">@ApiOperation</span>(value = <span class="string">"获取服务器时间"</span>, notes = <span class="string">"获取服务器时间"</span>)</span><br><span class="line">  <span class="meta">@GetMapping</span>(<span class="string">"/getcurrenttime"</span>)</span><br><span class="line">  <span class="meta">@Inner</span>(value = <span class="keyword">false</span>)</span><br><span class="line">  <span class="meta">@AccessLimit</span>(seconds = <span class="number">60</span>, maxCount = <span class="number">10</span>, needLogin = <span class="keyword">false</span>)</span><br><span class="line">  <span class="function"><span class="keyword">public</span> R <span class="title">getCurrentTime</span><span class="params">()</span> </span>&#123;</span><br><span class="line">      Long time = System.currentTimeMillis();</span><br><span class="line">      <span class="keyword">return</span> R.ok(time);</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="4-Spring-Aop-aspect-的详细使用"><a href="#4-Spring-Aop-aspect-的详细使用" class="headerlink" title="4 Spring Aop(aspect)的详细使用"></a>4 Spring Aop(aspect)的详细使用</h2><h3 id="4-1AOP的基本概念"><a href="#4-1AOP的基本概念" class="headerlink" title="4.1AOP的基本概念"></a>4.1AOP的基本概念</h3><ul>
+<li><p><a href="切面"> @Aspect</a>: 通常是一个类，里面可以定义切入点和通知</p>
+</li>
+<li><p>JointPoint(连接点): 程序执行过程中明确的点，一般是方法的调用</p>
+</li>
+<li><p>Advice(通知): AOP在特定的切入点上执行的增强处理:</p>
+</li>
+<li><p>@before标识一个前置增强方法，相当于BeforeAdvice的功能</p>
+</li>
+<li><p>@After: final增强，不管是抛出异常或者正常退出都会执行。</p>
+</li>
+<li><p>@AfterReturning: 后置增强，似于AfterReturningAdvice, 方法正常退出时执行</p>
+</li>
+<li><p>@AfterThrowing: 异常抛出增强，相当于ThrowsAdvice</p>
+</li>
+<li><p>@Around: 环绕增强，相当于MethodInterceptor</p>
+</li>
+<li><p>Pointcut(切入点):  带有通知的连接点，在程序中主要体现为书写切入点表达式</p>
+</li>
+<li><p>AOP Proxy：AOP框架创建的对象，代理就是目标对象的加强。Spring中的AOP代理可以使JDK动态代理，也可以是CGLIB代理，前者基于接口，后者基于子类。</p>
+</li>
+</ul>
+<h3 id="4-2Pointcut配置使用："><a href="#4-2Pointcut配置使用：" class="headerlink" title="4.2Pointcut配置使用："></a>4.2Pointcut配置使用：</h3><p>表示式(expression)和签名(signature)</p>
+<p>//Pointcut表示式</p>
+<p>@Pointcut(“execution(* com.savage.aop.MessageSender.*(..))”)</p>
+<p>//Point签名</p>
+<p>private void log(){}</p>
+<p>由下列方式来定义或者通过 &amp;&amp;、 ||、 !、 的方式进行组合：</p>
+<p>execution：用于匹配方法执行的连接点；</p>
+<p>within：用于匹配指定类型内的方法执行；</p>
+<p>this：用于匹配当前AOP代理对象类型的执行方法；注意是AOP代理对象的类型匹配，这样就可能包括引入接口也类型匹配；    </p>
+<p>target：用于匹配当前目标对象类型的执行方法；注意是目标对象的类型匹配，这样就不包括引入接口也类型匹配；</p>
+<p>args：用于匹配当前执行的方法传入的参数为指定类型的执行方法；</p>
+<p>@within：用于匹配所以持有指定注解类型内的方法；</p>
+<p>@target：用于匹配当前目标对象类型的执行方法，其中目标对象持有指定的注解；</p>
+<p>@args：用于匹配当前执行的方法传入的参数持有指定注解的执行；</p>
+<p>@annotation：用于匹配当前执行方法持有指定注解的方法；</p>
+<p>格式</p>
+<p>execution(modifiers-pattern? ret-type-pattern declaring-type-pattern? name-pattern(param-pattern)throws-pattern?)</p>
+<p>其中后面跟着“?”的是可选项</p>
+<p>括号中各个pattern分别表示：</p>
+<p>修饰符匹配（modifier-pattern?）</p>
+<p>返回值匹配（ret-type-pattern）可以为*表示任何返回值,全路径的类名等</p>
+<p>类路径匹配（declaring-type-pattern?）</p>
+<p>方法名匹配（name-pattern）可以指定方法名 或者 <em>代表所有, set</em> 代表以set开头的所有方法</p>
+<p>参数匹配（(param-pattern)）可以指定具体的参数类型，多个参数间用“,”隔开，各个参数也可以用”*” 来表示匹配任意类型的参数，”..”表示零个或多个任意参数。</p>
+<p>如(String)表示匹配一个String参数的方法；(*,String) 表示匹配有两个参数的方法，第一个参数可以是任意类型，而第二个参数是String类型</p>
+<p>异常类型匹配（throws-pattern?）</p>
+<p><strong><em>Pointcut使用详细语法：\</em></strong></p>
+<p>任意公共方法的执行：execution(public * *(..))</p>
+<p>任何一个以“set”开始的方法的执行：execution(* set*(..))</p>
+<p>AccountService 接口的任意方法的执行：execution(* com.xyz.service.AccountService.*(..))</p>
+<p>定义在service包里的任意方法的执行： execution(* com.xyz.service.<em>.</em>(..))</p>
+<p>定义在service包和所有子包里的任意类的任意方法的执行：execution(* com.xyz.service..<em>.</em>(..))</p>
+<p>第一个<em>表示匹配任意的方法返回值， ..(两个点)表示零个或多个，第一个..表示service包及其子包,第二个</em>表示所有类, 第三个*表示所有方法，第二个..表示方法的任意参数个数</p>
+<p>定义在pointcutexp包和所有子包里的JoinPointObjP2类的任意方法的执行：execution(* com.test.spring.aop.pointcutexp..JoinPointObjP2.*(..))”)</p>
+<p>pointcutexp包里的任意类： within(com.test.spring.aop.pointcutexp.*)</p>
+<p>pointcutexp包和所有子包里的任意类：within(com.test.spring.aop.pointcutexp..*)</p>
+<p>实现了Intf接口的所有类,如果Intf不是接口,限定Intf单个类：this(com.test.spring.aop.pointcutexp.Intf)</p>
+<p>当一个实现了接口的类被AOP的时候,用getBean方法必须cast为接口类型,不能为该类的类型</p>
+<p><strong><em>带有@Transactional标注的所有类的任意方法：</em></strong></p>
+<p><strong>@within(org.springframework.transaction.annotation.Transactional) // 亲测成功</strong></p>
+<p><del><strong>@target(org.springframework.transaction.annotation.Transactional) // 亲测未成功</strong></del></p>
+<p><strong><em>带有@Transactional标注的任意方法：@annotation(org.springframework.transaction.annotation.Transactional)\</em></strong></p>
+<p><strong><em>@within和@target针对类的注解,@annotation是针对方法的注解\</em></strong></p>
+<p>参数带有@Transactional标注的方法：@args(org.springframework.transaction.annotation.Transactional)</p>
+<p>参数为String类型(运行是决定)的方法： args(String)</p>
+<p><strong><em>JoinPoint 常用的方法：</em></strong></p>
+<p>Object[] getArgs：返回目标方法的参数</p>
+<p>Signature getSignature：返回目标方法的签名</p>
+<p>Object getTarget：返回被织入增强处理的目标对象</p>
+<p>Object getThis：返回AOP框架为目标对象生成的代理对象</p>
+<p>当使用@Around处理时，需要将第一个参数定义为ProceedingJoinPoint类型，该类是JoinPoint的子类。</p>
+<p>织入</p>
+<p> @AfterReturning(</p>
+<p>pointcut=”execution(* com.abc.service.<em>.access</em>(..)) &amp;&amp; args(time, name)”,returning=”returnValue”)</p>
+<p>public void access(Date time, Object returnValue, String name){</p>
+<p>​    System.out.println(“目标方法中的参数String = “ + name);</p>
+<p>​    System.out.println(“目标方法中的参数Date = “ + time);</p>
+<p>​    System.out.println(“目标方法的返回结果returnValue = “ + returnValue);</p>
+<p>}</p>
+<p>表达式中增加了args(time, name)部分，意味着可以在增强处理的签名方法（access方法）中定义”time”和”name”两个属性。这两个形参的类型可以随意指定，但一旦指定了这两个参数的类型，则这两个形参类型将用于限制该切入点只匹配第一个参数类型为Date，第二个参数类型为String的方法（方法参数个数和类型若有不同均不匹配）；access方法只需要满足”time”, “name”参数的顺序和pointcut中args(param1, param2)的顺序相同即可，”returnValue”位置顺序无所谓。</p>
+<p>//将被access方法匹配</p>
+<p>public String accessAdvice(Date d, String n){  </p>
+<p>  System.out.println(“方法：accessAdvice”);</p>
+<p>  return”aa”;</p>
+<p>}</p>
+<p>切面执行顺序</p>
+<p>一个方法只被一个Aspect类拦截</p>
+<ul>
+<li>正常： </li>
+</ul>
+<p><img src="C:%5CUsers%5CAdministrator%5CDesktop%5C12858151-10008db63d624a55.webp" alt="12858151-10008db63d624a55"></p>
+<ul>
+<li>异常：</li>
+</ul>
+<p><img src="C:%5CUsers%5CAdministrator%5CDesktop%5C12858151-84ad2c28cf8caa76.webp" alt="12858151-84ad2c28cf8caa76"></p>
+<p>同一个方法被多个Aspect类拦截</p>
+<p>优先级高的切面类里的增强处理的优先级总是比优先级低的切面类中的增强处理的优先级高。</p>
+<p>在“进入”连接点时，最高优先级的增强处理将先被织入（eg.给定的两个不同切面类Before增强处理中，优先级高的那个会先执行）；在“退出”连接点时，最高优先级的增强处理会最后被织入（eg.给定的两个不同切面类After增强处理中，优先级高的那个会后执行）。eg.优先级为1的切面类Bean1包含了@Before，优先级为2的切面类Bean2包含了@Around，虽然@Around优先级高于@Before，但由于Bean1的优先级高于Bean2的优先级，因此Bean1中的@Before先被织入。</p>
+<p>Spring提供了如下两种解决方案指定不同切面类里的增强处理的优先级：</p>
+<p>让切面类实现org.springframework.core.Ordered接口：实现该接口的int getOrder()方法，该方法返回值越小，优先级越高</p>
+<p>直接使用@Order注解来修饰一个切面类：使用这个注解时可以配置一个int类型的value属性，该属性值越小，优先级越高</p>
+<p>同一个切面类里的两个相同类型的增强处理在同一个连接点被织入时，Spring AOP将以<strong>随机</strong>的顺序来织入这两个增强处理，没有办法指定它们的织入顺序。即使给这两个 advice 添加了 @Order 这个注解，也不行！</p>
+<p>参考文献： <a href="https://my.oschina.net/u/3434392/blog/1625493" target="_blank" rel="noopener">https://my.oschina.net/u/3434392/blog/1625493</a> </p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2020/04/09/AOP+%E8%87%AA%E5%AE%9A%E4%B9%89%E6%B3%A8%E8%A7%A3/" data-id="ck8vmb8sm00003ns6beqaao2j" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/04/">April 2020</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2020/04/11/hello-world/">Hello World</a>
+          </li>
+        
+          <li>
+            <a href="/2020/04/10/%E5%88%A9%E7%94%A8redis%E5%92%8Credisson%E5%AE%9E%E7%8E%B0%E5%88%86%E5%B8%83%E5%BC%8F%E9%94%81/">利用redis和redisson实现分布式锁</a>
+          </li>
+        
+          <li>
+            <a href="/2020/04/09/hexo%E6%90%AD%E5%BB%BA%E5%8D%9A%E5%AE%A2+%E5%8F%91%E5%B8%83/">hexo搭建博客+发布</a>
+          </li>
+        
+          <li>
+            <a href="/2020/04/09/%E6%8E%A5%E5%8F%A3%E8%BF%94%E5%9B%9E%E4%BD%93demo/">接口返回体demo</a>
+          </li>
+        
+          <li>
+            <a href="/2020/04/09/AOP+%E8%87%AA%E5%AE%9A%E4%B9%89%E6%B3%A8%E8%A7%A3/">AOP+自定义注解</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2020 John Doe<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+  
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+  </div>
+</body>
+</html>
