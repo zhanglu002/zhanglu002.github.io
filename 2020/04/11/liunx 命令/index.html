@@ -1,0 +1,567 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"yoursite.com","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="liunx 命令1.基础命令 cd usr    切换到该目录下usr目录    cd ..&#x2F;     切换到上一层目录    cd &#x2F;      切换到系统根目录    cd ~     切换到用户主目录    cd -      切换到上一个所在目录 (1)增加目录操作（增）命令：mkdir 目录名称 示例：在根目录 &#x2F; 下 mkdir test，就会在根目录 &#x2F; 下产生一个test问目录 (">
+<meta property="og:type" content="article">
+<meta property="og:title" content="liunx 命令">
+<meta property="og:url" content="http://yoursite.com/2020/04/11/liunx%20%E5%91%BD%E4%BB%A4/index.html">
+<meta property="og:site_name" content="zhanglu的博客">
+<meta property="og:description" content="liunx 命令1.基础命令 cd usr    切换到该目录下usr目录    cd ..&#x2F;     切换到上一层目录    cd &#x2F;      切换到系统根目录    cd ~     切换到用户主目录    cd -      切换到上一个所在目录 (1)增加目录操作（增）命令：mkdir 目录名称 示例：在根目录 &#x2F; 下 mkdir test，就会在根目录 &#x2F; 下产生一个test问目录 (">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2020-04-11T14:05:10.750Z">
+<meta property="article:modified_time" content="2020-04-11T14:05:10.750Z">
+<meta property="article:author" content="zhanglu">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://yoursite.com/2020/04/11/liunx%20%E5%91%BD%E4%BB%A4/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>liunx 命令 | zhanglu的博客</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">zhanglu的博客</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/04/11/liunx%20%E5%91%BD%E4%BB%A4/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="zhanglu">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="zhanglu的博客">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          liunx 命令
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2020-04-11 22:05:10" itemprop="dateCreated datePublished" datetime="2020-04-11T22:05:10+08:00">2020-04-11</time>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="liunx-命令"><a href="#liunx-命令" class="headerlink" title="liunx 命令"></a>liunx 命令</h1><h2 id="1-基础命令"><a href="#1-基础命令" class="headerlink" title="1.基础命令"></a>1.基础命令</h2><p> cd usr    切换到该目录下usr目录</p>
+<p>   cd ../     切换到上一层目录</p>
+<p>   cd /      切换到系统根目录</p>
+<p>   cd ~     切换到用户主目录</p>
+<p>   cd -      切换到上一个所在目录</p>
+<h3 id="1-增加目录操作（增）"><a href="#1-增加目录操作（增）" class="headerlink" title="(1)增加目录操作（增）"></a>(1)增加目录操作（增）</h3><p>命令：mkdir 目录名称</p>
+<p>示例：在根目录 / 下 mkdir test，就会在根目录 / 下产生一个test问目录</p>
+<h3 id="1-查看目录（查）"><a href="#1-查看目录（查）" class="headerlink" title="(1)查看目录（查）"></a>(1)查看目录（查）</h3><p>命令：ls [-al] 父目录</p>
+<p>示例：在根目录 / 下使用ls，可以看到该目录下的所有的目录和文件</p>
+<p>示例：在根目录 / 下使用ls，可以看到该目录下的所有的目录和文件</p>
+<p>示例：在根目录 / 下使用ls -a，可以看到该目录下的所有文件和目录，包括隐藏的</p>
+<p>示例：在根目录 / 下使用ls -l，可以看到该目录下的所有目录和文件的详细信息</p>
+<p><strong>注意：ls -l 可以缩写成ll</strong></p>
+<h3 id="1-搜索目录（查）"><a href="#1-搜索目录（查）" class="headerlink" title="(1)搜索目录（查）"></a>(1)搜索目录（查）</h3><p>命令：find 目录 参数 文件名称</p>
+<p>示例：find /root -name ‘test*’</p>
+<h3 id="2-修改目录的名称（改）"><a href="#2-修改目录的名称（改）" class="headerlink" title="(2)修改目录的名称（改）"></a>(2)修改目录的名称（改）</h3><p>命令：mv 目录名称 新目录名称</p>
+<p>示例：test目录下有一个oldTest目录，使用mv oldTest newTest命令修改</p>
+<p><strong>注意：mv的语法不仅可以对目录进行重命名而且也可以对各种文件，压缩包等进行   重命名的操作</strong></p>
+<h3 id="3-移动目录的位置—剪切（改）"><a href="#3-移动目录的位置—剪切（改）" class="headerlink" title="(3)移动目录的位置—剪切（改）"></a>(3)移动目录的位置—剪切（改）</h3><p>命令：mv 目录名称 目录的新位置</p>
+<p>示例：在test下将newTest目录剪切到 /usr下面，使用mv newTest /usr</p>
+<p><strong>注意：mv语法不仅可以对目录进行剪切操作，对文件和压缩包等都可执行剪切操作</strong></p>
+<h3 id="4-拷贝目录（改）"><a href="#4-拷贝目录（改）" class="headerlink" title="(4)拷贝目录（改）"></a>(4)拷贝目录（改）</h3><p>命令：cp -r 目录名称 目录拷贝的目标位置 —–r代表递归</p>
+<p>示例：将/usr下的newTest拷贝到根目录下的test中，使用cp -r /usr/newTest /test</p>
+<p><strong>注意：cp命令不仅可以拷贝目录还可以拷贝文件，压缩包等，拷贝文件和压缩包时不  用写-r递归</strong></p>
+<h3 id="5-删除目录（删）"><a href="#5-删除目录（删）" class="headerlink" title="(5)删除目录（删）"></a>(5)删除目录（删）</h3><p>命令：rm [-rf] 目录</p>
+<p>示例：删除/usr下的newTest，进入/usr下使用rm -r newTest</p>
+<p>示例：删除/test下的newTest而不需要询问强制删除，在/test下使用rm -rf newTest</p>
+<p><strong>注意：rm不仅可以删除目录，也可以删除其他文件或压缩包，为了方便大家的记忆，  无论删除任何目录或文件，都直接使用**</strong>rm -rf** <strong>目录/文件/压缩包</strong></p>
+<h2 id="2．文件的操作命令（增删改查）"><a href="#2．文件的操作命令（增删改查）" class="headerlink" title="2．文件的操作命令（增删改查）"></a>2．文件的操作命令（增删改查）</h2><h3 id="1-文件的创建（增）"><a href="#1-文件的创建（增）" class="headerlink" title="(1)文件的创建（增）"></a>(1)文件的创建（增）</h3><p>命令：touch 文件名称 —– 空文件</p>
+<p>示例：在test目录下创建一个空文件 touch aaa.txt</p>
+<h3 id="2-文件的查看（查）"><a href="#2-文件的查看（查）" class="headerlink" title="(2)文件的查看（查）"></a>(2)文件的查看（查）</h3><p>命令：cat/more/less/tail 文件</p>
+<p>示例：使用cat查看/etc/sudo.conf文件，只能显示最后一屏内容</p>
+<p>示例：使用more查看/etc/sudo.conf文件，可以显示百分比，回车可以向下一行，  空格可以向下一页，q可以退出查看</p>
+<p>示例：使用less查看/etc/sudo.conf文件，可以使用键盘上的PgUp和PgDn向上 和向下翻页，q结束查看</p>
+<p>示例：使用tail -10 查看/etc/sudo.conf文件的后10行，Ctrl+C结束</p>
+<p><strong>注意：命令 tail -f 文件 可以对某个文件进行动态监控，例如tomcat的日志文件，  会随着程序的运行，日志会变化，可以使用tail -f catalina-2016-11-11.log 监控   文 件的变化</strong></p>
+<h3 id="3-修改文件的内容（改）"><a href="#3-修改文件的内容（改）" class="headerlink" title="(3)修改文件的内容（改）"></a>(3)修改文件的内容（改）</h3><p>命令：vim 文件</p>
+<p>示例：编辑/test下的aaa.txt文件，使用vim aaa.txt</p>
+<p>但此时并不能编辑，因为此时处于命令模式，点击键盘i/a/o进入编辑模式，可以  编辑文件</p>
+<p>编辑完成后，按下Esc，退回命令模式</p>
+<p>此时文件虽然已经编辑完成，但是没有保存，需输入冒号：进入底行模式，在底行模   式下输入wq代表写入内容并退出，即保存；输入q!代表强制退出不保存。</p>
+<p><strong>总结：</strong></p>
+<p>vim编辑器是Linux中的强大组件，是vi编辑器的加强版，vim编辑器的命令和快捷方式有很多，但此处不一一阐述，大家也无需研究的很透彻，使用vim编辑修改文件的方式基本会使用就可以了。</p>
+<p>关于vim使用过程：</p>
+<p>vim 文件——–&gt;命令模式———&gt;输入i———-&gt;编辑模式———–&gt;编辑文件———–&gt;按下Esc———&gt;命令模式———&gt;按下：———-&gt;底行模式———–&gt;输入wq保存并退出/q！强制退出不保存</p>
+<h3 id="4-删除文件（删）"><a href="#4-删除文件（删）" class="headerlink" title="(4)删除文件（删）"></a>(4)删除文件（删）</h3><p>同目录删除：熟记 rm -rf 文件 即可</p>
+<h2 id="3．压缩文件的操作命令"><a href="#3．压缩文件的操作命令" class="headerlink" title="3．压缩文件的操作命令"></a>3．压缩文件的操作命令</h2><h3 id="1-打包并压缩文件"><a href="#1-打包并压缩文件" class="headerlink" title="(1)打包并压缩文件"></a>(1)打包并压缩文件</h3><p>Windows的压缩文件的扩展名 .zip/.rar</p>
+<p>linux中的打包文件：.tar</p>
+<p>linux中的压缩文件：.gz</p>
+<p>linux中打包并压缩的文件：.tar.gz</p>
+<p>Linux中的打包文件一般是以.tar结尾的，压缩的命令一般是以.gz结尾的。</p>
+<p>而一般情况下打包和压缩是一起进行的，打包并压缩后的文件的后缀名一般.tar.gz。</p>
+<p>命令：tar -zcvf 打包压缩后的文件名 要打包的文件</p>
+<p>其中：z：调用gzip压缩命令进行压缩</p>
+<p>c：打包文件</p>
+<p>v：显示运行过程</p>
+<p>f：指定文件名</p>
+<p>示例：打包并压缩/test下的所有文件 压缩后的压缩包指定名称为xxx.tar.gz</p>
+<p>tar -zcvf xxx.tar.gz aaa.txt bbb.txt ccc.txt</p>
+<p>或：tar -zcvf xxx.tar.gz /test/*</p>
+<h3 id="2-解压压缩包（重点）"><a href="#2-解压压缩包（重点）" class="headerlink" title="(2)解压压缩包（重点）"></a>(2)解压压缩包<strong>（重点）</strong></h3><p>命令：tar [-xvf] 压缩文件</p>
+<p>其中：x：代表解压</p>
+<p>示例：将/test下的xxx.tar.gz解压到当前目录下</p>
+<p>tar -xvf xxx.tar.gz</p>
+<p>示例：将/test下的xxx.tar.gz解压到根目录/usr下</p>
+<p><strong>tar -xvf xxx.tar.gz -C /usr——C**</strong>代表指定解压的位置**</p>
+<h2 id="4．其他命令"><a href="#4．其他命令" class="headerlink" title="4．其他命令"></a>4．其他命令</h2><h3 id="1-显示工作目录"><a href="#1-显示工作目录" class="headerlink" title="(1)显示工作目录"></a>(1)显示工作目录</h3><p>命令：pwd</p>
+<h3 id="2-查看进程"><a href="#2-查看进程" class="headerlink" title="(2)查看进程"></a>(2)查看进程</h3><p>命令：ps -ef —显示所有的进程</p>
+<h3 id="3-kill命令"><a href="#3-kill命令" class="headerlink" title="(3)kill命令"></a>(3)kill命令</h3><p>命令：kill -9 pid（pid是进程的id）</p>
+<h3 id="4-搜索命令"><a href="#4-搜索命令" class="headerlink" title="(4)搜索命令"></a>(4)搜索命令</h3><p>命令：grep 要搜索的字符串 要搜索的文件</p>
+<p>示例：搜索/usr/sudu.conf文件中包含字符串to的行</p>
+<p>示例：搜索/usr/sudu.conf文件中包含字符串to的行 to要高亮显示</p>
+<h3 id="5-管道命令"><a href="#5-管道命令" class="headerlink" title="(5)管道命令"></a>(5)管道命令</h3><p>命令：|  将前一个命令的输出作为本次目录的输入</p>
+<p>示例：查看当前系统中所有的进程中包括system字符串的进程</p>
+<h3 id="6-网络通信命令"><a href="#6-网络通信命令" class="headerlink" title="(6)网络通信命令"></a>(6)网络通信命令</h3><p>查看当前系统的网卡信息：ifconfig</p>
+<p>查看与某台机器的连接情况：ping</p>
+<p>查看当前系统的端口使用：netstat -an</p>
+<h3 id="7-关机命令"><a href="#7-关机命令" class="headerlink" title="(7)关机命令"></a>(7)关机命令</h3><p>重启命令：reboot</p>
+<p>立即关机：halt</p>
+<h2 id="5．Linux的权限命令"><a href="#5．Linux的权限命令" class="headerlink" title="5．Linux的权限命令"></a>5．Linux的权限命令</h2><p>权限是Linux中的重要概念，每个文件/目录等都具有权限，通过ls -l命令我们可以 查看某个目录下的文件或目录的权限</p>
+<p>示例：在随意某个目录下ls -l</p>
+<p>第一列的内容的信息解释如下：</p>
+<p>文件的类型：</p>
+<p>d：代表目录</p>
+<p>-：代表文件</p>
+<p>l：代表链接（可以认为是window中的快捷方式）</p>
+<p>后面的9位分为3组，每3位置一组，分别代表属主的权限，与当前用户同组的   用户的权限，其他用户的权限</p>
+<p>r：代表权限是可读，r也可以用数字4表示</p>
+<p>w：代表权限是可写，w也可以用数字2表示</p>
+<p>x：代表权限是可执行，x也可以用数字1表示</p>
+<table>
+<thead>
+<tr>
+<th><strong>属主（user</strong>）</th>
+<th></th>
+<th></th>
+<th><strong>属组（<em>group</em>）</strong></th>
+<th></th>
+<th></th>
+<th><strong>其他用户</strong></th>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>r</td>
+<td>w</td>
+<td>x</td>
+<td>r</td>
+<td>w</td>
+<td>x</td>
+<td>r</td>
+<td>w</td>
+<td>x</td>
+</tr>
+<tr>
+<td>4</td>
+<td>2</td>
+<td>1</td>
+<td>4</td>
+<td>2</td>
+<td>1</td>
+<td>4</td>
+<td>2</td>
+<td>1</td>
+</tr>
+</tbody></table>
+<p>修改文件/目录的权限的命令：chmod</p>
+<p>示例：修改/test下的aaa.txt的权限为属主有全部权限，属主所在的组有读写权限，</p>
+<p>其他用户只有读的权限</p>
+<p>chmod u=rwx,g=rw,o=r aaa.txt</p>
+<p>上述示例还可以使用数字表示：</p>
+<p>chmod 764 aaa.txt</p>
+<h1 id="二、远程连接工具的使用"><a href="#二、远程连接工具的使用" class="headerlink" title="二、远程连接工具的使用"></a>二、远程连接工具的使用</h1><p>实际开发中，Linux服务器都在其他的地方，我们要通过远程的方式去连接Linux并操作它，Linux远程的操作工具有很多，企业中常用的有Puttty、secureCRT、SSH Secure等。课程中我们使用SSH Secure工具进行远程连接，该工具是免费的图形化界面及命令行窗口集一身的远程工具。安装包如下：</p>
+<p>安装后，会出现两个图标：</p>
+<p>点击图形化界面图标：</p>
+<p>进入界面：</p>
+<p>关于远程工具乱码的解决：</p>
+<p>使用远程工具进行连接时，如果linux有中文文件或目录，显示时会出现乱码，原因是linux编码是UTF-8，而远程工具默认是当前系统本地编码即GBK。所以解决方案是统一两者编码就OK了，但是该SSH Secure工具不能设置编码，所以通过修改linux的系统编码的方式进行统一编码。</p>
+<p>在linux的/etc/sysconfig目录下有一个i18n的文件代表linux的系统编码</p>
+<p>将其从UTF-8修改成GBK重现连接linux即可：</p>
+<h1 id="三、Linux的软件安装"><a href="#三、Linux的软件安装" class="headerlink" title="三、Linux的软件安装"></a>三、Linux的软件安装</h1><h3 id="1．JDK安装"><a href="#1．JDK安装" class="headerlink" title="1．JDK安装"></a>1．JDK安装</h3><p>注意：rpm与软件相关命令 相当于window下的软件助手 管理软件</p>
+<p>步骤：</p>
+<p>1）查看当前Linux系统是否已经安装java</p>
+<p>输入 rpm -qa | grep java</p>
+<p>2）卸载两个openJDK</p>
+<p>输入rpm -e –nodeps 要卸载的软件</p>
+<p> 3）上传jdk到linux</p>
+<p>4）解压jdk到/usr/local下 tar –xvf jdk-7u71-linux-i586.tar.gz –C /usr/local</p>
+<p>5）配置jdk环境变量，打开/etc/profile配置文件，将下面配置拷贝进去</p>
+<p>   #set java environment</p>
+<p>   JAVA_HOME=/usr/local/jdk1.7.0_71</p>
+<p>   CLASSPATH=.:$JAVA_HOME/lib.tools.jar</p>
+<p>   PATH=$JAVA_HOME/bin:$PATH</p>
+<p>   export JAVA_HOME CLASSPATH PATH</p>
+<p>6）重新加载/etc/profile配置文件 source /etc/profile</p>
+<p> 2．Mysql安装</p>
+<p>步骤：</p>
+<p>1）查看CentOS自带的mysql</p>
+<p>输入 rpm -qa | grep mysql</p>
+<p>2）将自带的mysql卸载</p>
+<p>3）上传Mysql到linux</p>
+<p>4）解压Mysql到/usr/local/下的mysql目录(mysql目录需要手动创建)内</p>
+<p>cd /usr/local</p>
+<p>mkdir mysql</p>
+<p>tar -xvf MySQL-5.6.22-1.el6.i686.rpm-bundle.tar -C /usr/local/mysql</p>
+<p>5）在/usr/local/mysql下安装mysql</p>
+<p>安装服务器端：rpm -ivh MySQL-server-5.6.22-1.el6.i686.rpm</p>
+<p>安装客户端：rpm -ivh MySQL-client-5.6.22-1.el6.i686.rpm</p>
+<p>6）启动mysql</p>
+<p>service mysql start</p>
+<p>7）将mysql加到系统服务中并设置开机启动</p>
+<p>加入到系统服务：chkconfig –add mysql</p>
+<p>自动启动：chkconfig mysql on</p>
+<p>8）登录mysql</p>
+<p>mysql安装好后会生成一个临时随机密码，存储位置在/root/.mysql_secret</p>
+<p> msyql –u root -p</p>
+<p>9）修改mysql的密码</p>
+<p>set password = password(‘root’);</p>
+<p>10）开启mysql的远程登录</p>
+<p>默认情况下mysql为安全起见，不支持远程登录mysql，所以需要设置开启   远程登录mysql的权限</p>
+<p>登录mysql后输入如下命令：</p>
+<p>grant all privileges on <em>.</em> to ‘root’ @’%’ identified by ‘root’;</p>
+<p>flush privileges;</p>
+<p>11）开放Linux的对外访问的端口3306</p>
+<p>/sbin/iptables -I INPUT -p tcp –dport 3306 -j ACCEPT</p>
+<p>/etc/rc.d/init.d/iptables save —将修改永久保存到防火墙中</p>
+<p>3．Tomcat安装</p>
+<p>步骤：</p>
+<p>1）上传Tomcat到linux上</p>
+<p>2）解压Tomcat到/usr/local下</p>
+<p>3）开放Linux的对外访问的端口8080</p>
+<p>/sbin/iptables -I INPUT -p tcp –dport 8080 -j ACCEPT</p>
+<p>/etc/rc.d/init.d/iptables save</p>
+<p>4）启动关闭Tomcat</p>
+<p>进入tomcat的bin下启动：./startup.sh</p>
+<p>进入tomcat的bin下关闭：./shutdown.sh</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/04/11/%E4%BD%BF%E7%94%A8EasyExcel%20%E8%AF%BB%E5%8F%96excel%E6%96%B9%E5%BC%8F/" rel="prev" title="使用EasyExcel 读取excel方式">
+      <i class="fa fa-chevron-left"></i> 使用EasyExcel 读取excel方式
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#liunx-命令"><span class="nav-number">1.</span> <span class="nav-text">liunx 命令</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-基础命令"><span class="nav-number">1.1.</span> <span class="nav-text">1.基础命令</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-增加目录操作（增）"><span class="nav-number">1.1.1.</span> <span class="nav-text">(1)增加目录操作（增）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-查看目录（查）"><span class="nav-number">1.1.2.</span> <span class="nav-text">(1)查看目录（查）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-搜索目录（查）"><span class="nav-number">1.1.3.</span> <span class="nav-text">(1)搜索目录（查）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-修改目录的名称（改）"><span class="nav-number">1.1.4.</span> <span class="nav-text">(2)修改目录的名称（改）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-移动目录的位置—剪切（改）"><span class="nav-number">1.1.5.</span> <span class="nav-text">(3)移动目录的位置—剪切（改）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-拷贝目录（改）"><span class="nav-number">1.1.6.</span> <span class="nav-text">(4)拷贝目录（改）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-删除目录（删）"><span class="nav-number">1.1.7.</span> <span class="nav-text">(5)删除目录（删）</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2．文件的操作命令（增删改查）"><span class="nav-number">1.2.</span> <span class="nav-text">2．文件的操作命令（增删改查）</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-文件的创建（增）"><span class="nav-number">1.2.1.</span> <span class="nav-text">(1)文件的创建（增）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-文件的查看（查）"><span class="nav-number">1.2.2.</span> <span class="nav-text">(2)文件的查看（查）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-修改文件的内容（改）"><span class="nav-number">1.2.3.</span> <span class="nav-text">(3)修改文件的内容（改）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-删除文件（删）"><span class="nav-number">1.2.4.</span> <span class="nav-text">(4)删除文件（删）</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3．压缩文件的操作命令"><span class="nav-number">1.3.</span> <span class="nav-text">3．压缩文件的操作命令</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-打包并压缩文件"><span class="nav-number">1.3.1.</span> <span class="nav-text">(1)打包并压缩文件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-解压压缩包（重点）"><span class="nav-number">1.3.2.</span> <span class="nav-text">(2)解压压缩包（重点）</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4．其他命令"><span class="nav-number">1.4.</span> <span class="nav-text">4．其他命令</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-显示工作目录"><span class="nav-number">1.4.1.</span> <span class="nav-text">(1)显示工作目录</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-查看进程"><span class="nav-number">1.4.2.</span> <span class="nav-text">(2)查看进程</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-kill命令"><span class="nav-number">1.4.3.</span> <span class="nav-text">(3)kill命令</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-搜索命令"><span class="nav-number">1.4.4.</span> <span class="nav-text">(4)搜索命令</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-管道命令"><span class="nav-number">1.4.5.</span> <span class="nav-text">(5)管道命令</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#6-网络通信命令"><span class="nav-number">1.4.6.</span> <span class="nav-text">(6)网络通信命令</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#7-关机命令"><span class="nav-number">1.4.7.</span> <span class="nav-text">(7)关机命令</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5．Linux的权限命令"><span class="nav-number">1.5.</span> <span class="nav-text">5．Linux的权限命令</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#二、远程连接工具的使用"><span class="nav-number">2.</span> <span class="nav-text">二、远程连接工具的使用</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#三、Linux的软件安装"><span class="nav-number">3.</span> <span class="nav-text">三、Linux的软件安装</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1．JDK安装"><span class="nav-number">3.0.1.</span> <span class="nav-text">1．JDK安装</span></a></li></ol></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">zhanglu</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">8</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">zhanglu</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://muse.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a> 强力驱动
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>
