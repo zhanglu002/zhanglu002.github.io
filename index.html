@@ -170,7 +170,7 @@
               <span class="post-meta-item-text">发表于</span>
               
 
-              <time title="创建时间：2020-04-11 23:17:36 / 修改时间：23:19:57" itemprop="dateCreated datePublished" datetime="2020-04-11T23:17:36+08:00">2020-04-11</time>
+              <time title="创建时间：2020-04-11 23:17:36 / 修改时间：23:25:35" itemprop="dateCreated datePublished" datetime="2020-04-11T23:17:36+08:00">2020-04-11</time>
             </span>
 
           
@@ -184,7 +184,7 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <h1 id="Mybatis-Plus条件构造器"><a href="#Mybatis-Plus条件构造器" class="headerlink" title="Mybatis-Plus条件构造器"></a>Mybatis-Plus条件构造器</h1><h2 id="MySQL自定义排序ORDER-BY-FIELD"><a href="#MySQL自定义排序ORDER-BY-FIELD" class="headerlink" title="MySQL自定义排序ORDER BY FIELD()"></a>MySQL自定义排序ORDER BY FIELD()</h2><p>SELECT * FROM table ORDER BY FIELD(status,1,2,0);</p>
+          <h1 id="Mybatis-Plus"><a href="#Mybatis-Plus" class="headerlink" title="Mybatis-Plus"></a>Mybatis-Plus</h1><h2 id="官方文档：-https-mp-baomidou-com-guide"><a href="#官方文档：-https-mp-baomidou-com-guide" class="headerlink" title="官方文档： https://mp.baomidou.com/guide/"></a><strong>官方文档：</strong> <a href="https://mp.baomidou.com/guide/" target="_blank" rel="noopener">https://mp.baomidou.com/guide/</a></h2><h2 id="MySQL自定义排序ORDER-BY-FIELD"><a href="#MySQL自定义排序ORDER-BY-FIELD" class="headerlink" title="MySQL自定义排序ORDER BY FIELD()"></a>MySQL自定义排序ORDER BY FIELD()</h2><p>SELECT * FROM table ORDER BY FIELD(status,1,2,0);</p>
 <p>这样子写的话，返回的结果集是按照字段status的1、2、0进行排序的，当然，也可以对字符串进行排序。</p>
 <p>原理如下：</p>
 <p>FIELD()函数是将参数1的字段对后续参数进行比较，并返回1、2、3等等，如果遇到null或者没有在结果集上存在的数据，则返回0，然后根据升序进行排序。</p>
@@ -214,6 +214,11 @@
 <h2 id="存在-不存在"><a href="#存在-不存在" class="headerlink" title="存在||不存在"></a><strong>存在||不存在</strong></h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">AbstractWrapper queryTags = <span class="keyword">new</span> QueryWrapper&lt;&gt;();</span><br><span class="line"></span><br><span class="line">queryTags.in(<span class="string">"id"</span>, ids);</span><br><span class="line"></span><br><span class="line">List&lt;PubTag&gt; pubTagList = pubTagService.list(queryTags);</span><br></pre></td></tr></table></figure>
 
 <h2 id="查询指定列"><a href="#查询指定列" class="headerlink" title="查询指定列"></a><strong>查询指定列</strong></h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">QueryWrapper query = <span class="keyword">new</span> QueryWrapper();</span><br><span class="line"></span><br><span class="line">query.select(<span class="string">"id"</span>, <span class="string">"name"</span>);</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="条件构造器使用方法"><a href="#条件构造器使用方法" class="headerlink" title="条件构造器使用方法"></a>条件构造器使用方法</h2><p><a href="https://blog.csdn.net/u013650708/article/details/89950498?depth_1-utm_source=distribute.pc_relevant.none-task&amp;utm_source=distribute.pc_relevant.none-task" target="_blank" rel="noopener">https://blog.csdn.net/u013650708/article/details/89950498?depth_1-utm_source=distribute.pc_relevant.none-task&amp;utm_source=distribute.pc_relevant.none-task</a></p>
+
       
     </div>
 
@@ -232,7 +237,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/04/11/Gihub%E4%B8%8A%E4%B8%80%E4%BA%9B%E5%A5%BD%E7%9A%84java%E5%AD%A6%E4%B9%A0%E9%A1%B9%E7%9B%AE/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/04/11/Github%E4%B8%8A%E4%B8%80%E4%BA%9B%E5%A5%BD%E7%9A%84java%E5%AD%A6%E4%B9%A0%E9%A1%B9%E7%9B%AE/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -246,7 +251,7 @@
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
           
-            <a href="/2020/04/11/Gihub%E4%B8%8A%E4%B8%80%E4%BA%9B%E5%A5%BD%E7%9A%84java%E5%AD%A6%E4%B9%A0%E9%A1%B9%E7%9B%AE/" class="post-title-link" itemprop="url">Gihub上一些好的java学习项目</a>
+            <a href="/2020/04/11/Github%E4%B8%8A%E4%B8%80%E4%BA%9B%E5%A5%BD%E7%9A%84java%E5%AD%A6%E4%B9%A0%E9%A1%B9%E7%9B%AE/" class="post-title-link" itemprop="url">Github上一些好的java学习项目</a>
         </h2>
 
         <div class="post-meta">
