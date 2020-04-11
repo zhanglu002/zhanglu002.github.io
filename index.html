@@ -145,6 +145,119 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/04/11/Lombok%20%E4%BB%8B%E7%BB%8D%E5%8F%8A%E5%B8%B8%E7%94%A8%E6%B3%A8%E8%A7%A3/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="zhanglu">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="zhanglu的博客">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/04/11/Lombok%20%E4%BB%8B%E7%BB%8D%E5%8F%8A%E5%B8%B8%E7%94%A8%E6%B3%A8%E8%A7%A3/" class="post-title-link" itemprop="url">Lombok 介绍及常用注解</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2020-04-11 21:35:46" itemprop="dateCreated datePublished" datetime="2020-04-11T21:35:46+08:00">2020-04-11</time>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="Lombok-介绍"><a href="#Lombok-介绍" class="headerlink" title="Lombok 介绍"></a>Lombok 介绍</h1><h2 id="1-介绍"><a href="#1-介绍" class="headerlink" title="1.介绍"></a>1.介绍</h2><p>在项目中使用Lombok可以减少很多重复代码的书写。比如说getter/setter/toString等方法的编写。</p>
+<h2 id="2-IDEA中的安装"><a href="#2-IDEA中的安装" class="headerlink" title="2.IDEA中的安装"></a>2.IDEA中的安装</h2><p>打开IDEA的Setting –&gt; 选择Plugins选项 –&gt; 选择Browse repositories –&gt; 搜索lombok –&gt; 点击安装 –&gt; 安装完成重启IDEA –&gt; 安装成功</p>
+<p><img src="https://leanote.com/api/file/getImage?fileId=5a54370fab644126e2000c44" alt="idea安装Lombok"></p>
+<h2 id="3-引入依赖"><a href="#3-引入依赖" class="headerlink" title="3.引入依赖"></a>3.引入依赖</h2><p>在项目中添加Lombok依赖jar，在pom文件中添加如下部分。(不清楚版本可以在<a href="http://mvnrepository.com/" target="_blank" rel="noopener">Maven仓库</a>中搜索)</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&lt;!-- https:&#x2F;&#x2F;mvnrepository.com&#x2F;artifact&#x2F;org.projectlombok&#x2F;lombok --&gt;</span><br><span class="line">&lt;dependency&gt;</span><br><span class="line">    &lt;groupId&gt;org.projectlombok&lt;&#x2F;groupId&gt;</span><br><span class="line">    &lt;artifactId&gt;lombok&lt;&#x2F;artifactId&gt;</span><br><span class="line">    &lt;version&gt;1.16.18&lt;&#x2F;version&gt;</span><br><span class="line">    &lt;scope&gt;provided&lt;&#x2F;scope&gt;</span><br><span class="line">&lt;&#x2F;dependency&gt;</span><br></pre></td></tr></table></figure>
+
+<h2 id="4-使用"><a href="#4-使用" class="headerlink" title="4.使用"></a>4.使用</h2><p>在对应的类或者方法上使用对应注解即可</p>
+<h2 id="5-Lombok常用注解"><a href="#5-Lombok常用注解" class="headerlink" title="5.Lombok常用注解"></a>5.Lombok常用注解</h2><ul>
+<li>@Setter<br>@Getter<br>@Data<br>@Log(这是一个泛型注解，具体有很多种形式)<br>@AllArgsConstructor<br>@NoArgsConstructor<br>@EqualsAndHashCode<br>@NonNull<br>@Cleanup<br>@ToString<br>@RequiredArgsConstructor<br>@Value<br>@SneakyThrows<br>@Synchronized</li>
+</ul>
+<h2 id="6-注解详情"><a href="#6-注解详情" class="headerlink" title="6.注解详情"></a>6.注解详情</h2><h3 id="6-1-log"><a href="#6-1-log" class="headerlink" title="6.1 log"></a>6.1 log</h3><p>注解在 <strong>类</strong> 上。有如下可选择可用：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//@CommonsLog</span></span><br><span class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> org.apache.commons.logging.Log log = org.apache.commons.logging.LogFactory.getLog(LogExample<span class="class">.<span class="keyword">class</span>)</span>;</span><br><span class="line"><span class="comment">//@JBossLog</span></span><br><span class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> org.jboss.logging.Logger log = org.jboss.logging.Logger.getLogger(LogExample<span class="class">.<span class="keyword">class</span>)</span>;</span><br><span class="line"><span class="comment">//@Log</span></span><br><span class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> java.util.logging.Logger log = java.util.logging.Logger.getLogger(LogExample<span class="class">.<span class="keyword">class</span>.<span class="title">getName</span>())</span>;</span><br><span class="line"><span class="comment">//@Log4j</span></span><br><span class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> org.apache.log4j.Logger log = org.apache.log4j.Logger.getLogger(LogExample<span class="class">.<span class="keyword">class</span>)</span>;</span><br><span class="line"><span class="comment">//@Log4j2</span></span><br><span class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> org.apache.logging.log4j.Logger log = org.apache.logging.log4j.LogManager.getLogger(LogExample<span class="class">.<span class="keyword">class</span>)</span>;</span><br><span class="line"><span class="comment">//@Slf4j</span></span><br><span class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(LogExample<span class="class">.<span class="keyword">class</span>)</span>;</span><br><span class="line"><span class="comment">//@XSlf4j</span></span><br><span class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> org.slf4j.ext.XLogger log = org.slf4j.ext.XLoggerFactory.getXLogger(LogExample<span class="class">.<span class="keyword">class</span>)</span>;</span><br></pre></td></tr></table></figure>
+
+<p>默认情况下，记录器的主题（或名称）将是使用注释进行<code>@Log</code>注释的类的类名称。这可以通过指定<code>topic</code>参数来定制。例如：<code>@XSlf4j(topic=&quot;reporting&quot;)</code>。</p>
+<p>该类型注解可以满足不同的日志系统的日志使用，Lombok提供了一些自定义配置项可以参看官方说明文档。</p>
+<p><a href="https://projectlombok.org/features/log" target="_blank" rel="noopener">Log官方介绍</a></p>
+<h3 id="6-2-Getter和-Setter"><a href="#6-2-Getter和-Setter" class="headerlink" title="6.2 @Getter和@Setter"></a>6.2 @Getter和@Setter</h3><p>该注解使用在<strong>类或者属性</strong>上，该注解可以使用在类上也可以使用在属性上。生成的getter遵循布尔属性的约定。例如：boolean类型的sex,getter方法为<code>isSex</code>而不是<code>getSex</code></p>
+<p>在使用该注解时，会默认生成一个无参构造。和对应的getterhe setter方法</p>
+<p><img src="https://leanote.com/api/file/getImage?fileId=5a54370fab644126e2000c49" alt="img"></p>
+<p>该注解也可以使用在单个属性上，会默认生成一个无参构造：</p>
+<p><img src="https://leanote.com/api/file/getImage?fileId=5a54370fab644126e2000c48" alt="img"></p>
+<h3 id="6-3-Data"><a href="#6-3-Data" class="headerlink" title="6.3 @Data"></a>6.3 @Data</h3><p>该注解使用在类上，该注解是最常用的注解，它结合了@ToString，@EqualsAndHashCode， @Getter和@Setter。本质上使用@Data注解，类默认@ToString和@EqualsAndHashCode以及每个字段都有@Setter和@getter。该注解也会生成一个公共构造函数，可以将任何@NonNull和final字段作为参数。</p>
+<p>虽然<code>@Data</code>注解非常有用，但是它没有与其他注解相同的控制粒度。<code>@Data</code>提供了一个可以生成静态工厂的单一参数，将<code>staticConstructor</code>参数设置为所需要的名称，Lombok自动生成的构造函数设置为私有，并提供公开的给定名称的静态工厂方法。<br><img src="https://leanote.com/api/file/getImage?fileId=5a546265ab644126e2001263" alt="示例"></p>
+<p><img src="https://leanote.com/api/file/getImage?fileId=5a54370fab644126e2000c43" alt="img"></p>
+<h3 id="6-4-NonNull"><a href="#6-4-NonNull" class="headerlink" title="6.4 @NonNull"></a>6.4 @NonNull</h3><p>该注解使用在<strong>属性</strong>上，该注解用于属的非空检查，当放在setter方法的字段上，将生成一个空检查，如果为空，则抛出<code>NullPointerException</code>。<br>该注解会默认是生成一个无参构造。</p>
+<p><img src="https://leanote.com/api/file/getImage?fileId=5a54370fab644126e2000c47" alt="img"></p>
+<h3 id="6-5-toString"><a href="#6-5-toString" class="headerlink" title="6.5 @toString"></a>6.5 @toString</h3><p>该注解使用在类上，该注解默认生成任何非讲台字段以名称-值的形式输出。<br>1、如果需要可以通过注释参数includeFieldNames来控制输出中是否包含的属性名称。<br>2、可以通过exclude参数中包含字段名称，可以从生成的方法中排除特定字段。<br>3、可以通过callSuper参数控制父类的输出。</p>
+<ul>
+<li><p>includeFieldNames是否包含属性名称：<br><img src="https://leanote.com/api/file/getImage?fileId=5a54370fab644126e2000c45" alt="示例"></p>
+</li>
+<li><p>exclude 排除指定字段</p>
+</li>
+<li><p>callSuper输出父类属性</p>
+</li>
+</ul>
+<p><img src="https://leanote.com/api/file/getImage?fileId=5a543c1aab644126e2000d38" alt="示例"></p>
+<p>注意：父类也要有toString方法，不然打印的是对象内存地址</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//父类无toString方法</span></span><br><span class="line">Person(<span class="keyword">super</span>=com.motui.Person@<span class="number">3</span>abfe836, firstName=motui, address=北京, dateOfBirth=Tue Jan <span class="number">09</span> <span class="number">11</span>:<span class="number">49</span>:<span class="number">05</span> CST <span class="number">2018</span>, sex=<span class="keyword">true</span>)</span><br><span class="line"><span class="comment">//父类有toString方法</span></span><br><span class="line">Person(<span class="keyword">super</span>=People(id=<span class="number">111</span>), firstName=motui, address=北京, dateOfBirth=Tue Jan <span class="number">09</span> <span class="number">11</span>:<span class="number">50</span>:<span class="number">11</span> CST <span class="number">2018</span>, sex=<span class="keyword">true</span>)</span><br></pre></td></tr></table></figure>
+
+<h3 id="6-5-EqualsAndHashCode"><a href="#6-5-EqualsAndHashCode" class="headerlink" title="6.5 @EqualsAndHashCode"></a>6.5 @EqualsAndHashCode</h3><p>该注解使用在<strong>类</strong>上，该注解在类级别注释会同时生成<code>equals</code>和<code>hashCode</code>。<br>注意继承关系的时候该注解的使用。详细介绍参照<a href="http://jnb.ociweb.com/jnb/jnbJan2010.html" target="_blank" rel="noopener">官方介绍</a></p>
+<p>存在继承关系需要设置<code>callSuper</code>参数为<code>true</code>。</p>
+<p><img src="https://leanote.com/api/file/getImage?fileId=5a543f5dab644126e2000d85" alt="示例"></p>
+<h3 id="6-6-AllArgsConstructor"><a href="#6-6-AllArgsConstructor" class="headerlink" title="6.6 @AllArgsConstructor"></a>6.6 @AllArgsConstructor</h3><p>该注解使用在<strong>类</strong>上，该注解提供一个全参数的构造方法，默认不提供无参构造。</p>
+<p><img src="https://leanote.com/api/file/getImage?fileId=5a546265ab644126e2001260" alt="img"></p>
+<h3 id="6-7-NoArgsConstructor"><a href="#6-7-NoArgsConstructor" class="headerlink" title="6.7 @NoArgsConstructor"></a>6.7 @NoArgsConstructor</h3><p>该注解使用在<strong>类</strong>上，该注解提供一个无参构造</p>
+<p><img src="https://leanote.com/api/file/getImage?fileId=5a546266ab644126e2001264" alt="示例"></p>
+<h3 id="6-8-RequiredArgsConstructor"><a href="#6-8-RequiredArgsConstructor" class="headerlink" title="6.8 @RequiredArgsConstructor"></a>6.8 @RequiredArgsConstructor</h3><p>该注解使用在<strong>类</strong>上，使用类中所有带有 @NonNull 注解的或者带有 final 修饰的成员变量生成对应的构造方法。</p>
+<p><img src="https://leanote.com/api/file/getImage?fileId=5a546265ab644126e200125f" alt="实例"></p>
+<h3 id="6-9-Value"><a href="#6-9-Value" class="headerlink" title="6.9 @Value"></a>6.9 @Value</h3><p>这个注解用在 类 上，会生成含所有参数的构造方法，get 方法，此外还提供了equals、hashCode、toString 方法。<br><strong>注意：没有setter</strong></p>
+<p><img src="https://leanote.com/api/file/getImage?fileId=5a546265ab644126e2001261" alt="示例"></p>
+<h3 id="6-10-Cleanup"><a href="#6-10-Cleanup" class="headerlink" title="6.10 @Cleanup"></a>6.10 @Cleanup</h3><p>该注解使用在<strong>属性</strong>前，该注解是用来保证分配的资源被释放。在本地变量上使用该注解，任何后续代码都将封装在try/finally中，确保当前作用于中的资源被释放。默认<code>@Cleanup</code>清理的方法为<code>close</code>，可以使用value指定不同的方法名称。</p>
+<p><img src="https://leanote.com/api/file/getImage?fileId=5a546266ab644126e2001266" alt="示例"></p>
+<h3 id="6-11-Synchronized"><a href="#6-11-Synchronized" class="headerlink" title="6.11 @Synchronized"></a>6.11 @Synchronized</h3><p>该注解使用在类或者实例方法上，Synchronized在一个方法上，使用关键字可能会导致结果和想要的结果不同，因为多线程情况下会出现异常情况。Synchronized<br>关键字将在this示例方法情况下锁定当前对象，或者class讲台方法的对象上多锁定。这可能会导致死锁现象。一般情况下建议锁定一个专门用于此目的的独立锁，而不是允许公共对象进行锁定。该注解也是为了达到该目的。<br><img src="https://leanote.com/api/file/getImage?fileId=5a546265ab644126e2001262" alt="示例"></p>
+<h3 id="6-12-SneakyThrows"><a href="#6-12-SneakyThrows" class="headerlink" title="6.12 @SneakyThrows"></a>6.12 @SneakyThrows</h3><p>该注解使用在<strong>方法</strong>上，这个注解用在 方法 上，可以将方法中的代码用 try-catch 语句包裹起来，捕获异常并在 catch 中用 </p>
+<p>Lombok.sneakyThrow(e) 把异常抛出，可以使用 @SneakyThrows(Exception.class) 的形式指定抛出哪种异常。该注解需要谨慎使用。详情参看<a href="https://projectlombok.org/features/SneakyThrows" target="_blank" rel="noopener">官方介绍</a></p>
+<p><img src="https://leanote.com/api/file/getImage?fileId=5a546266ab644126e2001265" alt="示例"></p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/04/11/hello-world/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -751,7 +864,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">5</span>
+          <span class="site-state-item-count">6</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
