@@ -145,6 +145,264 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/04/10/%E5%88%A9%E7%94%A8redis%E5%92%8Credisson%E5%AE%9E%E7%8E%B0%E5%88%86%E5%B8%83%E5%BC%8F%E9%94%81/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="zhanglu">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="zhanglu的博客">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/04/10/%E5%88%A9%E7%94%A8redis%E5%92%8Credisson%E5%AE%9E%E7%8E%B0%E5%88%86%E5%B8%83%E5%BC%8F%E9%94%81/" class="post-title-link" itemprop="url">利用redis和redisson实现分布式锁</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2020-04-10 23:58:22" itemprop="dateCreated datePublished" datetime="2020-04-10T23:58:22+08:00">2020-04-10</time>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="利用redis和redisson实现分布式锁"><a href="#利用redis和redisson实现分布式锁" class="headerlink" title="利用redis和redisson实现分布式锁"></a>利用redis和redisson实现分布式锁</h2><h3 id="1-使用redis实现简单的锁"><a href="#1-使用redis实现简单的锁" class="headerlink" title="1 使用redis实现简单的锁"></a>1 使用redis实现简单的锁</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> R <span class="title">submit</span><span class="params">(@RequestBody List&lt;WjAnswer&gt; wjAnswers)</span> </span>&#123;</span><br><span class="line">       String lockKey = <span class="string">"lockKey"</span>;</span><br><span class="line">       String clientId = UUID.randomUUID().toString();</span><br><span class="line">       <span class="keyword">try</span> &#123;</span><br><span class="line">           Boolean result = redisTemplate.opsForValue().setIfAbsent(lockKey, clientId, <span class="number">30</span>, TimeUnit.SECONDS);</span><br><span class="line">           <span class="comment">/*</span></span><br><span class="line"><span class="comment">         	判断是否新增了key 如果没有新增 则表明有线程在占用这个接口，接口暂时不可用，直接返回错误；如果有新增，则表明没有线程占用接口，可继续执行。</span></span><br><span class="line"><span class="comment">           */</span></span><br><span class="line">           <span class="keyword">if</span> (!result) &#123;</span><br><span class="line">               <span class="keyword">return</span> R.failed().setMsg(<span class="string">"请勿频繁刷新"</span>);</span><br><span class="line">           &#125;</span><br><span class="line">           System.out.println(<span class="string">"这里执行业务代码"</span>);</span><br><span class="line">       &#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">           <span class="keyword">if</span> (clientId.equals(redisTemplate.opsForValue().get(lockKey))) &#123;</span><br><span class="line">               redisTemplate.delete(lockKey);</span><br><span class="line">           &#125;</span><br><span class="line">       &#125;</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="1-1-注意事项"><a href="#1-1-注意事项" class="headerlink" title="1.1 注意事项"></a>1.1 注意事项</h3><ul>
+<li>利用redis单线程原理实现</li>
+<li>setIfAbsent： 如果键不存在则新增,存在则不改变已经有的值。</li>
+<li>设置redis key有效时间30秒，可以是任意时间。简单业务场景可以这样设置。          </li>
+<li>存在的问题：高并发下如果业务代码执行时间超过有redis key的效时间，就会造成锁失效</li>
+<li>举例：Thread1 运行需要40秒，则lockKey在运行到30秒时已经失效，如果这时Thread2进行请求，则redis中已经没有lockKey，就会新建一把锁，继续执行，造成锁失效。 </li>
+<li>解决办法：<blockquote>
+<ol>
+<li>新开一个线程 判断lockKey是否存在，如果存在就给lockKey“续命”，重新设置其有效时间，注意：新设的有效时间不能超过原有的时间。</li>
+<li>2.用redisson解决</li>
+</ol>
+</blockquote>
+</li>
+</ul>
+<h3 id="2-redisson分布式锁实现"><a href="#2-redisson分布式锁实现" class="headerlink" title="2 redisson分布式锁实现"></a>2 redisson分布式锁实现</h3><h4 id="2-1-redisson官网：-https-redisson-org"><a href="#2-1-redisson官网：-https-redisson-org" class="headerlink" title="2.1 redisson官网：  https://redisson.org/"></a>2.1 redisson官网：  <a href="https://redisson.org/" target="_blank" rel="noopener">https://redisson.org/</a></h4><h4 id="2-2-redisson初始化客户端"><a href="#2-2-redisson初始化客户端" class="headerlink" title="2.2 redisson初始化客户端"></a>2.2 redisson初始化客户端</h4><h5 id="2-2-1-引入依赖"><a href="#2-2-1-引入依赖" class="headerlink" title="2.2.1 引入依赖"></a>2.2.1 引入依赖</h5><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!--redisson--&gt;</span></span><br><span class="line">   <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">       <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.redisson<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">       <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>redisson<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">       <span class="tag">&lt;<span class="name">version</span>&gt;</span>3.5.6<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">   <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h5 id="2-2-2-redisson配置"><a href="#2-2-2-redisson配置" class="headerlink" title="2.2.2 redisson配置"></a>2.2.2 redisson配置</h5><p>参考文章地址：</p>
+<ol>
+<li>官方配置文档：  <a href="https://github.com/redisson/redisson/wiki/2.-配置方法" target="_blank" rel="noopener">https://github.com/redisson/redisson/wiki/2.-%E9%85%8D%E7%BD%AE%E6%96%B9%E6%B3%95</a> </li>
+<li>springBoot集成redisson：   <a href="https://blog.csdn.net/lms1719/article/details/83652578" target="_blank" rel="noopener">https://blog.csdn.net/lms1719/article/details/83652578</a> </li>
+</ol>
+<ul>
+<li>在项目的resources目录下，添加redisson的配置文件（这里使用yaml格式的配置文件redisson-config.yml，文件名可自己定， 文件的示例配置如下）。</li>
+</ul>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#Redisson配置</span></span><br><span class="line"><span class="attr">singleServerConfig:</span></span><br><span class="line">  <span class="attr">address:</span> <span class="string">"redis://127.0.0.1:6379"</span></span><br><span class="line">  <span class="attr">password:</span> <span class="literal">null</span></span><br><span class="line">  <span class="attr">clientName:</span> <span class="literal">null</span></span><br><span class="line">  <span class="attr">database:</span> <span class="number">7</span> <span class="comment">#选择使用哪个数据库0~15</span></span><br><span class="line">  <span class="attr">idleConnectionTimeout:</span> <span class="number">10000</span></span><br><span class="line">  <span class="attr">pingTimeout:</span> <span class="number">1000</span></span><br><span class="line">  <span class="attr">connectTimeout:</span> <span class="number">10000</span></span><br><span class="line">  <span class="attr">timeout:</span> <span class="number">3000</span></span><br><span class="line">  <span class="attr">retryAttempts:</span> <span class="number">3</span></span><br><span class="line">  <span class="attr">retryInterval:</span> <span class="number">1500</span></span><br><span class="line">  <span class="attr">reconnectionTimeout:</span> <span class="number">3000</span></span><br><span class="line">  <span class="attr">failedAttempts:</span> <span class="number">3</span></span><br><span class="line">  <span class="attr">subscriptionsPerConnection:</span> <span class="number">5</span></span><br><span class="line">  <span class="attr">subscriptionConnectionMinimumIdleSize:</span> <span class="number">1</span></span><br><span class="line">  <span class="attr">subscriptionConnectionPoolSize:</span> <span class="number">50</span></span><br><span class="line">  <span class="attr">connectionMinimumIdleSize:</span> <span class="number">32</span></span><br><span class="line">  <span class="attr">connectionPoolSize:</span> <span class="number">64</span></span><br><span class="line">  <span class="attr">dnsMonitoringInterval:</span> <span class="number">5000</span></span><br><span class="line">  <span class="comment">#dnsMonitoring: false</span></span><br><span class="line"></span><br><span class="line"><span class="attr">threads:</span> <span class="number">0</span></span><br><span class="line"><span class="attr">nettyThreads:</span> <span class="number">0</span></span><br><span class="line"><span class="attr">codec:</span></span><br><span class="line">  <span class="attr">class:</span> <span class="string">"org.redisson.codec.JsonJacksonCodec"</span></span><br><span class="line"><span class="attr">transportMode:</span> <span class="string">"NIO"</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>添加Redisson的配置参数读取类RedissonConfig</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.dbfor.redis.config;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> org.redisson.Redisson;</span><br><span class="line"><span class="keyword">import</span> org.redisson.api.RedissonClient;</span><br><span class="line"><span class="keyword">import</span> org.redisson.config.Config;</span><br><span class="line"><span class="keyword">import</span> org.springframework.context.annotation.Bean;</span><br><span class="line"><span class="keyword">import</span> org.springframework.context.annotation.Configuration;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> java.io.IOException;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Configuration</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">RedissonConfig</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Bean</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> Redisson <span class="title">redisson</span><span class="params">()</span> <span class="keyword">throws</span> IOException </span>&#123;</span><br><span class="line">        <span class="comment">// 本例子使用的是yaml格式的配置文件，读取使用Config.fromYAML，如果是Json文件，则使用Config.fromJSON</span></span><br><span class="line">        Config config = Config.fromYAML(RedissonConfig.class.getClassLoader().getResource("redisson-config.yml"));</span><br><span class="line">        <span class="keyword">return</span> (Redisson)Redisson.create(config);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>编写测试类</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.dbfor.redis;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> org.junit.Test;</span><br><span class="line"><span class="keyword">import</span> org.junit.runner.RunWith;</span><br><span class="line"><span class="keyword">import</span> org.redisson.api.RBucket;</span><br><span class="line"><span class="keyword">import</span> org.redisson.api.RedissonClient;</span><br><span class="line"><span class="keyword">import</span> org.springframework.beans.factory.annotation.Autowired;</span><br><span class="line"><span class="keyword">import</span> org.springframework.boot.test.context.SpringBootTest;</span><br><span class="line"><span class="keyword">import</span> org.springframework.stereotype.Component;</span><br><span class="line"><span class="keyword">import</span> org.springframework.test.context.junit4.SpringRunner;</span><br><span class="line"></span><br><span class="line"><span class="meta">@SpringBootTest</span></span><br><span class="line"><span class="meta">@RunWith</span>(SpringRunner<span class="class">.<span class="keyword">class</span>)</span></span><br><span class="line"><span class="class">@<span class="title">Component</span></span></span><br><span class="line"><span class="class"><span class="title">public</span> <span class="title">class</span> <span class="title">RedissonTest</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Autowired</span></span><br><span class="line">    <span class="keyword">private</span> RedissonClient redissonClient;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Test</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">set</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="comment">// 设置字符串</span></span><br><span class="line">        RBucket&lt;String&gt; keyObj = redissonClient.getBucket(<span class="string">"k1"</span>);</span><br><span class="line">        keyObj.set(<span class="string">"v1236"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">测试成功</span><br></pre></td></tr></table></figure>
+
+<h5 id="2-2-4-用Redisson编写分布式锁"><a href="#2-2-4-用Redisson编写分布式锁" class="headerlink" title="2.2.4 用Redisson编写分布式锁"></a>2.2.4 用Redisson编写分布式锁</h5><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Autowired</span></span><br><span class="line"><span class="keyword">private</span> Redisson redisson;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">public</span> R <span class="title">submit</span><span class="params">(@RequestBody List&lt;WjAnswer&gt; wjAnswers)</span> </span>&#123;</span><br><span class="line">          String lockKey = <span class="string">"lockKey"</span>;</span><br><span class="line">     	  RLock rLock = redisson.getLock(lockKey);<span class="comment">//redisson锁</span></span><br><span class="line">          <span class="keyword">try</span> &#123;</span><br><span class="line">  			  rLock.lock();<span class="comment">//加锁</span></span><br><span class="line">              System.out.println(<span class="string">"这里执行业务代码"</span>);</span><br><span class="line">          &#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">              rLock.unlock();<span class="comment">//释放锁</span></span><br><span class="line">          &#125;</span><br><span class="line">      &#125;</span><br></pre></td></tr></table></figure>
+
+
+
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/04/09/hexo%E6%90%AD%E5%BB%BA%E5%8D%9A%E5%AE%A2+%E5%8F%91%E5%B8%83/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="zhanglu">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="zhanglu的博客">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/04/09/hexo%E6%90%AD%E5%BB%BA%E5%8D%9A%E5%AE%A2+%E5%8F%91%E5%B8%83/" class="post-title-link" itemprop="url">hexo搭建博客+发布</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2020-04-09 21:36:45 / 修改时间：21:58:02" itemprop="dateCreated datePublished" datetime="2020-04-09T21:36:45+08:00">2020-04-09</time>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="hexo搭建博客-发布"><a href="#hexo搭建博客-发布" class="headerlink" title="hexo搭建博客+发布"></a>hexo搭建博客+发布</h2><h3 id="1-安装node-js"><a href="#1-安装node-js" class="headerlink" title="1 安装node.js"></a>1 安装node.js</h3><ul>
+<li>node -v 查看版本</li>
+</ul>
+<h3 id="2-安装npm"><a href="#2-安装npm" class="headerlink" title="2 安装npm"></a>2 安装npm</h3><ul>
+<li>全局安装cnpm：npm install -g cnpm –registry=<a href="https://registry.npm.taobao.org/" target="_blank" rel="noopener">https://registry.npm.taobao.org</a></li>
+</ul>
+<h3 id="3-安装hexo"><a href="#3-安装hexo" class="headerlink" title="3 安装hexo"></a>3 安装hexo</h3><ul>
+<li><p>全局安装hexo： cnpm install -g hero-cli  查看版本 hexo -v</p>
+</li>
+<li><p>新建一个文件夹： mkdir blog</p>
+</li>
+<li><p>初始化一个博客：sudo hexo init</p>
+</li>
+</ul>
+<h3 id="4-启动-更新博客"><a href="#4-启动-更新博客" class="headerlink" title="4 启动 更新博客"></a>4 启动 更新博客</h3><ul>
+<li><p>启动博客：hexo s   本地地址：<a href="http://localhost:4000" target="_blank" rel="noopener">http://localhost:4000</a></p>
+</li>
+<li><p>新建一篇文章：在/blog/source/_posts/ 路径下新建md文件 </p>
+</li>
+<li><p>在blog根目录下重新发布：</p>
+</li>
+<li><ul>
+<li>清理缓存：hexo clean   </li>
+<li>生成博客：hexo g </li>
+</ul>
+</li>
+<li><p>重新启动：hexo s</p>
+</li>
+</ul>
+<h3 id="5-在github发布"><a href="#5-在github发布" class="headerlink" title="5 在github发布"></a>5 在github发布</h3><h4 id="在自己github上新建一个仓库-New-repository"><a href="#在自己github上新建一个仓库-New-repository" class="headerlink" title="在自己github上新建一个仓库 New repository"></a>在自己github上新建一个仓库 New repository</h4><h5 id="repository-name-必须为用户名-github-io-例如-zhanglu002-github-io"><a href="#repository-name-必须为用户名-github-io-例如-zhanglu002-github-io" class="headerlink" title="repository name 必须为用户名.github.io   例如:zhanglu002.github.io"></a>repository name 必须为用户名.github.io   例如:zhanglu002.github.io</h5><h4 id="在blog中安装git插件：-cnpm-install-–save-hexo-deployer-git"><a href="#在blog中安装git插件：-cnpm-install-–save-hexo-deployer-git" class="headerlink" title="在blog中安装git插件： cnpm install –save hexo-deployer-git"></a>在blog中安装git插件： cnpm install –save hexo-deployer-git</h4><h5 id="设置-config-yml："><a href="#设置-config-yml：" class="headerlink" title="设置_config.yml："></a>设置_config.yml：</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"># Deployment</span><br><span class="line">## Docs: https:&#x2F;&#x2F;hexo.io&#x2F;docs&#x2F;deployment.html</span><br><span class="line">deploy:</span><br><span class="line">	#type 设置为 git</span><br><span class="line">  type: git </span><br><span class="line">  #repo 设置为 github上创建的博客仓库地址</span><br><span class="line">  repo: https:&#x2F;&#x2F;github.com&#x2F;zhanglu002&#x2F;zhanglu002.github.io.git</span><br><span class="line">  #branch 设置为 master分支</span><br><span class="line">  branch: master</span><br></pre></td></tr></table></figure>
+
+<h4 id="部署到远端：-hexo-d-或者sudo-hexo-d-然后在提示中输入github账号和密码"><a href="#部署到远端：-hexo-d-或者sudo-hexo-d-然后在提示中输入github账号和密码" class="headerlink" title="部署到远端： hexo d 或者sudo hexo d  然后在提示中输入github账号和密码"></a>部署到远端： hexo d 或者sudo hexo d  然后在提示中输入github账号和密码</h4><h4 id="访问最新的博客：-输入repository-name-例如：zhanglu002-github-io-到浏览器访问最新的博客"><a href="#访问最新的博客：-输入repository-name-例如：zhanglu002-github-io-到浏览器访问最新的博客" class="headerlink" title="访问最新的博客： 输入repository name 例如：zhanglu002.github.io 到浏览器访问最新的博客"></a>访问最新的博客： 输入repository name 例如：zhanglu002.github.io 到浏览器访问最新的博客</h4><h3 id="6-博客主题设置"><a href="#6-博客主题设置" class="headerlink" title="6 博客主题设置"></a>6 博客主题设置</h3><h4 id="主题地址：-https-github-com-litten-hexo-theme-yilia"><a href="#主题地址：-https-github-com-litten-hexo-theme-yilia" class="headerlink" title="主题地址： https://github.com/litten/hexo-theme-yilia"></a>主题地址： <a href="https://github.com/litten/hexo-theme-yilia" target="_blank" rel="noopener">https://github.com/litten/hexo-theme-yilia</a></h4><h4 id="安装：-git-clone-https-github-com-litten-hexo-theme-yilia-git-themes-yilia"><a href="#安装：-git-clone-https-github-com-litten-hexo-theme-yilia-git-themes-yilia" class="headerlink" title="安装：$ git clone https://github.com/litten/hexo-theme-yilia.git themes/yilia"></a>安装：$ git clone <a href="https://github.com/litten/hexo-theme-yilia.git" target="_blank" rel="noopener">https://github.com/litten/hexo-theme-yilia.git</a> themes/yilia</h4><h4 id="配置：-修改hexo根目录下的-config-yml-：-theme-yilia"><a href="#配置：-修改hexo根目录下的-config-yml-：-theme-yilia" class="headerlink" title="配置： 修改hexo根目录下的 _config.yml ： theme: yilia"></a>配置： 修改hexo根目录下的 <code>_config.yml</code> ： <code>theme: yilia</code></h4><h4 id="更新："><a href="#更新：" class="headerlink" title="更新："></a>更新：</h4>  <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cd themes&#x2F;yilia</span><br><span class="line">git pull</span><br></pre></td></tr></table></figure>
+
+<h4 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h4> <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br></pre></td><td class="code"><pre><span class="line"># Header</span><br><span class="line">  menu:</span><br><span class="line">    主页: &#x2F;</span><br><span class="line">    随笔: &#x2F;tags&#x2F;随笔&#x2F;</span><br><span class="line">  </span><br><span class="line">  # SubNav</span><br><span class="line">  subnav:</span><br><span class="line">    github: &quot;#&quot;</span><br><span class="line">    weibo: &quot;#&quot;</span><br><span class="line">    rss: &quot;#&quot;</span><br><span class="line">    zhihu: &quot;#&quot;</span><br><span class="line">    #qq: &quot;#&quot;</span><br><span class="line">    #weixin: &quot;#&quot;</span><br><span class="line">    #jianshu: &quot;#&quot;</span><br><span class="line">    #douban: &quot;#&quot;</span><br><span class="line">    #segmentfault: &quot;#&quot;</span><br><span class="line">    #bilibili: &quot;#&quot;</span><br><span class="line">    #acfun: &quot;#&quot;</span><br><span class="line">    #mail: &quot;mailto:litten225@qq.com&quot;</span><br><span class="line">    #facebook: &quot;#&quot;</span><br><span class="line">    #google: &quot;#&quot;</span><br><span class="line">    #twitter: &quot;#&quot;</span><br><span class="line">    #linkedin: &quot;#&quot;</span><br><span class="line">  </span><br><span class="line">  rss: &#x2F;atom.xml</span><br><span class="line">  </span><br><span class="line">  # 是否需要修改 root 路径</span><br><span class="line">  # 如果您的网站存放在子目录中，例如 http:&#x2F;&#x2F;yoursite.com&#x2F;blog，</span><br><span class="line">  # 请将您的 url 设为 http:&#x2F;&#x2F;yoursite.com&#x2F;blog 并把 root 设为 &#x2F;blog&#x2F;。</span><br><span class="line">  root: </span><br><span class="line">  </span><br><span class="line">  # Content</span><br><span class="line">  </span><br><span class="line">  # 文章太长，截断按钮文字</span><br><span class="line">  excerpt_link: more</span><br><span class="line">  # 文章卡片右下角常驻链接，不需要请设置为false</span><br><span class="line">  show_all_link: &#39;展开全文&#39;</span><br><span class="line">  # 数学公式</span><br><span class="line">  mathjax: false</span><br><span class="line">  # 是否在新窗口打开链接</span><br><span class="line">  open_in_new: false</span><br><span class="line">  </span><br><span class="line">  # 打赏</span><br><span class="line">  # 打赏type设定：0-关闭打赏； 1-文章对应的md文件里有reward:true属性，才有打赏； 2-所有文章均有打赏</span><br><span class="line">  reward_type: 2</span><br><span class="line">  # 打赏wording</span><br><span class="line">  reward_wording: &#39;谢谢你请我吃糖果&#39;</span><br><span class="line">  # 支付宝二维码图片地址，跟你设置头像的方式一样。比如：&#x2F;assets&#x2F;img&#x2F;alipay.jpg</span><br><span class="line">  alipay: </span><br><span class="line">  # 微信二维码图片地址</span><br><span class="line">  weixin: </span><br><span class="line">  </span><br><span class="line">  # 目录</span><br><span class="line">  # 目录设定：0-不显示目录； 1-文章对应的md文件里有toc:true属性，才有目录； 2-所有文章均显示目录</span><br><span class="line">  toc: 1</span><br><span class="line">  # 根据自己的习惯来设置，如果你的目录标题习惯有标号，置为true即可隐藏hexo重复的序号；否则置为false</span><br><span class="line">  toc_hide_index: true</span><br><span class="line">  # 目录为空时的提示</span><br><span class="line">  toc_empty_wording: &#39;目录，不存在的…&#39;</span><br><span class="line">  </span><br><span class="line">  # 是否有快速回到顶部的按钮</span><br><span class="line">  top: true</span><br><span class="line">  </span><br><span class="line">  # Miscellaneous</span><br><span class="line">  baidu_analytics: &#39;&#39;</span><br><span class="line">  google_analytics: &#39;&#39;</span><br><span class="line">  favicon: &#x2F;favicon.png</span><br><span class="line">  </span><br><span class="line">  #你的头像url</span><br><span class="line">  avatar:</span><br><span class="line">  </span><br><span class="line">  #是否开启分享</span><br><span class="line">  share_jia: true</span><br><span class="line">  </span><br><span class="line">  #评论：1、多说；2、网易云跟帖；3、畅言；4、Disqus；5、Gitment</span><br><span class="line">  #不需要使用某项，直接设置值为false，或注释掉</span><br><span class="line">  #具体请参考wiki：https:&#x2F;&#x2F;github.com&#x2F;litten&#x2F;hexo-theme-yilia&#x2F;wiki&#x2F;</span><br><span class="line">  </span><br><span class="line">  #1、多说</span><br><span class="line">  duoshuo: false</span><br><span class="line">  </span><br><span class="line">  #2、网易云跟帖</span><br><span class="line">  wangyiyun: false</span><br><span class="line">  </span><br><span class="line">  #3、畅言</span><br><span class="line">  changyan_appid: false</span><br><span class="line">  changyan_conf: false</span><br><span class="line">  </span><br><span class="line">  #4、Disqus 在hexo根目录的config里也有disqus_shortname字段，优先使用yilia的</span><br><span class="line">  disqus: false</span><br><span class="line">  </span><br><span class="line">  #5、Gitment</span><br><span class="line">  gitment_owner: false      #你的 GitHub ID</span><br><span class="line">  gitment_repo: &#39;&#39;          #存储评论的 repo</span><br><span class="line">  gitment_oauth:</span><br><span class="line">    client_id: &#39;&#39;           #client ID</span><br><span class="line">    client_secret: &#39;&#39;       #client secret</span><br><span class="line">  </span><br><span class="line">  # 样式定制 - 一般不需要修改，除非有很强的定制欲望…</span><br><span class="line">  style:</span><br><span class="line">    # 头像上面的背景颜色</span><br><span class="line">    header: &#39;#4d4d4d&#39;</span><br><span class="line">    # 右滑板块背景</span><br><span class="line">    slider: &#39;linear-gradient(200deg,#a0cfe4,#e8c37e)&#39;</span><br><span class="line">  </span><br><span class="line">  # slider的设置</span><br><span class="line">  slider:</span><br><span class="line">    # 是否默认展开tags板块</span><br><span class="line">    showTags: false</span><br><span class="line">  </span><br><span class="line">  # 智能菜单</span><br><span class="line">  # 如不需要，将该对应项置为false</span><br><span class="line">  # 比如</span><br><span class="line">  #smart_menu:</span><br><span class="line">  #  friends: false</span><br><span class="line">  smart_menu:</span><br><span class="line">    innerArchive: &#39;所有文章&#39;</span><br><span class="line">    friends: &#39;友链&#39;</span><br><span class="line">    aboutme: &#39;关于我&#39;</span><br><span class="line">  </span><br><span class="line">  friends:</span><br><span class="line">    友情链接1: http:&#x2F;&#x2F;localhost:4000&#x2F;</span><br><span class="line">    友情链接2: http:&#x2F;&#x2F;localhost:4000&#x2F;</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/04/09/%E6%8E%A5%E5%8F%A3%E8%BF%94%E5%9B%9E%E4%BD%93demo/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="zhanglu">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="zhanglu的博客">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/04/09/%E6%8E%A5%E5%8F%A3%E8%BF%94%E5%9B%9E%E4%BD%93demo/" class="post-title-link" itemprop="url">接口返回体demo</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2020-04-09 20:39:46" itemprop="dateCreated datePublished" datetime="2020-04-09T20:39:46+08:00">2020-04-09</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-04-11 00:08:16" itemprop="dateModified" datetime="2020-04-11T00:08:16+08:00">2020-04-11</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="接口返回结果Demo"><a href="#接口返回结果Demo" class="headerlink" title="接口返回结果Demo"></a>接口返回结果Demo</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">package</span> com.idatage.cloud.common.core.util;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> com.idatage.cloud.common.core.constant.CommonConstants;</span><br><span class="line"><span class="keyword">import</span> io.swagger.annotations.ApiModel;</span><br><span class="line"><span class="keyword">import</span> io.swagger.annotations.ApiModelProperty;</span><br><span class="line"><span class="keyword">import</span> java.io.Serializable;</span><br><span class="line"></span><br><span class="line"><span class="meta">@ApiModel</span>(<span class="string">"响应信息主体"</span>)</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">R</span>&lt;<span class="title">T</span>&gt; <span class="keyword">implements</span> <span class="title">Serializable</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">long</span> serialVersionUID = <span class="number">1L</span>;</span><br><span class="line">    <span class="meta">@ApiModelProperty</span>(<span class="string">"返回标记：成功标记=0，失败标记=1"</span>)</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">int</span> code;</span><br><span class="line">    <span class="meta">@ApiModelProperty</span>(<span class="string">"返回信息"</span>)</span><br><span class="line">    <span class="keyword">private</span> String msg;</span><br><span class="line">    <span class="meta">@ApiModelProperty</span>(<span class="string">"数据"</span>)</span><br><span class="line">    <span class="keyword">private</span> T data;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> &lt;T&gt; <span class="function">R&lt;T&gt; <span class="title">ok</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> restResult((Object)<span class="keyword">null</span>, CommonConstants.SUCCESS, (String)<span class="keyword">null</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> &lt;T&gt; <span class="function">R&lt;T&gt; <span class="title">ok</span><span class="params">(T data)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> restResult(data, CommonConstants.SUCCESS, (String)<span class="keyword">null</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> &lt;T&gt; <span class="function">R&lt;T&gt; <span class="title">ok</span><span class="params">(T data, String msg)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> restResult(data, CommonConstants.SUCCESS, msg);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> &lt;T&gt; <span class="function">R&lt;T&gt; <span class="title">failed</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> restResult((Object)<span class="keyword">null</span>, CommonConstants.FAIL, (String)<span class="keyword">null</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> &lt;T&gt; <span class="function">R&lt;T&gt; <span class="title">failed</span><span class="params">(String msg)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> restResult((Object)<span class="keyword">null</span>, CommonConstants.FAIL, msg);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> &lt;T&gt; <span class="function">R&lt;T&gt; <span class="title">failed</span><span class="params">(T data)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> restResult(data, CommonConstants.FAIL, (String)<span class="keyword">null</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> &lt;T&gt; <span class="function">R&lt;T&gt; <span class="title">failed</span><span class="params">(T data, String msg)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> restResult(data, CommonConstants.FAIL, msg);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> &lt;T&gt; <span class="function">R&lt;T&gt; <span class="title">restResult</span><span class="params">(T data, <span class="keyword">int</span> code, String msg)</span> </span>&#123;</span><br><span class="line">        R&lt;T&gt; apiResult = <span class="keyword">new</span> R();</span><br><span class="line">        apiResult.setCode(code);</span><br><span class="line">        apiResult.setData(data);</span><br><span class="line">        apiResult.setMsg(msg);</span><br><span class="line">        <span class="keyword">return</span> apiResult;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">toString</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="string">"R(code="</span> + <span class="keyword">this</span>.getCode() + <span class="string">", msg="</span> + <span class="keyword">this</span>.getMsg() + <span class="string">", data="</span> + <span class="keyword">this</span>.getData() + <span class="string">")"</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">R</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">R</span><span class="params">(<span class="keyword">int</span> code, String msg, T data)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.code = code;</span><br><span class="line">        <span class="keyword">this</span>.msg = msg;</span><br><span class="line">        <span class="keyword">this</span>.data = data;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">getCode</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">this</span>.code;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> R&lt;T&gt; <span class="title">setCode</span><span class="params">(<span class="keyword">int</span> code)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.code = code;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">this</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">getMsg</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">this</span>.msg;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> R&lt;T&gt; <span class="title">setMsg</span><span class="params">(String msg)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.msg = msg;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">this</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> T <span class="title">getData</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">this</span>.data;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> R&lt;T&gt; <span class="title">setData</span><span class="params">(T data)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.data = data;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">this</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/04/09/AOP+%E8%87%AA%E5%AE%9A%E4%B9%89%E6%B3%A8%E8%A7%A3/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -426,7 +684,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">11</span>
+          <span class="site-state-item-count">14</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
